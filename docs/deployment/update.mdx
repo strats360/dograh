@@ -51,7 +51,7 @@ bash update_remote.sh
 You'll be prompted for the target version, defaulting to the most recent release. Accepted forms: bare semver (`1.28.0`), v-prefixed (`v1.28.0`), the full GitHub tag (`dograh-v1.28.0`), or `main` to refresh deployment files from the default branch — the script normalizes them. Non-interactive callers can set it via environment variable and skip the confirmation prompt:
 
 ```bash
-TARGET_VERSION=1.28.0 DOGRAH_UPDATE_YES=1 bash update_remote.sh
+TARGET_VERSION=1.28.0 OMNI_UPDATE_YES=1 bash update_remote.sh
 ```
 
 After the script finishes, apply the update through the validated startup wrapper:

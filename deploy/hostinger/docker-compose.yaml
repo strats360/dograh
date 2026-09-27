@@ -136,7 +136,7 @@ services:
       - app-network
 
   api:
-    image: ${REGISTRY:-dograhai}/dograh-api:${DOGRAH_VERSION:-latest}
+    image: ${REGISTRY:-dograhai}/dograh-api:${OMNI_VERSION:-latest}
     restart: unless-stopped
     environment:
       # production => drop private-IP host ICE candidates on a public VPS and
@@ -224,7 +224,7 @@ services:
       - traefik
 
   ui:
-    image: ${REGISTRY:-dograhai}/dograh-ui:${DOGRAH_VERSION:-latest}
+    image: ${REGISTRY:-dograhai}/dograh-ui:${OMNI_VERSION:-latest}
     restart: unless-stopped
     environment:
       HOSTNAME: "0.0.0.0"

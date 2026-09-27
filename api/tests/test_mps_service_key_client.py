@@ -84,7 +84,7 @@ async def test_ensure_cloudonix_domain_uses_owner_scope_headers(
 
     monkeypatch.setattr(mps_client_module.httpx, "AsyncClient", FakeAsyncClient)
     monkeypatch.setattr(mps_client_module, "DEPLOYMENT_MODE", deployment_mode)
-    monkeypatch.setattr(mps_client_module, "DOGRAH_MPS_SECRET_KEY", mps_secret)
+    monkeypatch.setattr(mps_client_module, "OMNI_MPS_SECRET_KEY", mps_secret)
     client = MPSServiceKeyClient()
 
     assert (
@@ -417,7 +417,7 @@ async def test_authorize_workflow_run_start_uses_hosted_org_auth(monkeypatch):
     )
     monkeypatch.setattr("api.services.mps_service_key_client.DEPLOYMENT_MODE", "saas")
     monkeypatch.setattr(
-        "api.services.mps_service_key_client.DOGRAH_MPS_SECRET_KEY", "mps-secret"
+        "api.services.mps_service_key_client.OMNI_MPS_SECRET_KEY", "mps-secret"
     )
 
     client = MPSServiceKeyClient()
@@ -548,7 +548,7 @@ async def test_ensure_billing_account_v2_uses_balance_endpoint(monkeypatch):
     )
     monkeypatch.setattr("api.services.mps_service_key_client.DEPLOYMENT_MODE", "saas")
     monkeypatch.setattr(
-        "api.services.mps_service_key_client.DOGRAH_MPS_SECRET_KEY", "mps-secret"
+        "api.services.mps_service_key_client.OMNI_MPS_SECRET_KEY", "mps-secret"
     )
 
     client = MPSServiceKeyClient()
@@ -606,7 +606,7 @@ async def test_get_billing_pricing_uses_hosted_organization_auth(monkeypatch):
     )
     monkeypatch.setattr("api.services.mps_service_key_client.DEPLOYMENT_MODE", "saas")
     monkeypatch.setattr(
-        "api.services.mps_service_key_client.DOGRAH_MPS_SECRET_KEY", "mps-secret"
+        "api.services.mps_service_key_client.OMNI_MPS_SECRET_KEY", "mps-secret"
     )
 
     client = MPSServiceKeyClient()
@@ -662,7 +662,7 @@ async def test_get_credit_ledger_sends_page_and_limit(monkeypatch):
     )
     monkeypatch.setattr("api.services.mps_service_key_client.DEPLOYMENT_MODE", "saas")
     monkeypatch.setattr(
-        "api.services.mps_service_key_client.DOGRAH_MPS_SECRET_KEY", "mps-secret"
+        "api.services.mps_service_key_client.OMNI_MPS_SECRET_KEY", "mps-secret"
     )
 
     client = MPSServiceKeyClient()
@@ -716,7 +716,7 @@ async def test_report_platform_usage_uses_hosted_secret_auth(monkeypatch):
     )
     monkeypatch.setattr("api.services.mps_service_key_client.DEPLOYMENT_MODE", "saas")
     monkeypatch.setattr(
-        "api.services.mps_service_key_client.DOGRAH_MPS_SECRET_KEY", "mps-secret"
+        "api.services.mps_service_key_client.OMNI_MPS_SECRET_KEY", "mps-secret"
     )
 
     client = MPSServiceKeyClient()
@@ -768,7 +768,7 @@ async def test_report_platform_usage_sends_duration_without_correlation(monkeypa
     )
     monkeypatch.setattr("api.services.mps_service_key_client.DEPLOYMENT_MODE", "saas")
     monkeypatch.setattr(
-        "api.services.mps_service_key_client.DOGRAH_MPS_SECRET_KEY", "mps-secret"
+        "api.services.mps_service_key_client.OMNI_MPS_SECRET_KEY", "mps-secret"
     )
 
     client = MPSServiceKeyClient()
