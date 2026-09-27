@@ -22,11 +22,11 @@ Legend: `[ ]` todo · `[~]` in progress (PR open) · `[x]` done (merged)
   - `README.md`, `README.ja-JP.md`, `README.zh-CN.md`, `docs/**/*.mdx`, `SECURITY.md`
 - [ ] **1.4 — Internal code class/module names (`Dograh*`)**
   - `api/services/configuration/registry.py` service classes, `DograhEmbeddingService`, `api/tests/test_dograh_*`
-- [~] **1.5 — Infra: docker-compose, helm, workflows, nginx, scripts** *(risky: deployed release names/labels)*
-  - Renamed helm chart `deploy/helm/dograh`→`omni` (29 template defines `dograh.*`→`omni.*`, all includes atomic), image names `dograh-{api,ui}`→`omni-{api,ui}` (registry `dograhai` kept), compose `dograh-init`→`omni-init`, `nginx/dograh_upstream`→`omni_upstream`, `scripts/run_dograh_init.sh`→`run_omni_init.sh`, `dograh_*` shell fns→`omni_*`, coupled `__DOGRAH_*__` template placeholders→`__OMNI_*__`, MinIO user prefix, letsencrypt hook, workflow image names. YAML validated; 64+ files.
-  - Left (other sub-tasks): `dograhai` registry & `dograh-hq` URLs (1.9), `DOGRAH_*` env vars + `X-Dograh-*` header (1.6), SDK org/pkg names + conda env (1.7), release tag prefix `dograh-v*` & CI secret `SLACK_DOGRAH_*` (release automation), repo clone-dir name `dograh` (repo rename).
-- [ ] **1.6 — Env var prefixes + headers** *(BREAKING: existing env files & callers)*
-  - `DOGRAH_*` env vars (`api/constants.py`, `.env.example`), `X-Dograh-Devops-Secret` header
+- [ ] **1.5 — Infra: docker-compose, helm, workflows, nginx, scripts** *(risky: deployed release names/labels)*
+  - `docker-compose.yaml` services, `deploy/helm/dograh/`, `.github/workflows/docker-image.yml`, `nginx/`, `scripts/`
+- [~] **1.6 — Env var prefixes + headers** *(BREAKING: existing env files & callers)*
+  - Renamed server/deploy env vars `DOGRAH_*`→`OMNI_*` (`OMNI_DEVOPS_SECRET`, `OMNI_MPS_SECRET_KEY`, `OMNI_DOCS_PATH`, `OMNI_DEPLOY_*`, `OMNI_INIT_*`, `OMNI_DIR`, `OMNI_ENV_FILE`, `OMNI_FORCE_OVERWRITE`, `OMNI_SKIP_DOWNLOAD`, `OMNI_UPDATE_YES`, `OMNI_VERSION`) in `constants.py`, `.env.example`(+test), scripts, `remote_up.sh`, helm, docs. Renamed headers `X-Dograh-Devops-Secret`→`X-Omni-Devops-Secret` and webhook `X-Dograh-{Delivery-Id,Workflow-Run-Id,Delivery-Attempt}`→`X-Omni-*`. compileall passes.
+  - Left: SDK client env vars `DOGRAH_API_{TOKEN,ENDPOINT,KEY,URL}` (1.7), `services.dograh.com` domain (1.9), CI secret `SLACK_DOGRAH_*`, internal 1.4 constants, 1.5 `__DOGRAH_*__` placeholders. Generated `types.gen.ts`/`openapi.json` header regenerates in 1.8 client-regen.
 - [ ] **1.7 — Published package names** *(BREAKING: PyPI/npm consumers)*
   - PyPI `dograh-sdk`/`dograh-api`, npm `@dograh/sdk`, `dograh_sdk` module (~39 imports), `dograh-ts-validator`
 - [ ] **1.8 — DB identifiers + provider enum value + migration** *(BREAKING: requires data migration)*
@@ -47,12 +47,6 @@ Legend: `[ ]` todo · `[~]` in progress (PR open) · `[x]` done (merged)
 - [ ] **2.3 — Revamp app shell** (`AppLayout`, `AppSidebar`, `AppHeader` chrome)
 - [ ] **2.4 — Restyle shadcn/ui primitives** (`ui/src/components/ui/**` — cascades app-wide)
 - [ ] **2.5 — Rework bespoke branded CSS + feature-page polish** (sidebar dock, card weave, brand imprint, auth waveform; overview/workflow/campaigns/settings)
-
----
-
-- [~] **1.10 — Fork & rebrand `dograh-hq/pipecat` submodule** *(added per request)*
-  - Rebranded the pipecat service module in a local clone: `services/dograh`→`services/omni`, `Dograh*`→`Omni*` classes, `OMNI_TTFS_P`, import paths, prose (kept `services.dograh.com` URLs for domain move). Committed locally; delivered as a patch in `pipecat-rebrand/` because forking/pushing `dograh-hq/pipecat` is blocked (HTTP 403 — creds scoped to `strats360/dograh`).
-  - dograh-side: updated `.gitmodules` URL → `strats360/pipecat`, api `service_factory.py` + tests to `pipecat.services.omni`/`Omni*`. **Blocker:** api won't import until the fork is published & submodule re-pinned (see `pipecat-rebrand/README.md`).
 
 ---
 

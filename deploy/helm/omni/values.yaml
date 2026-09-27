@@ -152,8 +152,8 @@ secrets:
 
   # Shared secret gating the ops health endpoints (/api/v1/health/active-calls,
   # /api/v1/health/autoscale-metric). REQUIRED when autoscaling.web.keda.enabled —
-  # KEDA presents it as X-Dograh-Devops-Secret to scrape the metric. When using
-  # secrets.existingSecret, put this under the DOGRAH_DEVOPS_SECRET key there.
+  # KEDA presents it as X-Omni-Devops-Secret to scrape the metric. When using
+  # secrets.existingSecret, put this under the OMNI_DEVOPS_SECRET key there.
   devopsSecret: ""
 
   # Optional Langfuse tracing.

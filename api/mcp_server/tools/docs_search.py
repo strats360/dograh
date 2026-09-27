@@ -191,7 +191,7 @@ def _coerce_docs_root(candidate: Path) -> Path | None:
 
 def _resolve_docs_root() -> Path | None:
     """Return the path to the on-disk docs tree, or None if not found."""
-    override = os.environ.get("DOGRAH_DOCS_PATH")
+    override = os.environ.get("OMNI_DOCS_PATH")
     if override:
         resolved = _coerce_docs_root(Path(override))
         if resolved is not None:

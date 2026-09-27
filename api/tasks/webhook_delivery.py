@@ -113,9 +113,9 @@ def _log_webhook_request(
             if key.lower()
             in {
                 "content-type",
-                "x-dograh-delivery-id",
-                "x-dograh-workflow-run-id",
-                "x-dograh-delivery-attempt",
+                "x-omni-delivery-id",
+                "x-omni-workflow-run-id",
+                "x-omni-delivery-attempt",
             }
             else _REDACTED
         )
@@ -205,9 +205,9 @@ async def _build_headers(delivery: WebhookDeliveryModel, attempt: int) -> dict:
             headers[key] = value
 
     # Stable idempotency signal so the receiver can dedupe retried deliveries.
-    headers["X-Dograh-Delivery-Id"] = delivery.delivery_uuid
-    headers["X-Dograh-Workflow-Run-Id"] = str(delivery.workflow_run_id)
-    headers["X-Dograh-Delivery-Attempt"] = str(attempt)
+    headers["X-Omni-Delivery-Id"] = delivery.delivery_uuid
+    headers["X-Omni-Workflow-Run-Id"] = str(delivery.workflow_run_id)
+    headers["X-Omni-Delivery-Attempt"] = str(attempt)
     return headers
 
 
@@ -365,7 +365,7 @@ async def deliver_webhook(_ctx, delivery_id: int) -> None:
     # The receiver accepted the payload (2xx). Recording success must NOT be able
     # to dead-letter an already-delivered webhook: if this DB write fails, log and
     # leave the row claimed-but-pending so the sweeper reconciles it once the
-    # lease expires (the receiver dedups the re-send via X-Dograh-Delivery-Id).
+    # lease expires (the receiver dedups the re-send via X-Omni-Delivery-Id).
     try:
         await db_client.mark_webhook_delivery_succeeded(
             delivery.id, attempt, response.status_code

@@ -1,7 +1,7 @@
 {{- if .Values.autoscaling.web.keda.enabled }}
 {{- if not .Values.secrets.devopsSecret }}
 {{- if not .Values.secrets.existingSecret }}
-{{- fail "autoscaling.web.keda.enabled requires secrets.devopsSecret (or provide it via secrets.existingSecret under key DOGRAH_DEVOPS_SECRET)" }}
+{{- fail "autoscaling.web.keda.enabled requires secrets.devopsSecret (or provide it via secrets.existingSecret under key OMNI_DEVOPS_SECRET)" }}
 {{- end }}
 {{- end }}
 # Call-based autoscaling for the web tier. KEDA scrapes the fleet-wide active
@@ -23,7 +23,7 @@ spec:
   secretTargetRef:
     - parameter: apiKey
       name: {{ include "omni.secretName" . }}
-      key: DOGRAH_DEVOPS_SECRET
+      key: OMNI_DEVOPS_SECRET
 ---
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
@@ -64,7 +64,7 @@ spec:
         targetValue: "{{ .Values.autoscaling.web.keda.callsPerPod }}"
         authMode: "apiKey"
         method: "header"
-        keyParamName: "X-Dograh-Devops-Secret"
+        keyParamName: "X-Omni-Devops-Secret"
       authenticationRef:
         name: {{ include "omni.web.fullname" . }}-keda-auth
 {{- end }}
