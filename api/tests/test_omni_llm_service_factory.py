@@ -8,7 +8,7 @@ from api.services.pipecat.service_factory import create_llm_service
 def test_create_dograh_llm_service_passes_variable_extraction_usage_context():
     user_config = SimpleNamespace(
         llm=SimpleNamespace(
-            provider=ServiceProviders.DOGRAH.value,
+            provider=ServiceProviders.OMNI.value,
             api_key="mps-key",
             model="default",
         )

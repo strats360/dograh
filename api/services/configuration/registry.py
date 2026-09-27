@@ -77,7 +77,7 @@ class ServiceProviders(str, Enum):
     GOOGLE = "google"
     AZURE = "azure"
     AZURE_SPEECH = "azure_speech"
-    DOGRAH = "dograh"
+    OMNI = "omni"
     SARVAM = "sarvam"
     SPEECHMATICS = "speechmatics"
     CAMB = "camb"
@@ -112,7 +112,7 @@ class BaseServiceConfiguration(BaseModel):
         ServiceProviders.GOOGLE,
         ServiceProviders.AZURE,
         ServiceProviders.AZURE_SPEECH,
-        ServiceProviders.DOGRAH,
+        ServiceProviders.OMNI,
         ServiceProviders.AWS_BEDROCK,
         ServiceProviders.SPEACHES,
         ServiceProviders.HUGGINGFACE,
@@ -300,7 +300,7 @@ GOOGLE_PROVIDER_MODEL_CONFIG = provider_model_config("Google")
 GROQ_PROVIDER_MODEL_CONFIG = provider_model_config("Groq")
 OPENROUTER_PROVIDER_MODEL_CONFIG = provider_model_config("Open Router")
 AZURE_OPENAI_PROVIDER_MODEL_CONFIG = provider_model_config("Azure OpenAI")
-OMNI_PROVIDER_MODEL_CONFIG = provider_model_config("Dograh")
+OMNI_PROVIDER_MODEL_CONFIG = provider_model_config("Omni")
 AWS_BEDROCK_PROVIDER_MODEL_CONFIG = provider_model_config("AWS Bedrock")
 GOOGLE_VERTEX_PROVIDER_MODEL_CONFIG = provider_model_config("Google Vertex")
 OPENAI_REALTIME_PROVIDER_MODEL_CONFIG = provider_model_config("OpenAI Realtime")
@@ -518,7 +518,7 @@ class AzureLLMService(BaseLLMConfiguration):
 @register_llm
 class OmniLLMService(BaseLLMConfiguration):
     model_config = OMNI_PROVIDER_MODEL_CONFIG
-    provider: Literal[ServiceProviders.DOGRAH] = ServiceProviders.DOGRAH
+    provider: Literal[ServiceProviders.OMNI] = ServiceProviders.OMNI
     model: str = Field(
         default="default",
         description="Dograh-hosted model tier.",
@@ -1077,7 +1077,7 @@ OMNI_TTS_MODELS = ["default"]
 @register_tts
 class OmniTTSService(BaseTTSConfiguration):
     model_config = OMNI_PROVIDER_MODEL_CONFIG
-    provider: Literal[ServiceProviders.DOGRAH] = ServiceProviders.DOGRAH
+    provider: Literal[ServiceProviders.OMNI] = ServiceProviders.OMNI
     model: str = Field(
         default="default",
         description="Dograh TTS tier.",
@@ -1603,7 +1603,7 @@ OMNI_MULTILINGUAL_AUTODETECT_LANGUAGES = DEEPGRAM_FLUX_MULTILINGUAL_LANGUAGES
 @register_stt
 class OmniSTTService(BaseSTTConfiguration):
     model_config = OMNI_PROVIDER_MODEL_CONFIG
-    provider: Literal[ServiceProviders.DOGRAH] = ServiceProviders.DOGRAH
+    provider: Literal[ServiceProviders.OMNI] = ServiceProviders.OMNI
     model: str = Field(
         default="default",
         description="Dograh STT tier.",
@@ -1963,7 +1963,7 @@ OMNI_EMBEDDING_MODELS = ["dograh_embedding_v1"]
 @register_embeddings
 class OmniEmbeddingsConfiguration(BaseEmbeddingsConfiguration):
     model_config = OMNI_PROVIDER_MODEL_CONFIG
-    provider: Literal[ServiceProviders.DOGRAH] = ServiceProviders.DOGRAH
+    provider: Literal[ServiceProviders.OMNI] = ServiceProviders.OMNI
     model: str = Field(
         default="dograh_embedding_v1",
         description="Dograh-managed embedding model.",

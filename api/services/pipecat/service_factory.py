@@ -19,7 +19,7 @@ from api.services.configuration.options import (
 )
 from api.services.configuration.registry import ServiceProviders
 from api.services.pipecat.gemini_json_schema_adapter import (
-    OmniGeminiJSONSchemaAdapter,
+    DograhGeminiJSONSchemaAdapter,
 )
 from api.services.pipecat.minimax_tts import MiniMaxOwnedSessionTTSService
 from api.utils.url_security import validate_user_configured_service_url
@@ -222,7 +222,7 @@ def _elevenlabs_realtime_stt_host(base_url: str) -> str:
 def stt_uses_external_turns(user_config) -> bool:
     if user_config.stt.provider == ServiceProviders.DEEPGRAM.value:
         return user_config.stt.model in DEEPGRAM_FLUX_MODELS
-    if user_config.stt.provider == ServiceProviders.DOGRAH.value:
+    if user_config.stt.provider == ServiceProviders.OMNI.value:
         return dograh_stt_uses_flux_language(getattr(user_config.stt, "language", None))
     if user_config.stt.provider == ServiceProviders.CARTESIA.value:
         return user_config.stt.model == "ink-2"
@@ -230,11 +230,11 @@ def stt_uses_external_turns(user_config) -> bool:
 
 
 class OmniGoogleLLMService(GoogleLLMService):
-    adapter_class = OmniGeminiJSONSchemaAdapter
+    adapter_class = DograhGeminiJSONSchemaAdapter
 
 
 class OmniGoogleVertexLLMService(GoogleVertexLLMService):
-    adapter_class = OmniGeminiJSONSchemaAdapter
+    adapter_class = DograhGeminiJSONSchemaAdapter
 
 
 def _validate_runtime_service_url(url: str, field_name: str) -> None:
@@ -346,7 +346,7 @@ def create_stt_service(
             ),
             sample_rate=audio_config.transport_in_sample_rate,
         )
-    elif user_config.stt.provider == ServiceProviders.DOGRAH.value:
+    elif user_config.stt.provider == ServiceProviders.OMNI.value:
         base_url = MPS_API_URL.replace("http://", "ws://").replace("https://", "wss://")
         language = getattr(user_config.stt, "language", None) or "multi"
 
@@ -685,7 +685,7 @@ def create_tts_service(
             skip_aggregator_types=["recording_router", "recording"],
             silence_time_s=1.0,
         )
-    elif user_config.tts.provider == ServiceProviders.DOGRAH.value:
+    elif user_config.tts.provider == ServiceProviders.OMNI.value:
         # Convert HTTP URL to WebSocket URL for TTS
         base_url = MPS_API_URL.replace("http://", "ws://").replace("https://", "wss://")
         return OmniTTSService(
@@ -1019,7 +1019,7 @@ def create_llm_service_from_provider(
             endpoint=endpoint,
             settings=AzureLLMSettings(model=model, temperature=0.1),
         )
-    elif provider == ServiceProviders.DOGRAH.value:
+    elif provider == ServiceProviders.OMNI.value:
         return OmniLLMService(
             base_url=f"{MPS_API_URL}/api/v1/llm",
             api_key=api_key,
@@ -1094,7 +1094,7 @@ def create_realtime_llm_service(user_config, audio_config: "AudioConfig"):
 
     if provider == ServiceProviders.OPENAI_REALTIME.value:
         from api.services.pipecat.realtime.openai_realtime import (
-            OmniOpenAIRealtimeLLMService,
+            DograhOpenAIRealtimeLLMService,
         )
         from pipecat.services.openai.realtime.events import (
             AudioConfiguration,
@@ -1111,9 +1111,9 @@ def create_realtime_llm_service(user_config, audio_config: "AudioConfig"):
         if language:
             transcription_kwargs["language"] = language
 
-        return OmniOpenAIRealtimeLLMService(
+        return DograhOpenAIRealtimeLLMService(
             api_key=api_key,
-            settings=OmniOpenAIRealtimeLLMService.Settings(
+            settings=DograhOpenAIRealtimeLLMService.Settings(
                 model=model,
                 session_properties=SessionProperties(
                     audio=AudioConfiguration(
@@ -1131,7 +1131,7 @@ def create_realtime_llm_service(user_config, audio_config: "AudioConfig"):
         )
     elif provider == ServiceProviders.GROK_REALTIME.value:
         from api.services.pipecat.realtime.grok_realtime import (
-            OmniGrokRealtimeLLMService,
+            DograhGrokRealtimeLLMService,
         )
         from pipecat.services.xai.realtime.events import (
             AudioConfiguration,
@@ -1144,9 +1144,9 @@ def create_realtime_llm_service(user_config, audio_config: "AudioConfig"):
         if grok_voice.lower() in {"ara", "rex", "sal", "eve", "leo"}:
             grok_voice = grok_voice.lower()
 
-        return OmniGrokRealtimeLLMService(
+        return DograhGrokRealtimeLLMService(
             api_key=api_key,
-            settings=OmniGrokRealtimeLLMService.Settings(
+            settings=DograhGrokRealtimeLLMService.Settings(
                 model=model,
                 session_properties=SessionProperties(
                     voice=grok_voice,
@@ -1160,25 +1160,25 @@ def create_realtime_llm_service(user_config, audio_config: "AudioConfig"):
         )
     elif provider == ServiceProviders.ULTRAVOX_REALTIME.value:
         from api.services.pipecat.realtime.ultravox_realtime import (
-            OmniUltravoxOneShotInputParams,
-            OmniUltravoxRealtimeLLMService,
+            DograhUltravoxOneShotInputParams,
+            DograhUltravoxRealtimeLLMService,
         )
 
-        return OmniUltravoxRealtimeLLMService(
-            params=OmniUltravoxOneShotInputParams(
+        return DograhUltravoxRealtimeLLMService(
+            params=DograhUltravoxOneShotInputParams(
                 api_key=api_key,
                 model=model,
                 voice=voice,
                 output_medium="voice",
             ),
-            settings=OmniUltravoxRealtimeLLMService.Settings(
+            settings=DograhUltravoxRealtimeLLMService.Settings(
                 model=model,
                 output_medium="voice",
             ),
         )
     elif provider == ServiceProviders.GOOGLE_REALTIME.value:
         from api.services.pipecat.realtime.gemini_live import (
-            OmniGeminiLiveLLMService,
+            DograhGeminiLiveLLMService,
         )
 
         # Gemini Live enables input/output audio transcription by default
@@ -1192,13 +1192,13 @@ def create_realtime_llm_service(user_config, audio_config: "AudioConfig"):
         temperature = getattr(realtime_config, "temperature", None)
         if temperature is not None:
             settings_kwargs["temperature"] = temperature
-        return OmniGeminiLiveLLMService(
+        return DograhGeminiLiveLLMService(
             api_key=api_key,
-            settings=OmniGeminiLiveLLMService.Settings(**settings_kwargs),
+            settings=DograhGeminiLiveLLMService.Settings(**settings_kwargs),
         )
     elif provider == ServiceProviders.GOOGLE_VERTEX_REALTIME.value:
         from api.services.pipecat.realtime.gemini_live_vertex import (
-            OmniGeminiLiveVertexLLMService,
+            DograhGeminiLiveVertexLLMService,
         )
 
         project_id = getattr(realtime_config, "project_id", None)
@@ -1214,15 +1214,15 @@ def create_realtime_llm_service(user_config, audio_config: "AudioConfig"):
         temperature = getattr(realtime_config, "temperature", None)
         if temperature is not None:
             settings_kwargs["temperature"] = temperature
-        return OmniGeminiLiveVertexLLMService(
+        return DograhGeminiLiveVertexLLMService(
             credentials=credentials,
             project_id=project_id,
             location=location,
-            settings=OmniGeminiLiveVertexLLMService.Settings(**settings_kwargs),
+            settings=DograhGeminiLiveVertexLLMService.Settings(**settings_kwargs),
         )
     elif provider == ServiceProviders.AZURE_REALTIME.value:
         from api.services.pipecat.realtime.azure_realtime import (
-            OmniAzureRealtimeLLMService,
+            DograhAzureRealtimeLLMService,
         )
         from pipecat.services.openai.realtime.events import (
             AudioConfiguration,
@@ -1261,10 +1261,10 @@ def create_realtime_llm_service(user_config, audio_config: "AudioConfig"):
                 "",
             )
         )
-        return OmniAzureRealtimeLLMService(
+        return DograhAzureRealtimeLLMService(
             api_key=api_key,
             base_url=wss_url,
-            settings=OmniAzureRealtimeLLMService.Settings(
+            settings=DograhAzureRealtimeLLMService.Settings(
                 model=model,
                 session_properties=SessionProperties(
                     audio=AudioConfiguration(

@@ -19,14 +19,14 @@ LEASE_OWNER_TOKEN = "lease-owner-token"
 
 def _dograh_config(api_key: str) -> OrganizationAIModelConfigurationV2:
     return OrganizationAIModelConfigurationV2(
-        mode="dograh",
-        dograh=OmniManagedAIModelConfiguration(api_key=api_key),
+        mode="omni",
+        omni=OmniManagedAIModelConfiguration(api_key=api_key),
     )
 
 
 def _byok_config() -> OrganizationAIModelConfigurationV2:
-    """A BYOK org: real ones carry provider blocks, but only `dograh` matters here."""
-    return OrganizationAIModelConfigurationV2.model_construct(mode="byok", dograh=None)
+    """A BYOK org: real ones carry provider blocks, but only `omni` matters here."""
+    return OrganizationAIModelConfigurationV2.model_construct(mode="byok", omni=None)
 
 
 @pytest.fixture(autouse=True)
@@ -184,8 +184,8 @@ async def test_new_org_mints_key_and_independently_provisions_sip(
 
     mps.assert_awaited_once()
     configuration = upsert.await_args.args[1]
-    assert configuration.mode == "dograh"
-    assert configuration.dograh.api_key == MINTED_KEY
+    assert configuration.mode == "omni"
+    assert configuration.omni.api_key == MINTED_KEY
     sip.assert_awaited_once_with(ORG_ID, created_by=CREATED_BY)
     lease.complete.assert_awaited_once_with(
         ORG_ID, bootstrap._BOOTSTRAP_KEY, LEASE_OWNER_TOKEN

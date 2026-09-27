@@ -6,12 +6,12 @@ from typing import Literal
 from pydantic import BaseModel, Field, model_validator
 
 from api.services.configuration.registry import (
+    EmbeddingsConfig,
+    LLMConfig,
     OmniEmbeddingsConfiguration,
     OmniLLMService,
     OmniSTTService,
     OmniTTSService,
-    EmbeddingsConfig,
-    LLMConfig,
     RealtimeConfig,
     ServiceProviders,
     STTConfig,
@@ -63,11 +63,11 @@ class BYOKPipelineAIModelConfiguration(BaseModel):
     embeddings: EmbeddingsConfig | None = None
 
     @model_validator(mode="after")
-    def reject_dograh_providers(self):
-        _reject_dograh_provider("llm", self.llm)
-        _reject_dograh_provider("tts", self.tts)
-        _reject_dograh_provider("stt", self.stt)
-        _reject_dograh_provider("embeddings", self.embeddings)
+    def reject_omni_providers(self):
+        _reject_omni_provider("llm", self.llm)
+        _reject_omni_provider("tts", self.tts)
+        _reject_omni_provider("stt", self.stt)
+        _reject_omni_provider("embeddings", self.embeddings)
         return self
 
 
@@ -77,9 +77,9 @@ class BYOKRealtimeAIModelConfiguration(BaseModel):
     embeddings: EmbeddingsConfig | None = None
 
     @model_validator(mode="after")
-    def reject_dograh_providers(self):
-        _reject_dograh_provider("llm", self.llm)
-        _reject_dograh_provider("embeddings", self.embeddings)
+    def reject_omni_providers(self):
+        _reject_omni_provider("llm", self.llm)
+        _reject_omni_provider("embeddings", self.embeddings)
         return self
 
 
@@ -99,14 +99,14 @@ class BYOKAIModelConfiguration(BaseModel):
 
 class OrganizationAIModelConfigurationV2(BaseModel):
     version: Literal[2] = 2
-    mode: Literal["dograh", "byok"]
-    dograh: OmniManagedAIModelConfiguration | None = None
+    mode: Literal["omni", "byok"]
+    omni: OmniManagedAIModelConfiguration | None = None
     byok: BYOKAIModelConfiguration | None = None
 
     @model_validator(mode="after")
     def validate_selected_mode(self):
-        if self.mode == "dograh" and self.dograh is None:
-            raise ValueError("dograh configuration is required when mode is dograh")
+        if self.mode == "omni" and self.omni is None:
+            raise ValueError("omni configuration is required when mode is omni")
         if self.mode == "byok" and self.byok is None:
             raise ValueError("byok configuration is required when mode is byok")
         return self
@@ -121,10 +121,10 @@ class OrganizationAIModelConfigurationResponse(BaseModel):
 def compile_ai_model_configuration_v2(
     configuration: OrganizationAIModelConfigurationV2,
 ) -> EffectiveAIModelConfiguration:
-    if configuration.mode == "dograh":
-        if configuration.dograh is None:
-            raise ValueError("dograh configuration is required")
-        return _compile_dograh_configuration(configuration.dograh)
+    if configuration.mode == "omni":
+        if configuration.omni is None:
+            raise ValueError("omni configuration is required")
+        return _compile_omni_configuration(configuration.omni)
 
     if configuration.byok is None:
         raise ValueError("byok configuration is required")
@@ -151,30 +151,30 @@ def compile_ai_model_configuration_v2(
     )
 
 
-def _compile_dograh_configuration(
+def _compile_omni_configuration(
     configuration: OmniManagedAIModelConfiguration,
 ) -> EffectiveAIModelConfiguration:
     return EffectiveAIModelConfiguration(
         llm=OmniLLMService(
-            provider=ServiceProviders.DOGRAH,
+            provider=ServiceProviders.OMNI,
             api_key=configuration.api_key,
             model="default",
         ),
         tts=OmniTTSService(
-            provider=ServiceProviders.DOGRAH,
+            provider=ServiceProviders.OMNI,
             api_key=configuration.api_key,
             model="default",
             voice=configuration.voice,
             speed=configuration.speed,
         ),
         stt=OmniSTTService(
-            provider=ServiceProviders.DOGRAH,
+            provider=ServiceProviders.OMNI,
             api_key=configuration.api_key,
             model="default",
             language=configuration.language,
         ),
         embeddings=OmniEmbeddingsConfiguration(
-            provider=ServiceProviders.DOGRAH,
+            provider=ServiceProviders.OMNI,
             api_key=configuration.api_key,
             model="dograh_embedding_v1",
         ),
@@ -183,8 +183,8 @@ def _compile_dograh_configuration(
     )
 
 
-def _reject_dograh_provider(section: str, service) -> None:
+def _reject_omni_provider(section: str, service) -> None:
     if service is None:
         return
-    if getattr(service, "provider", None) == ServiceProviders.DOGRAH:
-        raise ValueError(f"BYOK {section} cannot use Dograh provider")
+    if getattr(service, "provider", None) == ServiceProviders.OMNI:
+        raise ValueError(f"BYOK {section} cannot use Omni provider")

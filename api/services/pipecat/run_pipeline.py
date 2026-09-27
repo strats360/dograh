@@ -706,7 +706,7 @@ async def _run_pipeline_impl(
             usage_context="variable_extraction",
         )
         if uses_variable_extraction
-        and user_config.llm.provider == ServiceProviders.DOGRAH.value
+        and user_config.llm.provider == ServiceProviders.OMNI.value
         else inference_llm or llm
     )
 

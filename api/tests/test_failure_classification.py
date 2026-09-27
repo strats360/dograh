@@ -209,18 +209,18 @@ def test_dograh_boundary_changes_attribution():
         402,
         "Insufficient Dograh credits",
         source=ErrorSource.LLM,
-        provider="dograh",
+        provider="omni",
     )
     managed_key_failure = classify_http_response(
         401,
         "Managed provider rejected the service key",
         source=ErrorSource.LLM,
-        provider="dograh",
+        provider="omni",
     )
 
     assert quota.type == ErrorType.QUOTA_ERROR
     assert quota.error_owner == ErrorOwner.USER
-    assert quota.code == "dograh-insufficient-credits"
+    assert quota.code == "omni-insufficient-credits"
     assert managed_key_failure.type == ErrorType.SYSTEM_ERROR
     assert managed_key_failure.error_owner == ErrorOwner.OPERATOR
 
@@ -229,24 +229,24 @@ def test_dograh_credit_prose_does_not_override_safe_default():
     failure = classify_exception(
         RuntimeError("insufficient credits"),
         source=ErrorSource.PLATFORM,
-        provider="dograh",
+        provider="omni",
     )
 
     assert failure.type == ErrorType.SYSTEM_ERROR
     assert failure.error_owner == ErrorOwner.OPERATOR
-    assert failure.code == "dograh-unknown"
+    assert failure.code == "omni-unknown"
 
 
 def test_dograh_transport_failure_stays_system_error_but_keeps_retry_hint():
     failure = classify_exception(
         httpx.ConnectError("MPS connection refused"),
         source=ErrorSource.PLATFORM,
-        provider="dograh",
+        provider="omni",
     )
 
     assert failure.type == ErrorType.SYSTEM_ERROR
     assert failure.error_owner == ErrorOwner.OPERATOR
-    assert failure.code == "dograh-connection"
+    assert failure.code == "omni-connection"
     assert failure.retryable is True
 
 

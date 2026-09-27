@@ -202,7 +202,7 @@ def test_validate_service_key_classifies_mps_http_failure(monkeypatch):
     failure, context = emitted[0]
     assert failure.type == ErrorType.SYSTEM_ERROR
     assert failure.code == "dograh-503"
-    assert failure.provider == "dograh"
+    assert failure.provider == "omni"
     assert failure.error_owner.value == "operator"
     assert "mps_sk_secret" not in failure.internal_message
     assert context == {
@@ -597,7 +597,7 @@ async def test_get_billing_pricing_uses_hosted_organization_auth(monkeypatch):
                 {
                     "organization_id": 42,
                     "platform_usage": {"price_per_minute": 0.01},
-                    "dograh_model": {"price_per_minute": 0.07},
+                    "omni_model": {"price_per_minute": 0.07},
                 },
             )
 
@@ -614,7 +614,7 @@ async def test_get_billing_pricing_uses_hosted_organization_auth(monkeypatch):
     assert await client.get_billing_pricing(42) == {
         "organization_id": 42,
         "platform_usage": {"price_per_minute": 0.01},
-        "dograh_model": {"price_per_minute": 0.07},
+        "omni_model": {"price_per_minute": 0.07},
     }
     assert calls == [
         (

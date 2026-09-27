@@ -26,11 +26,20 @@ Legend: `[ ]` todo · `[~]` in progress (PR open) · `[x]` done (merged)
   - `docker-compose.yaml` services, `deploy/helm/dograh/`, `.github/workflows/docker-image.yml`, `nginx/`, `scripts/`
 - [ ] **1.6 — Env var prefixes + headers** *(BREAKING: existing env files & callers)*
   - `DOGRAH_*` env vars (`api/constants.py`, `.env.example`), `X-Dograh-Devops-Secret` header
+<<<<<<< HEAD
 - [~] **1.7 — Published package names** *(BREAKING: PyPI/npm consumers)*
   - Renamed PyPI `dograh-sdk`→`omni-sdk` (module `dograh_sdk`→`omni_sdk` via git mv, console script `omni-sdk-codegen`), `dograh-api`→`omni-api`, npm `@dograh/sdk`→`@omni/sdk`, `dograh-ts-validator`→`omni-ts-validator`, `dograh-examples-typescript`→`omni-examples-typescript`. Classes `DograhClient`→`OmniClient`, `DograhSdkError`, `DograhClientOptions`, `DograhFetch*`→`Omni*`. SDK env vars `DOGRAH_API_{TOKEN,ENDPOINT,KEY,URL}`→`OMNI_API_*`. Moved `test_dograh_sdk*`→`test_omni_sdk*`. Updated `generate_sdk.sh`/`release_sdks.sh`, examples, README install links. compileall + JSON/TOML validate.
   - Left: external URLs/emails (1.9), provider value `"dograh"` (1.8), DB fields (1.8), generated client (regen in 1.8), docker image names (1.5/1.9).
 - [ ] **1.8 — DB identifiers + provider enum value + migration** *(BREAKING: requires data migration)*
   - `dograh_tokens`/`used_dograh_tokens`/`quota_dograh_tokens` columns, `ServiceProviders.DOGRAH="dograh"` value, new alembic migration, regenerate openapi/types
+=======
+- [ ] **1.7 — Published package names** *(BREAKING: PyPI/npm consumers)*
+  - PyPI `dograh-sdk`/`dograh-api`, npm `@dograh/sdk`, `dograh_sdk` module (~39 imports), `dograh-ts-validator`
+- [~] **1.8 — DB identifiers + provider enum value + migration** *(BREAKING: requires data migration)* — **Option 2 (full)**
+  - Changed provider enum `ServiceProviders.DOGRAH="dograh"`→`OMNI="omni"` (member + wire value) + all ~28 usages/literals; renamed `dograh_model`→`omni_model` API field; ORM/API token identifiers `*_dograh_tokens`/`dograh_token_usage`→`*_omni_tokens`/`omni_token_usage`; UI wire keys + local identifiers in `AIModelConfigurationV2Editor.tsx`.
+  - **New alembic migration `a0b1c2d3e4f5`**: merges the 3 heads, renames the DB columns, and rewrites persisted JSON (`$.mode`, `$.dograh`→`$.omni`, nested `provider` values) in `organization_configurations`/`user_configurations`. Reversible. compileall passes.
+  - Left/flagged (see `REBRAND_1.8_FOLLOWUPS.md`): MPS backend must accept `"omni"` + rename pricing key + `dograh_embedding_v1` model id; regenerate `ui/src/client/**` + `openapi.json`; external API consumers must update. Pipecat runtime classes stay `Dograh*` (1.10); external URLs (1.9).
+>>>>>>> rebrand/1.8-db-provider
 - [ ] **1.9 — Auth cookies + domains + repo/external URLs** *(BREAKING: invalidates sessions)*
   - `dograh_auth_token`/`dograh_auth_user` cookies, `dograh.com`/`docs.dograh.com`, `github.com/dograh-hq/*`, embed widget `dograh-widget.js`
 

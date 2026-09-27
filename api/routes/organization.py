@@ -198,7 +198,7 @@ class ModelConfigurationPricingResponse(BaseModel):
     """MPS-owned effective prices relevant to model configuration choices."""
 
     platform_usage: ModelConfigurationMetricPrice | None = None
-    dograh_model: ModelConfigurationMetricPrice | None = None
+    omni_model: ModelConfigurationMetricPrice | None = None
 
 
 @router.get("/context", response_model=OrganizationContextResponse)
@@ -301,7 +301,7 @@ async def get_telephony_config_warnings(user: UserModel = Depends(get_user)):
 # ---------------------------------------------------------------------------
 
 
-def _dograh_allows_custom_voice() -> bool:
+def _omni_allows_custom_voice() -> bool:
     extra = OmniTTSService.model_fields["voice"].json_schema_extra
     if isinstance(extra, dict):
         return bool(extra.get("allow_custom_input", False))
@@ -312,7 +312,7 @@ def _byok_provider_schemas(service_type: ServiceType) -> dict[str, dict]:
     return {
         provider: model_cls.model_json_schema()
         for provider, model_cls in REGISTRY[service_type].items()
-        if provider != ServiceProviders.DOGRAH.value
+        if provider != ServiceProviders.OMNI.value
     }
 
 
@@ -343,12 +343,12 @@ async def get_model_configuration_v2_defaults(
     byok_default_providers = {
         service: provider
         for service, provider in DEFAULT_SERVICE_PROVIDERS.items()
-        if provider != ServiceProviders.DOGRAH.value
+        if provider != ServiceProviders.OMNI.value
     }
     return {
-        "dograh": {
+        "omni": {
             "voices": [OMNI_DEFAULT_VOICE],
-            "allow_custom_input": _dograh_allows_custom_voice(),
+            "allow_custom_input": _omni_allows_custom_voice(),
             "speeds": list(OMNI_SPEED_OPTIONS),
             "speed_range": {
                 "min": OMNI_SPEED_MIN,
@@ -416,7 +416,7 @@ async def get_model_configuration_pricing(
             classify_exception(
                 exc,
                 source=ErrorSource.PLATFORM,
-                provider="dograh",
+                provider="omni",
                 error_owner="operator",
             ),
             organization_id=user.selected_organization_id,

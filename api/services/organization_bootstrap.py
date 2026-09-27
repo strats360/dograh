@@ -202,8 +202,8 @@ async def provision_dograh_managed_model_configuration(
         raise MPSUnavailableError("create_service_key")
 
     return OrganizationAIModelConfigurationV2(
-        mode="dograh",
-        dograh=OmniManagedAIModelConfiguration(api_key=service_key),
+        mode="omni",
+        omni=OmniManagedAIModelConfiguration(api_key=service_key),
     )
 
 

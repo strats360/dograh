@@ -84,7 +84,7 @@ def _log_mps_exception(
         classify_exception(
             error,
             source=ErrorSource.PLATFORM,
-            provider="dograh",
+            provider="omni",
             error_owner="operator",
         ),
         organization_id=organization_id,
@@ -107,7 +107,7 @@ def _log_mps_system_failure(
             code=f"dograh-{code}",
             internal_message=message,
             external_message="Dograh could not verify managed model access.",
-            provider="dograh",
+            provider="omni",
             error_owner="operator",
             retryable=None,
         ),
@@ -128,7 +128,7 @@ def _log_insufficient_dograh_credits(
             code="dograh-insufficient-credits",
             internal_message="Insufficient Dograh credits",
             external_message="Your organization has insufficient Dograh credits.",
-            provider="dograh",
+            provider="omni",
             error_owner="user",
             retryable=False,
         ),
@@ -212,11 +212,11 @@ def _oss_run_authorization_denied_result(
 def _service_uses_dograh(service: Any) -> bool:
     provider = getattr(service, "provider", None)
     return (
-        provider == ServiceProviders.DOGRAH or provider == ServiceProviders.DOGRAH.value
+        provider == ServiceProviders.OMNI or provider == ServiceProviders.OMNI.value
     )
 
 
-def _dograh_api_keys(user_config: Any) -> set[str]:
+def _omni_api_keys(user_config: Any) -> set[str]:
     api_keys: set[str] = set()
     for section_name in ("llm", "stt", "tts", "embeddings"):
         service = getattr(user_config, section_name, None)
@@ -775,7 +775,7 @@ async def authorize_workflow_run_start(
                 user_config=user_config,
             )
 
-        dograh_api_keys = _dograh_api_keys(user_config)
+        dograh_api_keys = _omni_api_keys(user_config)
         if workflow_run_id is None or not uses_managed_model_services_v2(user_config):
             if dograh_api_keys:
                 return await _authorize_oss_dograh_keys(
