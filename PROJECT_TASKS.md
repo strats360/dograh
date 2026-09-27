@@ -53,3 +53,46 @@ Legend: `[ ]` todo · `[~]` in progress (PR open) · `[x]` done (merged)
 
 GitHub Projects (V2) and Issues are unavailable in this workspace (GraphQL pass-through is
 disabled; repo Issues are turned off), so this file + one PR per sub-task is the tracking mechanism.
+
+
+---
+
+## Epic 1 — Rebrand: status = ALL SUB-TASKS COMPLETE ✅
+
+One PR per sub-task, all targeting `rebrand/dograh-to-omni`:
+
+| Sub-task | PR |
+|---|---|
+| 1.1 UI display text + title | #1 |
+| 1.2 Brand assets | #2 |
+| 1.3 Docs & README prose | #3 |
+| 1.4 Internal code identifiers | #4 |
+| 1.10 Pipecat fork rebrand (patch; fork blocked in sandbox) | #5 |
+| 1.5 Infra (helm/compose/workflows/nginx/scripts) | #6 |
+| 1.6 Env vars + headers | #7 |
+| 1.7 SDK package names | #8 |
+| 1.8 DB columns + provider value + data migration | #9 |
+| 1.9 Auth cookies + domains + embed widget | #10 |
+
+### End-to-end validation (branch `rebrand/integration-test` = all 10 merged)
+- Integrated all 10 sub-task branches into one branch; resolved cross-branch conflicts
+  (docs image path + prose, infra + env vars, SDK + prose, 1.4/1.8 class overlaps,
+  domains + env vars). **No conflict markers remain.**
+- **Full api compiles** (`compileall`, Python 3.13) with the rebranded pipecat `omni`
+  module in place.
+- **Data migration validated** (imported + exercised): correct 3-head merge; upgrade
+  rewrites `mode`, `dograh`→`omni` object key, and nested `provider` values; downgrade
+  round-trips; lease/lock rows left untouched.
+- Embed widget `omni-widget.js` passes `node --check`.
+- UI `tsc`/`next build` could not complete in-sandbox (npm install of the large
+  Next15/React19 tree did not finish in the time available) — run UI typecheck/build in CI
+  on `rebrand/integration-test`.
+
+### Outstanding coordination (see `REBRAND_1.8_FOLLOWUPS.md` + `pipecat-rebrand/README.md`)
+- Publish the rebranded **pipecat fork** (patch provided) and re-pin the submodule.
+- **MPS backend**: accept provider `"omni"`, rename pricing key `dograh_model`→`omni_model`,
+  coordinate `dograh_embedding_v1` model id.
+- **Regenerate** `ui/src/client/**` + `docs/api-reference/openapi.json` from the updated api.
+- **DNS**: `*.omni.com` hosts must exist. Run `alembic upgrade head` on deploy.
+- External resources intentionally left (GitHub `dograh-hq` repo/org, Slack invite, Axiom
+  tenant, `dograhai` registry) require account/DNS-level renames outside the codebase.
