@@ -22,7 +22,7 @@ async def test_model_configuration_pricing_returns_empty_in_oss(monkeypatch):
     )
 
     assert response.platform_usage is None
-    assert response.dograh_model is None
+    assert response.omni_model is None
     get_pricing.assert_not_awaited()
 
 
@@ -39,7 +39,7 @@ async def test_model_configuration_pricing_uses_selected_organization(monkeypatc
                 "currency": "USD",
                 "rounding_policy": "ceil_minute",
             },
-            "dograh_model": {
+            "omni_model": {
                 "metric_code": "voice_minutes",
                 "display_name": "Dograh model usage",
                 "unit": "minute",
@@ -63,8 +63,8 @@ async def test_model_configuration_pricing_uses_selected_organization(monkeypatc
     get_pricing.assert_awaited_once_with(42)
     assert response.platform_usage is not None
     assert response.platform_usage.price_per_minute == 0.01
-    assert response.dograh_model is not None
-    assert response.dograh_model.price_per_minute == 0.07
+    assert response.omni_model is not None
+    assert response.omni_model.price_per_minute == 0.07
 
 
 @pytest.mark.asyncio

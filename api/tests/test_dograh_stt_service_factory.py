@@ -23,7 +23,7 @@ def _audio_config() -> AudioConfig:
 def _dograh_config(language: str | None) -> SimpleNamespace:
     return SimpleNamespace(
         stt=SimpleNamespace(
-            provider=ServiceProviders.DOGRAH.value,
+            provider=ServiceProviders.OMNI.value,
             api_key="mps-key",
             model="default",
             language=language,

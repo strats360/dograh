@@ -60,7 +60,7 @@ def test_managed_service_constructor_failure_is_attributed_to_dograh(monkeypatch
         pytest.raises(ValueError),
     ):
         create_llm_service_from_provider(
-            provider="dograh",
+            provider="omni",
             model="gpt-4.1-mini",
             api_key="managed-key",
         )
