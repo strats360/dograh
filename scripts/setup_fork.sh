@@ -23,7 +23,7 @@ if ! git rev-parse --git-dir > /dev/null 2>&1; then
 fi
 
 echo -e "${BLUE}╔══════════════════════════════════════════════════════════════╗${NC}"
-echo -e "${BLUE}║              Dograh Contributor Bootstrap                    ║${NC}"
+echo -e "${BLUE}║              Omni Contributor Bootstrap                    ║${NC}"
 echo -e "${BLUE}╚══════════════════════════════════════════════════════════════╝${NC}"
 echo ""
 

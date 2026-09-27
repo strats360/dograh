@@ -62,10 +62,10 @@ jobs:
       fail-fast: false
       matrix:
         service:
-          - name: dograh-api
+          - name: omni-api
             dockerfile: api/Dockerfile
             context: .
-          - name: dograh-ui
+          - name: omni-ui
             dockerfile: ui/Dockerfile
             context: .
         platform:
@@ -141,16 +141,16 @@ jobs:
       - name: Download API digests
         uses: actions/download-artifact@v4
         with:
-          pattern: digest-dograh-api-*
+          pattern: digest-omni-api-*
           merge-multiple: true
-          path: /tmp/digests/dograh-api
+          path: /tmp/digests/omni-api
 
       - name: Download UI digests
         uses: actions/download-artifact@v4
         with:
-          pattern: digest-dograh-ui-*
+          pattern: digest-omni-ui-*
           merge-multiple: true
-          path: /tmp/digests/dograh-ui
+          path: /tmp/digests/omni-ui
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
@@ -210,10 +210,10 @@ jobs:
             docker buildx imagetools create "${gh_tags[@]}" $gh_refs
           }
 
-          inspect_digests dograh-api
-          inspect_digests dograh-ui
-          create_manifests dograh-api
-          create_manifests dograh-ui
+          inspect_digests omni-api
+          inspect_digests omni-ui
+          create_manifests omni-api
+          create_manifests omni-ui
 
   notify:
     needs:
