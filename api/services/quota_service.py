@@ -14,7 +14,7 @@ from api.constants import DEPLOYMENT_MODE
 from api.db import db_client
 from api.db.models import UserModel
 from api.errors.failure import (
-    DograhFailure,
+    OmniFailure,
     ErrorSource,
     ErrorType,
     classify_exception,
@@ -31,7 +31,7 @@ from api.services.managed_model_services import (
 )
 from api.services.mps_service_key_client import mps_service_key_client
 
-MINIMUM_DOGRAH_CREDITS_FOR_CALL = 0.10
+MINIMUM_OMNI_CREDITS_FOR_CALL = 0.10
 
 _MPS_UNREACHABLE_ERRORS = (
     httpx.TimeoutException,
@@ -101,7 +101,7 @@ def _log_mps_system_failure(
     workflow_run_id: int | None = None,
 ) -> None:
     log_failure(
-        DograhFailure(
+        OmniFailure(
             source=ErrorSource.PLATFORM,
             type=ErrorType.SYSTEM_ERROR,
             code=f"dograh-{code}",
@@ -122,7 +122,7 @@ def _log_insufficient_dograh_credits(
     workflow_run_id: int | None = None,
 ) -> None:
     log_failure(
-        DograhFailure(
+        OmniFailure(
             source=ErrorSource.PLATFORM,
             type=ErrorType.QUOTA_ERROR,
             code="dograh-insufficient-credits",
@@ -323,7 +323,7 @@ async def _authorize_hosted_workflow_run_start(
             workflow_run_id=workflow_run_id,
             service_key=service_key,
             require_correlation_id=requires_correlation,
-            minimum_credits=MINIMUM_DOGRAH_CREDITS_FOR_CALL,
+            minimum_credits=MINIMUM_OMNI_CREDITS_FOR_CALL,
             created_by=(
                 str(workflow_owner.provider_id)
                 if workflow_owner.provider_id is not None
@@ -368,7 +368,7 @@ async def _authorize_hosted_workflow_run_start(
     remaining = _safe_float(authorization.get("remaining_credits"))
     if (
         not authorization.get("allowed", False)
-        or remaining < MINIMUM_DOGRAH_CREDITS_FOR_CALL
+        or remaining < MINIMUM_OMNI_CREDITS_FOR_CALL
     ):
         _log_insufficient_dograh_credits(
             organization_id=organization_id,
@@ -422,7 +422,7 @@ async def _authorize_oss_dograh_keys(
             remaining = usage.get("remaining_credits", 0.0)
 
             # Require at least $0.10 for a short call
-            if remaining < MINIMUM_DOGRAH_CREDITS_FOR_CALL:
+            if remaining < MINIMUM_OMNI_CREDITS_FOR_CALL:
                 _log_insufficient_dograh_credits()
                 return _insufficient_oss_quota_result()
 
@@ -526,7 +526,7 @@ async def _authorize_oss_managed_v2_run(
             service_key=service_key,
             workflow_run_id=workflow_run_id,
             require_correlation_id=True,
-            minimum_credits=MINIMUM_DOGRAH_CREDITS_FOR_CALL,
+            minimum_credits=MINIMUM_OMNI_CREDITS_FOR_CALL,
             metadata={"workflow_id": workflow_id},
         )
     except httpx.HTTPStatusError as e:
@@ -579,7 +579,7 @@ async def _authorize_oss_managed_v2_run(
     remaining = _safe_float(authorization.get("remaining_credits"))
     if (
         not authorization.get("allowed", False)
-        or remaining < MINIMUM_DOGRAH_CREDITS_FOR_CALL
+        or remaining < MINIMUM_OMNI_CREDITS_FOR_CALL
     ):
         _log_insufficient_dograh_credits(workflow_run_id=workflow_run_id)
         return _oss_run_authorization_denied_result(authorization)

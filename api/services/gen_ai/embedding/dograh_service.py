@@ -25,7 +25,7 @@ MPS_BILLING_VERSION_KEY = "mps_billing_version"
 MPS_BILLING_VERSION_V2 = "2"
 
 
-class DograhEmbeddingService(OpenAIEmbeddingService):
+class OmniEmbeddingService(OpenAIEmbeddingService):
     """OpenAI-compatible embedding client pointed at Dograh's managed proxy."""
 
     def __init__(

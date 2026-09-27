@@ -9,7 +9,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from api.errors.failure import DograhFailure, ErrorSource, ErrorType
+from api.errors.failure import OmniFailure, ErrorSource, ErrorType
 from api.services.telephony import ari_manager
 
 
@@ -70,8 +70,8 @@ def _connection() -> ari_manager.ARIConnection:
     )
 
 
-def _permanent_failure() -> DograhFailure:
-    return DograhFailure(
+def _permanent_failure() -> OmniFailure:
+    return OmniFailure(
         source=ErrorSource.TELEPHONY,
         type=ErrorType.CONFIG_ERROR,
         code="ari-401",
@@ -83,8 +83,8 @@ def _permanent_failure() -> DograhFailure:
     )
 
 
-def _transient_failure() -> DograhFailure:
-    return DograhFailure(
+def _transient_failure() -> OmniFailure:
+    return OmniFailure(
         source=ErrorSource.TELEPHONY,
         type=ErrorType.PROVIDER_ERROR,
         code="ari-connection",

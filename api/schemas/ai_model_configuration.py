@@ -6,10 +6,10 @@ from typing import Literal
 from pydantic import BaseModel, Field, model_validator
 
 from api.services.configuration.registry import (
-    DograhEmbeddingsConfiguration,
-    DograhLLMService,
-    DograhSTTService,
-    DograhTTSService,
+    OmniEmbeddingsConfiguration,
+    OmniLLMService,
+    OmniSTTService,
+    OmniTTSService,
     EmbeddingsConfig,
     LLMConfig,
     RealtimeConfig,
@@ -18,12 +18,12 @@ from api.services.configuration.registry import (
     TTSConfig,
 )
 
-DOGRAH_SPEED_MIN = 0.5
-DOGRAH_SPEED_MAX = 2.0
-DOGRAH_SPEED_STEP = 0.1
-DOGRAH_SPEED_OPTIONS: tuple[float, ...] = (0.8, 1.0, 1.2)
-DOGRAH_DEFAULT_VOICE = "default"
-DOGRAH_DEFAULT_LANGUAGE = "multi"
+OMNI_SPEED_MIN = 0.5
+OMNI_SPEED_MAX = 2.0
+OMNI_SPEED_STEP = 0.1
+OMNI_SPEED_OPTIONS: tuple[float, ...] = (0.8, 1.0, 1.2)
+OMNI_DEFAULT_VOICE = "default"
+OMNI_DEFAULT_LANGUAGE = "multi"
 
 
 class EffectiveAIModelConfiguration(BaseModel):
@@ -49,11 +49,11 @@ class EffectiveAIModelConfiguration(BaseModel):
         return data
 
 
-class DograhManagedAIModelConfiguration(BaseModel):
+class OmniManagedAIModelConfiguration(BaseModel):
     api_key: str
-    voice: str = DOGRAH_DEFAULT_VOICE
-    speed: float = Field(default=1.0, ge=DOGRAH_SPEED_MIN, le=DOGRAH_SPEED_MAX)
-    language: str = DOGRAH_DEFAULT_LANGUAGE
+    voice: str = OMNI_DEFAULT_VOICE
+    speed: float = Field(default=1.0, ge=OMNI_SPEED_MIN, le=OMNI_SPEED_MAX)
+    language: str = OMNI_DEFAULT_LANGUAGE
 
 
 class BYOKPipelineAIModelConfiguration(BaseModel):
@@ -100,7 +100,7 @@ class BYOKAIModelConfiguration(BaseModel):
 class OrganizationAIModelConfigurationV2(BaseModel):
     version: Literal[2] = 2
     mode: Literal["dograh", "byok"]
-    dograh: DograhManagedAIModelConfiguration | None = None
+    dograh: OmniManagedAIModelConfiguration | None = None
     byok: BYOKAIModelConfiguration | None = None
 
     @model_validator(mode="after")
@@ -152,28 +152,28 @@ def compile_ai_model_configuration_v2(
 
 
 def _compile_dograh_configuration(
-    configuration: DograhManagedAIModelConfiguration,
+    configuration: OmniManagedAIModelConfiguration,
 ) -> EffectiveAIModelConfiguration:
     return EffectiveAIModelConfiguration(
-        llm=DograhLLMService(
+        llm=OmniLLMService(
             provider=ServiceProviders.DOGRAH,
             api_key=configuration.api_key,
             model="default",
         ),
-        tts=DograhTTSService(
+        tts=OmniTTSService(
             provider=ServiceProviders.DOGRAH,
             api_key=configuration.api_key,
             model="default",
             voice=configuration.voice,
             speed=configuration.speed,
         ),
-        stt=DograhSTTService(
+        stt=OmniSTTService(
             provider=ServiceProviders.DOGRAH,
             api_key=configuration.api_key,
             model="default",
             language=configuration.language,
         ),
-        embeddings=DograhEmbeddingsConfiguration(
+        embeddings=OmniEmbeddingsConfiguration(
             provider=ServiceProviders.DOGRAH,
             api_key=configuration.api_key,
             model="dograh_embedding_v1",

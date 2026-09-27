@@ -14,7 +14,7 @@ from api.db.db_client import DBClient
 
 from .azure_openai_service import AzureOpenAIEmbeddingService
 from .base import BaseEmbeddingService
-from .dograh_service import DograhEmbeddingService
+from .dograh_service import OmniEmbeddingService
 from .openai_service import OpenAIEmbeddingService
 
 DEFAULT_EMBEDDING_MODEL = "text-embedding-3-small"
@@ -91,7 +91,7 @@ async def build_embedding_service(
         cid = correlation_id
         if cid is None and resolve_correlation:
             cid = await resolve_embedding_correlation_id(service_key=api_key)
-        return DograhEmbeddingService(
+        return OmniEmbeddingService(
             db_client=db_client,
             api_key=api_key,
             model_id=model_id,

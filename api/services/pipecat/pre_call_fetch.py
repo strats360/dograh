@@ -11,7 +11,7 @@ from loguru import logger
 
 from api.db import db_client
 from api.errors.failure import (
-    DograhFailure,
+    OmniFailure,
     ErrorSource,
     ErrorType,
     classify_exception,
@@ -89,7 +89,7 @@ async def execute_pre_call_fetch(
                 headers.update(build_auth_header(credential))
             else:
                 log_failure(
-                    DograhFailure(
+                    OmniFailure(
                         source=ErrorSource.INTEGRATION,
                         type=ErrorType.CONFIG_ERROR,
                         code="pre-call-fetch-credential-not-found",
@@ -128,7 +128,7 @@ async def execute_pre_call_fetch(
             if response.is_success:
                 if not isinstance(response_data, dict):
                     log_failure(
-                        DograhFailure(
+                        OmniFailure(
                             source=ErrorSource.INTEGRATION,
                             type=ErrorType.CONFIG_ERROR,
                             code="pre-call-fetch-invalid-response",

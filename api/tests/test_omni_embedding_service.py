@@ -5,12 +5,12 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from api.services.gen_ai.embedding.dograh_service import DograhEmbeddingService
+from api.services.gen_ai.embedding.dograh_service import OmniEmbeddingService
 from api.services.gen_ai.embedding.factory import resolve_embedding_correlation_id
 
 
 def _service_with_fake_client(correlation_id):
-    service = DograhEmbeddingService(
+    service = OmniEmbeddingService(
         db_client=None,
         api_key="sk-test",
         model_id="text-embedding-3-small",

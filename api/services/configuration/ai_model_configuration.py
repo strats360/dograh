@@ -13,14 +13,14 @@ from api.db import db_client
 from api.db.models import OrganizationConfigurationModel
 from api.enums import OrganizationConfigurationKey
 from api.schemas.ai_model_configuration import (
-    DOGRAH_DEFAULT_LANGUAGE,
-    DOGRAH_DEFAULT_VOICE,
-    DOGRAH_SPEED_MAX,
-    DOGRAH_SPEED_MIN,
+    OMNI_DEFAULT_LANGUAGE,
+    OMNI_DEFAULT_VOICE,
+    OMNI_SPEED_MAX,
+    OMNI_SPEED_MIN,
     BYOKAIModelConfiguration,
     BYOKPipelineAIModelConfiguration,
     BYOKRealtimeAIModelConfiguration,
-    DograhManagedAIModelConfiguration,
+    OmniManagedAIModelConfiguration,
     EffectiveAIModelConfiguration,
     OrganizationAIModelConfigurationV2,
     compile_ai_model_configuration_v2,
@@ -425,17 +425,17 @@ def _convert_any_dograh_legacy_configuration(
         speed = float(speed)
     except (TypeError, ValueError):
         speed = 1.0
-    if not DOGRAH_SPEED_MIN <= speed <= DOGRAH_SPEED_MAX:
+    if not OMNI_SPEED_MIN <= speed <= OMNI_SPEED_MAX:
         speed = 1.0
     return OrganizationAIModelConfigurationV2(
         mode="dograh",
-        dograh=DograhManagedAIModelConfiguration(
+        dograh=OmniManagedAIModelConfiguration(
             api_key=dograh_key,
-            voice=getattr(configuration.tts, "voice", DOGRAH_DEFAULT_VOICE)
-            or DOGRAH_DEFAULT_VOICE,
+            voice=getattr(configuration.tts, "voice", OMNI_DEFAULT_VOICE)
+            or OMNI_DEFAULT_VOICE,
             speed=speed,
-            language=getattr(configuration.stt, "language", DOGRAH_DEFAULT_LANGUAGE)
-            or DOGRAH_DEFAULT_LANGUAGE,
+            language=getattr(configuration.stt, "language", OMNI_DEFAULT_LANGUAGE)
+            or OMNI_DEFAULT_LANGUAGE,
         ),
     )
 

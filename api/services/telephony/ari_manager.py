@@ -28,7 +28,7 @@ from api.constants import REDIS_URL
 from api.db import db_client
 from api.enums import CallType, WorkflowRunMode
 from api.errors.failure import (
-    DograhFailure,
+    OmniFailure,
     ErrorSource,
     ErrorType,
     classify_exception,
@@ -76,7 +76,7 @@ _FAILURE_LOG_INTERVAL = 900  # re-log an unchanged failure at most this often
 
 
 def _log_ari_failure(
-    failure: DograhFailure,
+    failure: OmniFailure,
     *,
     organization_id: int,
     telephony_configuration_id: int | None = None,
@@ -297,7 +297,7 @@ class ARIConnection:
                 # ceiling forever and never be parked.
                 if self._running and not self._last_connection_stable:
                     await self._record_failure(
-                        DograhFailure(
+                        OmniFailure(
                             source=ErrorSource.TELEPHONY,
                             type=ErrorType.PROVIDER_ERROR,
                             code="ari-closed-immediately",
@@ -397,7 +397,7 @@ class ARIConnection:
             return True
         return False
 
-    def _should_deactivate(self, failure: DograhFailure) -> bool:
+    def _should_deactivate(self, failure: OmniFailure) -> bool:
         if failure.retryable is False:
             return self._consecutive_failures >= _PERMANENT_FAILURE_THRESHOLD
         return (
@@ -405,7 +405,7 @@ class ARIConnection:
             and time.monotonic() - self._failing_since >= _TRANSIENT_FAILURE_WINDOW
         )
 
-    async def _record_failure(self, failure: DograhFailure, **context) -> None:
+    async def _record_failure(self, failure: OmniFailure, **context) -> None:
         """Account for one connection failure and park the config if it persists."""
         now = time.monotonic()
         self._consecutive_failures += 1
@@ -425,7 +425,7 @@ class ARIConnection:
         if self._should_deactivate(failure):
             await self._deactivate(failure)
 
-    async def _deactivate(self, failure: DograhFailure) -> None:
+    async def _deactivate(self, failure: OmniFailure) -> None:
         """Park this config so the manager stops reconnecting it."""
         reason = f"{failure.code}: {failure.external_message}"
         try:
@@ -1516,7 +1516,7 @@ class ARIManager:
             return True
         return False
 
-    async def _deactivate_invalid_config(self, row, failure: DograhFailure) -> None:
+    async def _deactivate_invalid_config(self, row, failure: OmniFailure) -> None:
         """Park a config whose stored settings cannot work, and record why.
 
         There is nothing to retry here, unlike a connection failure: the defect
@@ -1576,7 +1576,7 @@ class ARIManager:
             if not all([ari_endpoint, app_name, app_password]):
                 if self._should_log_validation_failure(row.id, "ari-incomplete-config"):
                     _log_ari_failure(
-                        DograhFailure(
+                        OmniFailure(
                             source=ErrorSource.TELEPHONY,
                             type=ErrorType.CONFIG_ERROR,
                             code="ari-incomplete-config",
@@ -1599,7 +1599,7 @@ class ARIManager:
             if not ws_client_name:
                 await self._deactivate_invalid_config(
                     row,
-                    DograhFailure(
+                    OmniFailure(
                         source=ErrorSource.TELEPHONY,
                         type=ErrorType.CONFIG_ERROR,
                         code="ari-missing-ws-client-name",

@@ -5,7 +5,7 @@ import pytest
 from pydantic import ValidationError
 
 from api.schemas.ai_model_configuration import (
-    DograhManagedAIModelConfiguration,
+    OmniManagedAIModelConfiguration,
     EffectiveAIModelConfiguration,
     OrganizationAIModelConfigurationResponse,
     OrganizationAIModelConfigurationV2,
@@ -26,9 +26,9 @@ from api.services.configuration.check_validity import UserConfigurationValidator
 from api.services.configuration.masking import mask_key
 from api.services.configuration.registry import (
     DeepgramSTTConfiguration,
-    DograhLLMService,
-    DograhSTTService,
-    DograhTTSService,
+    OmniLLMService,
+    OmniSTTService,
+    OmniTTSService,
     ElevenlabsTTSConfiguration,
     GoogleLLMService,
     GoogleRealtimeLLMConfiguration,
@@ -40,7 +40,7 @@ from api.services.configuration.registry import (
 def test_dograh_v2_compiles_to_effective_managed_pipeline_with_embeddings():
     config = OrganizationAIModelConfigurationV2(
         mode="dograh",
-        dograh=DograhManagedAIModelConfiguration(
+        dograh=OmniManagedAIModelConfiguration(
             api_key="mps-secret",
             voice="default",
             speed=1.2,
@@ -65,7 +65,7 @@ def test_dograh_v2_compiles_to_effective_managed_pipeline_with_embeddings():
 def test_dograh_v2_accepts_numeric_speed_in_registry_range():
     config = OrganizationAIModelConfigurationV2(
         mode="dograh",
-        dograh=DograhManagedAIModelConfiguration(
+        dograh=OmniManagedAIModelConfiguration(
             api_key="mps-secret",
             speed=1.5,
         ),
@@ -80,7 +80,7 @@ def test_dograh_v2_rejects_out_of_range_speed():
     with pytest.raises(ValidationError):
         OrganizationAIModelConfigurationV2(
             mode="dograh",
-            dograh=DograhManagedAIModelConfiguration(
+            dograh=OmniManagedAIModelConfiguration(
                 api_key="mps-secret",
                 speed=2.5,
             ),
@@ -162,7 +162,7 @@ async def test_resolved_org_v2_uses_last_validated_at_as_validation_cache(
     last_validated_at = datetime.now(UTC)
     config = OrganizationAIModelConfigurationV2(
         mode="dograh",
-        dograh=DograhManagedAIModelConfiguration(api_key="mps-secret"),
+        dograh=OmniManagedAIModelConfiguration(api_key="mps-secret"),
     )
     row = SimpleNamespace(
         value=config.model_dump(mode="json", exclude_none=True),
@@ -186,7 +186,7 @@ async def test_upsert_org_v2_marks_configuration_validated(monkeypatch):
 
     config = OrganizationAIModelConfigurationV2(
         mode="dograh",
-        dograh=DograhManagedAIModelConfiguration(api_key="mps-secret"),
+        dograh=OmniManagedAIModelConfiguration(api_key="mps-secret"),
     )
     upsert = AsyncMock()
     monkeypatch.setattr(
@@ -258,11 +258,11 @@ async def test_pipeline_validator_requires_stt_and_tts_when_not_realtime():
 def test_masked_dograh_key_is_preserved_when_saving_same_mode():
     existing = OrganizationAIModelConfigurationV2(
         mode="dograh",
-        dograh=DograhManagedAIModelConfiguration(api_key="mps-real-secret"),
+        dograh=OmniManagedAIModelConfiguration(api_key="mps-real-secret"),
     )
     incoming = OrganizationAIModelConfigurationV2(
         mode="dograh",
-        dograh=DograhManagedAIModelConfiguration(api_key=mask_key("mps-real-secret")),
+        dograh=OmniManagedAIModelConfiguration(api_key=mask_key("mps-real-secret")),
     )
 
     merged = merge_ai_model_configuration_v2_secrets(incoming, existing)
@@ -306,19 +306,19 @@ def test_masked_v2_configuration_masks_nested_service_keys():
 
 def test_legacy_all_dograh_pipeline_converts_to_dograh_v2():
     legacy = EffectiveAIModelConfiguration(
-        llm=DograhLLMService(
+        llm=OmniLLMService(
             provider="dograh",
             api_key=["mps-secret"],
             model="default",
         ),
-        tts=DograhTTSService(
+        tts=OmniTTSService(
             provider="dograh",
             api_key=["mps-secret"],
             model="default",
             voice="default",
             speed=1.0,
         ),
-        stt=DograhSTTService(
+        stt=OmniSTTService(
             provider="dograh",
             api_key=["mps-secret"],
             model="default",
@@ -334,19 +334,19 @@ def test_legacy_all_dograh_pipeline_converts_to_dograh_v2():
 
 def test_legacy_dograh_pipeline_conversion_preserves_numeric_speed():
     legacy = EffectiveAIModelConfiguration(
-        llm=DograhLLMService(
+        llm=OmniLLMService(
             provider="dograh",
             api_key=["mps-secret"],
             model="default",
         ),
-        tts=DograhTTSService(
+        tts=OmniTTSService(
             provider="dograh",
             api_key=["mps-secret"],
             model="default",
             voice="default",
             speed=1.5,
         ),
-        stt=DograhSTTService(
+        stt=OmniSTTService(
             provider="dograh",
             api_key=["mps-secret"],
             model="default",
@@ -366,13 +366,13 @@ def test_legacy_mixed_dograh_pipeline_converts_to_dograh_v2():
             api_key="sk-llm",
             model="gpt-4.1",
         ),
-        tts=DograhTTSService(
+        tts=OmniTTSService(
             provider="dograh",
             api_key="mps-tts",
             model="default",
             voice="default",
         ),
-        stt=DograhSTTService(
+        stt=OmniSTTService(
             provider="dograh",
             api_key="mps-stt",
             model="default",
@@ -544,18 +544,18 @@ async def test_migrate_model_configuration_v2_initializes_hosted_mps_billing(
     from api.routes import organization as organization_routes
 
     legacy = EffectiveAIModelConfiguration(
-        llm=DograhLLMService(
+        llm=OmniLLMService(
             provider="dograh",
             api_key=["mps-secret"],
             model="default",
         ),
-        tts=DograhTTSService(
+        tts=OmniTTSService(
             provider="dograh",
             api_key=["mps-secret"],
             model="default",
             voice="default",
         ),
-        stt=DograhSTTService(
+        stt=OmniSTTService(
             provider="dograh",
             api_key=["mps-secret"],
             model="default",

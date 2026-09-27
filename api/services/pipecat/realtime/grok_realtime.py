@@ -43,7 +43,7 @@ from pipecat.services.xai.realtime.llm import GrokRealtimeLLMService
 from pipecat.utils.time import time_now_iso8601
 
 
-class DograhGrokRealtimeLLMService(GrokRealtimeLLMService):
+class OmniGrokRealtimeLLMService(GrokRealtimeLLMService):
     """Grok Realtime with Dograh engine integration quirks."""
 
     def __init__(self, **kwargs):

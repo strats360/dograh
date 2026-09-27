@@ -144,7 +144,7 @@ async def test_authorize_workflow_run_uses_workflow_org_for_hosted_v2(
         workflow_run_id=None,
         service_key=None,
         require_correlation_id=False,
-        minimum_credits=quota_service.MINIMUM_DOGRAH_CREDITS_FOR_CALL,
+        minimum_credits=quota_service.MINIMUM_OMNI_CREDITS_FOR_CALL,
         created_by="provider-123",
         metadata={"dograh_user_id": "123", "workflow_id": 7},
     )
@@ -299,7 +299,7 @@ async def test_authorize_workflow_run_managed_v2_stores_hosted_correlation(
         workflow_run_id=88,
         service_key=api_key,
         require_correlation_id=True,
-        minimum_credits=quota_service.MINIMUM_DOGRAH_CREDITS_FOR_CALL,
+        minimum_credits=quota_service.MINIMUM_OMNI_CREDITS_FOR_CALL,
         created_by="provider-123",
         metadata={"dograh_user_id": "123", "workflow_id": 7},
     )
@@ -403,7 +403,7 @@ async def test_authorize_workflow_run_service_token_from_wrong_org_prompts_new_t
         workflow_run_id=88,
         service_key=api_key,
         require_correlation_id=True,
-        minimum_credits=quota_service.MINIMUM_DOGRAH_CREDITS_FOR_CALL,
+        minimum_credits=quota_service.MINIMUM_OMNI_CREDITS_FOR_CALL,
         created_by="provider-123",
         metadata={"dograh_user_id": "123", "workflow_id": 7},
     )
@@ -485,7 +485,7 @@ async def test_authorize_workflow_run_oss_uses_key_paths_not_workflow_org(
         service_key=api_key,
         workflow_run_id=88,
         require_correlation_id=True,
-        minimum_credits=quota_service.MINIMUM_DOGRAH_CREDITS_FOR_CALL,
+        minimum_credits=quota_service.MINIMUM_OMNI_CREDITS_FOR_CALL,
         metadata={"workflow_id": 7},
     )
     check_usage.assert_not_awaited()

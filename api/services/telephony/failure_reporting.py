@@ -4,7 +4,7 @@ from functools import wraps
 from typing import TYPE_CHECKING, Any
 
 from api.errors.failure import (
-    DograhFailure,
+    OmniFailure,
     ErrorSource,
     ErrorType,
     classify_exception,
@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 
 def classify_telephony_exception(
     exc: BaseException, *, provider: object | None
-) -> DograhFailure:
+) -> OmniFailure:
     """Apply config-aware rules available only at the telephony boundary."""
 
     try:
@@ -34,7 +34,7 @@ def classify_telephony_exception(
         )
     ):
         provider_value = getattr(provider, "value", provider) or "telephony"
-        return DograhFailure(
+        return OmniFailure(
             source=ErrorSource.TELEPHONY,
             type=ErrorType.CONFIG_ERROR,
             code=f"{provider_value}-invalid-config",

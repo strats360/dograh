@@ -5,7 +5,7 @@ import pytest
 
 from api.db.organization_configuration_client import LEASE_COMPLETED, LEASE_PENDING
 from api.schemas.ai_model_configuration import (
-    DograhManagedAIModelConfiguration,
+    OmniManagedAIModelConfiguration,
     OrganizationAIModelConfigurationV2,
 )
 from api.services import organization_bootstrap as bootstrap
@@ -20,7 +20,7 @@ LEASE_OWNER_TOKEN = "lease-owner-token"
 def _dograh_config(api_key: str) -> OrganizationAIModelConfigurationV2:
     return OrganizationAIModelConfigurationV2(
         mode="dograh",
-        dograh=DograhManagedAIModelConfiguration(api_key=api_key),
+        dograh=OmniManagedAIModelConfiguration(api_key=api_key),
     )
 
 
