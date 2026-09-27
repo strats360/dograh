@@ -61,7 +61,7 @@ After the script finishes, apply the update through the validated startup wrappe
 ```
 
 <Note>
-The script overwrites `docker-compose.yaml` and the remote helper bundle (`remote_up.sh`, `scripts/run_dograh_init.sh`, `scripts/lib/setup_common.sh`, and `deploy/templates/*`) from the shared upstream deployment bundle. If you've made local edits to any of these, check the `.bak.<timestamp>` files after the update and re-apply your edits.
+The script overwrites `docker-compose.yaml` and the remote helper bundle (`remote_up.sh`, `scripts/run_omni_init.sh`, `scripts/lib/setup_common.sh`, and `deploy/templates/*`) from the shared upstream deployment bundle. If you've made local edits to any of these, check the `.bak.<timestamp>` files after the update and re-apply your edits.
 </Note>
 
 ## Local deployment
@@ -105,7 +105,7 @@ curl http://localhost:8000/api/v1/health           # local
 
 ```bash
 cd dograh
-for f in docker-compose.yaml nginx.conf turnserver.conf .env remote_up.sh scripts/run_dograh_init.sh scripts/lib/setup_common.sh deploy/templates/nginx.remote.conf.template deploy/templates/turnserver.remote.conf.template; do
+for f in docker-compose.yaml nginx.conf turnserver.conf .env remote_up.sh scripts/run_omni_init.sh scripts/lib/setup_common.sh deploy/templates/nginx.remote.conf.template deploy/templates/turnserver.remote.conf.template; do
     [[ -f "$f.bak.<timestamp>" ]] && cp "$f.bak.<timestamp>" "$f"
 done
 ./remote_up.sh
@@ -142,6 +142,6 @@ sudo docker compose --profile remote up -d
 If you update the `pipecat` submodule, you **must** run `git submodule update --init --recursive` before rebuilding, or the Docker build will not pick up `pipecat` changes.
 </Warning>
 
-If you maintain a fork with local customizations on top of upstream, merging conflicts in `docker-compose.yaml`, `remote_up.sh`, `scripts/run_dograh_init.sh`, `deploy/templates/*`, or `setup_remote.sh` is up to you — resolve them as you would any other git merge. Leave `OSS_JWT_SECRET`, `TURN_SECRET`, `POSTGRES_PASSWORD`, `REDIS_PASSWORD`, `MINIO_ROOT_USER`, and `MINIO_ROOT_PASSWORD` in `.env` unchanged across updates to preserve sessions, WebRTC auth, and service credentials.
+If you maintain a fork with local customizations on top of upstream, merging conflicts in `docker-compose.yaml`, `remote_up.sh`, `scripts/run_omni_init.sh`, `deploy/templates/*`, or `setup_remote.sh` is up to you — resolve them as you would any other git merge. Leave `OSS_JWT_SECRET`, `TURN_SECRET`, `POSTGRES_PASSWORD`, `REDIS_PASSWORD`, `MINIO_ROOT_USER`, and `MINIO_ROOT_PASSWORD` in `.env` unchanged across updates to preserve sessions, WebRTC auth, and service credentials.
 
 The same migration warning above applies: rolling back across a schema change can leave the DB in a state the older API can't read.

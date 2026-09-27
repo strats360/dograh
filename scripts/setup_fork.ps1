@@ -23,7 +23,7 @@ try {
 }
 
 Write-Host '+==============================================================+' -ForegroundColor Blue
-Write-Host '|              Dograh Contributor Bootstrap                    |' -ForegroundColor Blue
+Write-Host '|              Omni Contributor Bootstrap                    |' -ForegroundColor Blue
 Write-Host '+==============================================================+' -ForegroundColor Blue
 Write-Host ''
 

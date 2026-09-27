@@ -54,7 +54,7 @@ Write-Host "Installing dograh API requirements..."
 uv pip install -r api/requirements.txt
 
 if ($Dev) {
-    Write-Host "Installing dograh API dev requirements..."
+    Write-Host "Installing omni API dev requirements..."
     uv pip install -r api/requirements.dev.txt
 }
 

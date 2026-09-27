@@ -74,7 +74,7 @@ echo "Installing dograh API requirements..."
 uv pip install -r api/requirements.txt
 
 if [ "$DEV_MODE" -eq 1 ]; then
-    echo "Installing dograh API dev requirements..."
+    echo "Installing omni API dev requirements..."
     uv pip install -r api/requirements.dev.txt
 fi
 

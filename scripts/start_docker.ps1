@@ -17,7 +17,7 @@ function New-HexSecret {
 }
 
 function New-MinioRootUser {
-    return "dograh$((New-HexSecret).Substring(0, 12))"
+    return "omni$((New-HexSecret).Substring(0, 12))"
 }
 
 function Get-DotEnvValue {
@@ -134,11 +134,11 @@ function Sync-PostgresPassword {
 
     Wait-PostgresReady
 
-    "ALTER USER postgres WITH PASSWORD :'dograh_password';" | docker compose exec -T postgres psql `
+    "ALTER USER postgres WITH PASSWORD :'omni_password';" | docker compose exec -T postgres psql `
         -U postgres `
         -d postgres `
         -v 'ON_ERROR_STOP=1' `
-        -v "dograh_password=$Password" > $null
+        -v "omni_password=$Password" > $null
     if ($LASTEXITCODE -ne 0) {
         Write-Error 'Failed to sync POSTGRES_PASSWORD with the existing Postgres volume.'
         exit $LASTEXITCODE
@@ -217,9 +217,9 @@ Write-Host 'This will run:'
 Write-Host "  `$env:REGISTRY = '$Registry'; `$env:ENABLE_TELEMETRY = '$EnableTelemetry'; docker compose --profile tunnel up --pull always"
 Write-Host ''
 
-$answer = Read-Host 'Start Dograh now? [Y/n]'
+$answer = Read-Host 'Start Omni now? [Y/n]'
 if ($answer -match '^[Nn]') {
-    Write-Host 'Dograh was not started.'
+    Write-Host 'Omni was not started.'
     exit 0
 }
 

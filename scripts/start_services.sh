@@ -22,7 +22,7 @@ LOG_TO_FILE=${LOG_TO_FILE:-true}    # Set to false in Docker to use stdout
 
 # Log startup
 cd "$BASE_DIR"
-echo "Starting Dograh Services at $(date) in BASE_DIR: ${BASE_DIR}"
+echo "Starting Omni Services at $(date) in BASE_DIR: ${BASE_DIR}"
 
 ###############################################################################
 ### 1) Load environment variables
@@ -159,8 +159,8 @@ fi
 
 mkdir -p "$RUN_DIR"
 
-NGINX_UPSTREAM_TEMPLATE="$BASE_DIR/nginx/dograh_upstream.conf.template"
-NGINX_UPSTREAM_CONF="/etc/nginx/conf.d/dograh_upstream.conf"
+NGINX_UPSTREAM_TEMPLATE="$BASE_DIR/nginx/omni_upstream.conf.template"
+NGINX_UPSTREAM_CONF="/etc/nginx/conf.d/omni_upstream.conf"
 
 ###############################################################################
 ### 4) Install ts_validator npm dependencies

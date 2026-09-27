@@ -22,8 +22,9 @@ Legend: `[ ]` todo · `[~]` in progress (PR open) · `[x]` done (merged)
   - `README.md`, `README.ja-JP.md`, `README.zh-CN.md`, `docs/**/*.mdx`, `SECURITY.md`
 - [ ] **1.4 — Internal code class/module names (`Dograh*`)**
   - `api/services/configuration/registry.py` service classes, `DograhEmbeddingService`, `api/tests/test_dograh_*`
-- [ ] **1.5 — Infra: docker-compose, helm, workflows, nginx, scripts** *(risky: deployed release names/labels)*
-  - `docker-compose.yaml` services, `deploy/helm/dograh/`, `.github/workflows/docker-image.yml`, `nginx/`, `scripts/`
+- [~] **1.5 — Infra: docker-compose, helm, workflows, nginx, scripts** *(risky: deployed release names/labels)*
+  - Renamed helm chart `deploy/helm/dograh`→`omni` (29 template defines `dograh.*`→`omni.*`, all includes atomic), image names `dograh-{api,ui}`→`omni-{api,ui}` (registry `dograhai` kept), compose `dograh-init`→`omni-init`, `nginx/dograh_upstream`→`omni_upstream`, `scripts/run_dograh_init.sh`→`run_omni_init.sh`, `dograh_*` shell fns→`omni_*`, coupled `__DOGRAH_*__` template placeholders→`__OMNI_*__`, MinIO user prefix, letsencrypt hook, workflow image names. YAML validated; 64+ files.
+  - Left (other sub-tasks): `dograhai` registry & `dograh-hq` URLs (1.9), `DOGRAH_*` env vars + `X-Dograh-*` header (1.6), SDK org/pkg names + conda env (1.7), release tag prefix `dograh-v*` & CI secret `SLACK_DOGRAH_*` (release automation), repo clone-dir name `dograh` (repo rename).
 - [ ] **1.6 — Env var prefixes + headers** *(BREAKING: existing env files & callers)*
   - `DOGRAH_*` env vars (`api/constants.py`, `.env.example`), `X-Dograh-Devops-Secret` header
 - [ ] **1.7 — Published package names** *(BREAKING: PyPI/npm consumers)*
