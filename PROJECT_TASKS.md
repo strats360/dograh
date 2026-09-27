@@ -84,9 +84,14 @@ One PR per sub-task, all targeting `rebrand/dograh-to-omni`:
   rewrites `mode`, `dograh`→`omni` object key, and nested `provider` values; downgrade
   round-trips; lease/lock rows left untouched.
 - Embed widget `omni-widget.js` passes `node --check`.
-- UI `tsc`/`next build` could not complete in-sandbox (npm install of the large
-  Next15/React19 tree did not finish in the time available) — run UI typecheck/build in CI
-  on `rebrand/integration-test`.
+- **UI typecheck: PASS.** After installing deps (`npm install` completes in ~13s with a
+  warm cache in a single call; earlier attempts only "failed" by hitting the 120s per-command
+  tool timeout with a cold cache — not a code error), `tsc --noEmit -p tsconfig.json` reports
+  **0 errors in the rebranded UI source**. The only tsc error anywhere is a pre-existing
+  syntax glitch inside the `@hey-api/spec-types` dependency's `.d.mts` (excluded by the
+  project tsconfig) — unrelated to the rebrand.
+- `next build` crashes (exit 135, no output) under the sandbox's Next 15 native binary
+  (not OOM — 28Gi free); **run the full `next build` in CI** on `rebrand/integration-test`.
 
 ### Outstanding coordination (see `REBRAND_1.8_FOLLOWUPS.md` + `pipecat-rebrand/README.md`)
 - Publish the rebranded **pipecat fork** (patch provided) and re-pin the submodule.
