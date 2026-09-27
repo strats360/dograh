@@ -1,5 +1,5 @@
 {
-  "name": "Dograh",
+  "name": "Omni",
   "dockerComposeFile": [
     "../docker-compose-local.yaml",
     "docker-compose.yml"
@@ -31,11 +31,11 @@
   ],
   "portsAttributes": {
     "3000": {
-      "label": "Dograh UI",
+      "label": "Omni UI",
       "onAutoForward": "ignore"
     },
     "8000": {
-      "label": "Dograh API",
+      "label": "Omni API",
       "onAutoForward": "ignore"
     },
     "5432": {
