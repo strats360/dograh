@@ -1,6 +1,6 @@
 ---
 title: Add to Website
-description: Add your Dograh agent to any website so visitors can talk to it by voice or chat with it by text.
+description: Add your Omni agent to any website so visitors can talk to it by voice or chat with it by text.
 tag: "NEW"
 ---
 
@@ -128,7 +128,7 @@ The widget script loads asynchronously, so `window.DograhWidget` may not exist y
 Use whichever fits: `data-dograh-context` for what the page knows at render, `setContext()` for what it learns later. They merge, and `setContext()` wins on a repeated name.
 
 <Warning>
-Context comes from the page, so a visitor can both read it and change it before it reaches your agent. Never pass secrets, and don't let it gate what the agent will do or disclose — treat `plan: "pro"` as a hint for phrasing, not proof of entitlement. For data the agent must trust, pass an opaque id like `customer_id` and let Dograh fetch the real details from your API with [Pre-Call Data Fetch](/voice-agent/pre-call-data-fetch).
+Context comes from the page, so a visitor can both read it and change it before it reaches your agent. Never pass secrets, and don't let it gate what the agent will do or disclose — treat `plan: "pro"` as a hint for phrasing, not proof of entitlement. For data the agent must trust, pass an opaque id like `customer_id` and let Omni fetch the real details from your API with [Pre-Call Data Fetch](/voice-agent/pre-call-data-fetch).
 </Warning>
 
 Limits, applied per conversation: up to 50 variables, 64 characters per name, 2000 characters per value, and 8 KB in total. Anything past a limit is dropped and the conversation still starts. The names `provider` and `runtime_configuration` are reserved and ignored.
@@ -164,7 +164,7 @@ Configure **Button Text**, **Button Color**, and **Call to Action Text** from th
 Place a container `<div>` where you want the widget to render. The widget auto-attaches to it.
 
 ```html
-<!-- Paste the dograh embed snippet from the dashboard somewhere on the page -->
+<!-- Paste the omni embed snippet from the dashboard somewhere on the page -->
 <div id="dograh-inline-container"></div>
 ```
 
@@ -301,7 +301,7 @@ In chat mode `start()` aliases `startChat()` and `end()` is a no-op teardown (ch
   });
 
   window.DograhWidget.onError((err) => {
-    console.error('Dograh error:', err.message);
+    console.error('Omni error:', err.message);
   });
 
   btn.addEventListener('click', () => {
@@ -337,7 +337,7 @@ export function TalkButton() {
 
   useEffect(() => {
     window.DograhWidget.onStatusChange((s) => setStatus(s));
-    window.DograhWidget.onError((err) => console.error('Dograh error:', err.message));
+    window.DograhWidget.onError((err) => console.error('Omni error:', err.message));
   }, []);
 
   const isLive = status === 'connected' || status === 'connecting';

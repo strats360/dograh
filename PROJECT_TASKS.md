@@ -18,8 +18,9 @@ Legend: `[ ]` todo · `[~]` in progress (PR open) · `[x]` done (merged)
   - `ui/src/**` display strings (~353), `ui/src/app/layout.tsx` title/metadata
 - [ ] **1.2 — Logo & brand assets + references**
   - `ui/public/dograh-logo*.png`, `ui/public/dograh-mark.png`, `docs/images/*dograh*`, all `<img>`/import references
-- [ ] **1.3 — Docs & READMEs prose**
-  - `README.md`, `README.ja-JP.md`, `README.zh-CN.md`, `docs/**/*.mdx`, `SECURITY.md`
+- [~] **1.3 — Docs & READMEs prose**
+  - Rebranded prose across 84 files (3 READMEs, SECURITY/CONTRIBUTING/AGENTS, `docs/**`). ~600 `Dograh`→`Omni` prose tokens.
+  - Preserved (per exclusions, owned by later sub-tasks): domains/URLs (1.9), package names (1.7), `DOGRAH_*` env vars (1.6), docker/helm ids (1.5), provider value & config keys (1.8), DB fields (1.8), cookies (1.9), widget API (1.9), repo/file paths. CHANGELOG & manifest untouched.
 - [ ] **1.4 — Internal code class/module names (`Dograh*`)**
   - `api/services/configuration/registry.py` service classes, `DograhEmbeddingService`, `api/tests/test_dograh_*`
 - [ ] **1.5 — Infra: docker-compose, helm, workflows, nginx, scripts** *(risky: deployed release names/labels)*
