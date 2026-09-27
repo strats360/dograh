@@ -41,10 +41,10 @@ from pipecat.services.deepgram.flux.stt import (
 )
 from pipecat.services.deepgram.stt import DeepgramSTTService, DeepgramSTTSettings
 from pipecat.services.deepgram.tts import DeepgramTTSService, DeepgramTTSSettings
-from pipecat.services.dograh.flux.stt import DograhFluxSTTService
-from pipecat.services.dograh.llm import DograhLLMService
-from pipecat.services.dograh.stt import DograhSTTService, DograhSTTSettings
-from pipecat.services.dograh.tts import DograhTTSService, DograhTTSSettings
+from pipecat.services.omni.flux.stt import OmniFluxSTTService
+from pipecat.services.omni.llm import OmniLLMService
+from pipecat.services.omni.stt import OmniSTTService, OmniSTTSettings
+from pipecat.services.omni.tts import OmniTTSService, OmniTTSSettings
 from pipecat.services.elevenlabs.stt import (
     CommitStrategy,
     ElevenLabsRealtimeSTTService,
@@ -363,7 +363,7 @@ def create_stt_service(
             language_hint = DEEPGRAM_FLUX_LANGUAGE_HINTS.get(language)
             if language_hint:
                 settings_kwargs["language_hints"] = [language_hint]
-            return DograhFluxSTTService(
+            return OmniFluxSTTService(
                 base_url=base_url,
                 api_key=user_config.stt.api_key,
                 correlation_id=correlation_id,
@@ -372,11 +372,11 @@ def create_stt_service(
                 sample_rate=audio_config.transport_in_sample_rate,
             )
 
-        return DograhSTTService(
+        return OmniSTTService(
             base_url=base_url,
             api_key=user_config.stt.api_key,
             correlation_id=correlation_id,
-            settings=DograhSTTSettings(
+            settings=OmniSTTSettings(
                 model=user_config.stt.model,
                 language=language,
             ),
@@ -688,11 +688,11 @@ def create_tts_service(
     elif user_config.tts.provider == ServiceProviders.DOGRAH.value:
         # Convert HTTP URL to WebSocket URL for TTS
         base_url = MPS_API_URL.replace("http://", "ws://").replace("https://", "wss://")
-        return DograhTTSService(
+        return OmniTTSService(
             base_url=base_url,
             api_key=user_config.tts.api_key,
             correlation_id=correlation_id,
-            settings=DograhTTSSettings(
+            settings=OmniTTSSettings(
                 model=user_config.tts.model,
                 voice=user_config.tts.voice,
                 speed=user_config.tts.speed,
@@ -1020,7 +1020,7 @@ def create_llm_service_from_provider(
             settings=AzureLLMSettings(model=model, temperature=0.1),
         )
     elif provider == ServiceProviders.DOGRAH.value:
-        return DograhLLMService(
+        return OmniLLMService(
             base_url=f"{MPS_API_URL}/api/v1/llm",
             api_key=api_key,
             correlation_id=correlation_id,

@@ -49,9 +49,9 @@ def test_create_dograh_multi_uses_flux_service_without_language_hint():
 
     with (
         patch(
-            "api.services.pipecat.service_factory.DograhFluxSTTService"
+            "api.services.pipecat.service_factory.OmniFluxSTTService"
         ) as flux_service,
-        patch("api.services.pipecat.service_factory.DograhSTTService") as stt_service,
+        patch("api.services.pipecat.service_factory.OmniSTTService") as stt_service,
     ):
         create_stt_service(user_config, _audio_config(), correlation_id="corr-123")
 
@@ -68,9 +68,9 @@ def test_create_dograh_supported_language_uses_flux_service_with_hint():
 
     with (
         patch(
-            "api.services.pipecat.service_factory.DograhFluxSTTService"
+            "api.services.pipecat.service_factory.OmniFluxSTTService"
         ) as flux_service,
-        patch("api.services.pipecat.service_factory.DograhSTTService") as stt_service,
+        patch("api.services.pipecat.service_factory.OmniSTTService") as stt_service,
     ):
         create_stt_service(user_config, _audio_config(), keyterms=["Dograh"])
 
@@ -87,9 +87,9 @@ def test_create_dograh_unsupported_language_falls_back_to_standard_stt_service()
 
     with (
         patch(
-            "api.services.pipecat.service_factory.DograhFluxSTTService"
+            "api.services.pipecat.service_factory.OmniFluxSTTService"
         ) as flux_service,
-        patch("api.services.pipecat.service_factory.DograhSTTService") as stt_service,
+        patch("api.services.pipecat.service_factory.OmniSTTService") as stt_service,
     ):
         create_stt_service(
             user_config,
