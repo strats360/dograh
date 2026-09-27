@@ -1,5 +1,5 @@
 {
-  "name": "@dograh/sdk",
+  "name": "@omni/sdk",
   "version": "0.1.8",
   "description": "Typed builder for Dograh voice-AI workflows",
   "license": "BSD-2-Clause",
@@ -11,7 +11,7 @@
     "directory": "sdk/typescript"
   },
   "keywords": [
-    "dograh",
+    "omni",
     "voice-ai",
     "workflow",
     "sdk",

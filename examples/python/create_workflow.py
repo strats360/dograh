@@ -4,8 +4,8 @@ Requirements:
     pip install -r requirements.txt
 
 Environment variables (loaded from `.env` in this directory):
-    DOGRAH_API_ENDPOINT  - Dograh API base URL (e.g. http://localhost:8000)
-    DOGRAH_API_TOKEN     - API token sent as X-API-Key
+    OMNI_API_ENDPOINT  - Dograh API base URL (e.g. http://localhost:8000)
+    OMNI_API_TOKEN     - API token sent as X-API-Key
 
 Run:
     python create_workflow.py
@@ -19,8 +19,8 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from dograh_sdk import DograhClient
-from dograh_sdk._generated_models import CreateWorkflowRequest
+from omni_sdk import OmniClient
+from omni_sdk._generated_models import CreateWorkflowRequest
 
 load_dotenv(Path(__file__).parent / ".env")
 
@@ -69,14 +69,14 @@ WORKFLOW_DEFINITION: dict = {
 
 
 def main() -> int:
-    api_endpoint = os.environ.get("DOGRAH_API_ENDPOINT", "http://localhost:8000")
-    api_token = os.environ.get("DOGRAH_API_TOKEN")
+    api_endpoint = os.environ.get("OMNI_API_ENDPOINT", "http://localhost:8000")
+    api_token = os.environ.get("OMNI_API_TOKEN")
 
     if not api_token:
-        print("DOGRAH_API_TOKEN is required", file=sys.stderr)
+        print("OMNI_API_TOKEN is required", file=sys.stderr)
         return 1
 
-    with DograhClient(base_url=api_endpoint, api_key=api_token) as client:
+    with OmniClient(base_url=api_endpoint, api_key=api_token) as client:
         workflow = client.create_workflow(
             body=CreateWorkflowRequest(
                 name=WORKFLOW_NAME,
