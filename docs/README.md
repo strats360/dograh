@@ -1,4 +1,4 @@
-# Dograh AI Documentation
+# Omni AI Documentation
 
 ### Local Setup
 

@@ -1,16 +1,16 @@
-# Contributing to Dograh AI
+# Contributing to Omni AI
 
-Welcome to Dograh AI! ❤️ Thank you for your interest in contributing to the future of open-source voice AI. ❤️
+Welcome to Omni AI! ❤️ Thank you for your interest in contributing to the future of open-source voice AI. ❤️
 
-Dograh AI is a comprehensive voice agent platform that helps developers build, test, and deploy conversational AI systems with minimal setup. This guide will help you understand the project structure, set up your development environment, and start contributing effectively.
+Omni AI is a comprehensive voice agent platform that helps developers build, test, and deploy conversational AI systems with minimal setup. This guide will help you understand the project structure, set up your development environment, and start contributing effectively.
 
-👉 Join our community → [Dograh Community Slack](https://join.slack.com/t/dograh-community/shared_invite/zt-3zjb5vwvl-j7hRz3_F1SOn5cH~jm5f5g)
+👉 Join our community → [Omni Community Slack](https://join.slack.com/t/dograh-community/shared_invite/zt-3zjb5vwvl-j7hRz3_F1SOn5cH~jm5f5g)
 
 ## 🏗️ Project Overview
 
-### What is Dograh AI?
+### What is Omni AI?
 
-Dograh AI is a full-stack platform for building voice agents with a drag-and-drop workflow builder. It combines multiple technologies to provide a seamless experience from development to production deployment.
+Omni AI is a full-stack platform for building voice agents with a drag-and-drop workflow builder. It combines multiple technologies to provide a seamless experience from development to production deployment.
 
 ## 🙌 How You Can Contribute
 
@@ -57,8 +57,8 @@ Telephony changes require thorough review and testing. Every telephony pull requ
 
 The video must demonstrate all of the following:
 
-- All provider-side setup required before configuring the integration in Dograh, including where to find the account credentials and any other required values
-- Configuring the provider integration in Dograh
+- All provider-side setup required before configuring the integration in Omni, including where to find the account credentials and any other required values
+- Configuring the provider integration in Omni
 - Outbound calls
 - Inbound calls
 - Number provisioning and any required KYC flow
@@ -89,13 +89,13 @@ Link the existing or newly created issue in the bug-fix pull request. Use a [Git
 
 ## 💬 Community & Support
 
-Our Slack community is the heart of Dograh AI development:
+Our Slack community is the heart of Omni AI development:
 
 - **Get Help**: Setup assistance and debugging support
 - **Collaborate**: Discuss features and architectural decisions
 - **Connect**: Meet other contributors and maintainers
 - **Stay Updated**: Learn about contribution opportunities and releases
 
-👉 **Join us**: [Dograh Community Slack](https://join.slack.com/t/dograh-community/shared_invite/zt-3zjb5vwvl-j7hRz3_F1SOn5cH~jm5f5g)
+👉 **Join us**: [Omni Community Slack](https://join.slack.com/t/dograh-community/shared_invite/zt-3zjb5vwvl-j7hRz3_F1SOn5cH~jm5f5g)
 
 Thank you for helping us keep voice AI open and accessible! 🎉

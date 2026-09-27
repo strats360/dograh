@@ -1,4 +1,4 @@
-# Dograh AI
+# Omni AI
 
 **The open-source, self-hostable alternative to Vapi & Retell** — build production voice agents with a visual workflow builder, test them in minutes, and let AI coding assistants help design and edit them through MCP.
 
@@ -24,7 +24,7 @@
 </p>
 
 <p align="center">
-  <img src="docs/images/hero.gif" alt="Dograh in action — build a workflow, launch a voice agent, talk to it" width="80%">
+  <img src="docs/images/hero.gif" alt="Omni in action — build a workflow, launch a voice agent, talk to it" width="80%">
 </p>
 
 - **100% open source**, self-hostable — no vendor lock-in, unlike Vapi or Retell
@@ -39,10 +39,10 @@
 
 <div align="center">
   <a href="https://www.youtube.com/watch?v=xD9JEvfCH9k">
-    <img src="https://img.youtube.com/vi/xD9JEvfCH9k/maxresdefault.jpg" alt="Dograh featured by Better Stack" width="80%" style="border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+    <img src="https://img.youtube.com/vi/xD9JEvfCH9k/maxresdefault.jpg" alt="Omni featured by Better Stack" width="80%" style="border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
   </a>
   <br>
-  <em>Featured by <strong>Better Stack</strong> — a hands-on look at Dograh</em>
+  <em>Featured by <strong>Better Stack</strong> — a hands-on look at Omni</em>
 </div>
 
 <details>
@@ -50,22 +50,22 @@
 
 <div align="center">
   <a href="https://youtu.be/9gPneyf9M9w">
-    <img src="docs/images/video_thumbnail_1.png" alt="Watch Dograh AI Demo Video" width="70%" style="border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+    <img src="docs/images/video_thumbnail_1.png" alt="Watch Omni AI Demo Video" width="70%" style="border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
   </a>
 </div>
 
 </details>
 
-## ⚖️ Dograh vs Vapi vs Retell
+## ⚖️ Omni vs Vapi vs Retell
 
 An honest comparison on the axes that matter most to teams evaluating voice AI platforms.
 
-|  | **Dograh** | **Vapi** | **Retell** |
+|  | **Omni** | **Vapi** | **Retell** |
 |---|---|---|---|
 | **License** | BSD 2-Clause (open source) | Proprietary | Proprietary |
 | **Self-hostable** | ✅ Yes — one Docker command | ❌ SaaS only | ❌ SaaS only |
 | **Pricing** | Free (self-host) · usage-based (cloud) | Per-minute SaaS | Per-minute SaaS |
-| **Bring your own LLM / STT / TTS** | ✅ Any provider, or use Dograh's stack | Configurable within their integrations | Configurable within their integrations |
+| **Bring your own LLM / STT / TTS** | ✅ Any provider, or use Omni's stack | Configurable within their integrations | Configurable within their integrations |
 | **Source-level customization** | ✅ Every line is yours to modify | ❌ Closed source | ❌ Closed source |
 | **Data residency** | Your infra, your rules | Their cloud | Their cloud |
 | **Vendor lock-in** | None | Full | Full |
@@ -73,7 +73,7 @@ An honest comparison on the axes that matter most to teams evaluating voice AI p
 
 ## 🚀 Get Started
 
-##### Download and setup Dograh on your Local Machine
+##### Download and setup Omni on your Local Machine
 
 > **Note**
 > We collect anonymous usage data to improve the product. You can opt out by setting `ENABLE_TELEMETRY=false` before running the startup script.
@@ -86,7 +86,7 @@ curl -o docker-compose.yaml https://raw.githubusercontent.com/dograh-hq/dograh/m
 ```
 
 > **⚡ Prefer an AI agent to set it up for you?**
-> If you use **Claude Code** or **Codex**, install the official [Dograh setup skill](https://github.com/dograh-hq/dograh-plugins) and let your agent handle installation, configuration, and troubleshooting — it detects your OS, picks the right deploy path, runs Dograh's own setup scripts, and verifies the result.
+> If you use **Claude Code** or **Codex**, install the official [Omni setup skill](https://github.com/dograh-hq/dograh-plugins) and let your agent handle installation, configuration, and troubleshooting — it detects your OS, picks the right deploy path, runs Omni's own setup scripts, and verifies the result.
 >
 > ```text
 > # In Claude Code
@@ -94,7 +94,7 @@ curl -o docker-compose.yaml https://raw.githubusercontent.com/dograh-hq/dograh/m
 > /plugin install dograh@dograh
 > ```
 >
-> Then start a new session and ask it to _"set up Dograh"_ (or run `/dograh-setup`). Codex is supported too — see the [plugin repo](https://github.com/dograh-hq/dograh-plugins#install).
+> Then start a new session and ask it to _"set up Omni"_ (or run `/dograh-setup`). Codex is supported too — see the [plugin repo](https://github.com/dograh-hq/dograh-plugins#install).
 
 > **Note**
 > First startup may take 2-3 minutes to download all images. Once running, open http://localhost:3010 to create your first AI voice assistant!
@@ -105,15 +105,15 @@ curl -o docker-compose.yaml https://raw.githubusercontent.com/dograh-hq/dograh/m
 1. Open [http://localhost:3010](http://localhost:3010) in your browser.
 2. Pick **Inbound** or **Outbound**, name your bot (e.g. _Lead Qualification_), and describe the use case in 5–10 words (e.g. _Screen insurance form submissions for purchase intent_).
 3. Click **Test Agent**.
-4. Use **Test Audio** to talk to your agent in the browser, or **Test Chat** to iterate faster in text. In Test Chat, you can edit or replay user turns and Dograh will regenerate the agent's replies and node transitions from that point.
+4. Use **Test Audio** to talk to your agent in the browser, or **Test Chat** to iterate faster in text. In Test Chat, you can edit or replay user turns and Omni will regenerate the agent's replies and node transitions from that point.
 
-> 🔑 **No API keys needed.** Dograh ships with auto-generated keys and its own LLM / TTS / STT stack. Connect your own keys for LLM, TTS, STT, or Telephony (e.g. Twilio, Vonage, Telnyx) anytime.
+> 🔑 **No API keys needed.** Omni ships with auto-generated keys and its own LLM / TTS / STT stack. Connect your own keys for LLM, TTS, STT, or Telephony (e.g. Twilio, Vonage, Telnyx) anytime.
 
 ## Build Agents with MCP
 
-Dograh ships with an MCP server, so coding agents can work directly inside your Dograh workspace.
+Omni ships with an MCP server, so coding agents can work directly inside your Omni workspace.
 
-Connect Codex, Claude Code, Cursor, or any MCP client to inspect existing agents, search Dograh docs, fetch node schemas, create new workflows, and save draft edits from natural language.
+Connect Codex, Claude Code, Cursor, or any MCP client to inspect existing agents, search Omni docs, fetch node schemas, create new workflows, and save draft edits from natural language.
 
 When asking your coding agent to build a voice agent, share a short script for
 the use case instead of only a one-line prompt. Include the agent persona, call
@@ -169,15 +169,15 @@ You can go to [https://docs.dograh.com](https://docs.dograh.com/) for our docume
 
 > 👋 **Coming from the Better Stack video?** Drop your use case in our [pinned GitHub Discussion](https://github.com/orgs/dograh-hq/discussions/291) — we read every reply and the founders personally onboard early adopters.
 
-- **Slack** — the cornerstone of Dograh AI contributions. Connect with maintainers, discuss features before coding, get help with setup, and stay current on contribution sprints.
+- **Slack** — the cornerstone of Omni AI contributions. Connect with maintainers, discuss features before coding, get help with setup, and stay current on contribution sprints.
 - **GitHub Discussions** — share use cases, ask questions, swap workflow recipes.
 - **GitHub Issues** — report bugs or request features.
 
-👉 Join us → [Dograh Community Slack](https://join.slack.com/t/dograh-community/shared_invite/zt-3zjb5vwvl-j7hRz3_F1SOn5cH~jm5f5g)
+👉 Join us → [Omni Community Slack](https://join.slack.com/t/dograh-community/shared_invite/zt-3zjb5vwvl-j7hRz3_F1SOn5cH~jm5f5g)
 
 ## 🙌 Contributing
 
-We love contributions! Dograh AI is 100% open source and we intend to keep it that way.
+We love contributions! Omni AI is 100% open source and we intend to keep it that way.
 
 ### Getting Started
 
@@ -189,15 +189,15 @@ We love contributions! Dograh AI is 100% open source and we intend to keep it th
 
 ## ⭐ Star History
 
-<img src="docs/images/star-history.png" alt="Dograh star history" width="80%">
+<img src="docs/images/star-history.png" alt="Omni star history" width="80%">
 
 ## 📄 License
 
-Dograh AI is licensed under the [BSD 2-Clause License](LICENSE)- the same license as projects that were used in building Dograh AI, ensuring compatibility and freedom to use, modify, and distribute.
+Omni AI is licensed under the [BSD 2-Clause License](LICENSE)- the same license as projects that were used in building Omni AI, ensuring compatibility and freedom to use, modify, and distribute.
 
 ## 🏢 About
 
-Built with ❤️ by **Dograh** (Zansat Technologies Private Limited)
+Built with ❤️ by **Omni** (Zansat Technologies Private Limited)
 Founded by YC alumni and exit founders committed to keeping voice AI open and accessible to everyone.
 
 <br><br><br>
