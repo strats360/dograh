@@ -1,0 +1,728 @@
+From 829c55e68b495c189fb6fe15c13593a40d9bf423 Mon Sep 17 00:00:00 2001
+From: Kiro Agent <244629292+kiro-agent@users.noreply.github.com>
+Date: Sun, 27 Sep 2026 19:31:27 +0000
+Subject: [PATCH] refactor(rebrand): rename dograh services module to omni
+
+Renames src/pipecat/services/dograh -> omni, classes Dograh*->Omni*
+(LLM/STT/TTS/FluxSTT + settings), OMNI_TTFS_P constant, internal import
+paths, and prose. Leaves services.dograh.com base URLs pending domain move.
+---
+ src/pipecat/services/dograh/__init__.py       | 25 --------
+ src/pipecat/services/omni/__init__.py         | 25 ++++++++
+ .../{dograh => omni}/flux/__init__.py         |  0
+ .../services/{dograh => omni}/flux/stt.py     | 36 +++++------
+ src/pipecat/services/{dograh => omni}/llm.py  | 28 ++++-----
+ .../services/{dograh => omni}/mps_billing.py  |  2 +-
+ src/pipecat/services/{dograh => omni}/stt.py  | 44 ++++++-------
+ src/pipecat/services/{dograh => omni}/tts.py  | 62 +++++++++----------
+ 8 files changed, 111 insertions(+), 111 deletions(-)
+ delete mode 100644 src/pipecat/services/dograh/__init__.py
+ create mode 100644 src/pipecat/services/omni/__init__.py
+ rename src/pipecat/services/{dograh => omni}/flux/__init__.py (100%)
+ rename src/pipecat/services/{dograh => omni}/flux/stt.py (91%)
+ rename src/pipecat/services/{dograh => omni}/llm.py (85%)
+ rename src/pipecat/services/{dograh => omni}/mps_billing.py (89%)
+ rename src/pipecat/services/{dograh => omni}/stt.py (92%)
+ rename src/pipecat/services/{dograh => omni}/tts.py (91%)
+
+diff --git a/src/pipecat/services/dograh/__init__.py b/src/pipecat/services/dograh/__init__.py
+deleted file mode 100644
+index 5c4598209..000000000
+--- a/src/pipecat/services/dograh/__init__.py
++++ /dev/null
+@@ -1,25 +0,0 @@
+-#
+-# Copyright (c) 2024–2025, Daily
+-#
+-# SPDX-License-Identifier: BSD 2-Clause License
+-#
+-
+-"""Dograh unified AI services for Pipecat.
+-
+-This module provides unified access to various AI services through a single
+-Dograh API endpoint, abstracting away provider-specific implementations.
+-"""
+-
+-from pipecat.services.dograh.flux.stt import DograhFluxSTTService
+-from pipecat.services.dograh.llm import DograhLLMService
+-from pipecat.services.dograh.stt import DograhSTTService, DograhSTTSettings
+-from pipecat.services.dograh.tts import DograhTTSService, DograhTTSSettings
+-
+-__all__ = [
+-    "DograhFluxSTTService",
+-    "DograhLLMService",
+-    "DograhSTTService",
+-    "DograhSTTSettings",
+-    "DograhTTSService",
+-    "DograhTTSSettings",
+-]
+diff --git a/src/pipecat/services/omni/__init__.py b/src/pipecat/services/omni/__init__.py
+new file mode 100644
+index 000000000..b655bc4f4
+--- /dev/null
++++ b/src/pipecat/services/omni/__init__.py
+@@ -0,0 +1,25 @@
++#
++# Copyright (c) 2024–2025, Daily
++#
++# SPDX-License-Identifier: BSD 2-Clause License
++#
++
++"""Omni unified AI services for Pipecat.
++
++This module provides unified access to various AI services through a single
++Omni API endpoint, abstracting away provider-specific implementations.
++"""
++
++from pipecat.services.omni.flux.stt import OmniFluxSTTService
++from pipecat.services.omni.llm import OmniLLMService
++from pipecat.services.omni.stt import OmniSTTService, OmniSTTSettings
++from pipecat.services.omni.tts import OmniTTSService, OmniTTSSettings
++
++__all__ = [
++    "OmniFluxSTTService",
++    "OmniLLMService",
++    "OmniSTTService",
++    "OmniSTTSettings",
++    "OmniTTSService",
++    "OmniTTSSettings",
++]
+diff --git a/src/pipecat/services/dograh/flux/__init__.py b/src/pipecat/services/omni/flux/__init__.py
+similarity index 100%
+rename from src/pipecat/services/dograh/flux/__init__.py
+rename to src/pipecat/services/omni/flux/__init__.py
+diff --git a/src/pipecat/services/dograh/flux/stt.py b/src/pipecat/services/omni/flux/stt.py
+similarity index 91%
+rename from src/pipecat/services/dograh/flux/stt.py
+rename to src/pipecat/services/omni/flux/stt.py
+index aabf62ca4..4c0f03f58 100644
+--- a/src/pipecat/services/dograh/flux/stt.py
++++ b/src/pipecat/services/omni/flux/stt.py
+@@ -4,7 +4,7 @@
+ # SPDX-License-Identifier: BSD 2-Clause License
+ #
+ 
+-"""Dograh Flux STT service: Deepgram Flux turn detection proxied via the Dograh MPS."""
++"""Omni Flux STT service: Deepgram Flux turn detection proxied via the Omni MPS."""
+ 
+ import json
+ import time
+@@ -24,7 +24,7 @@ from pipecat.services.deepgram.flux.base import (
+     DeepgramFluxSTTBase,
+     DeepgramFluxSTTSettings,
+ )
+-from pipecat.services.dograh.mps_billing import (
++from pipecat.services.omni.mps_billing import (
+     MPS_BILLING_VERSION_KEY,
+     MPS_BILLING_VERSION_V2,
+     get_correlation_id,
+@@ -32,18 +32,18 @@ from pipecat.services.dograh.mps_billing import (
+ from pipecat.services.websocket_service import WebsocketService
+ 
+ __all__ = [
+-    "DograhFluxSTTService",
++    "OmniFluxSTTService",
+     "DeepgramFluxSTTSettings",
+ ]
+ 
+ 
+-class DograhFluxSTTService(DeepgramFluxSTTBase, WebsocketService):
+-    """Dograh Flux speech-to-text service.
++class OmniFluxSTTService(DeepgramFluxSTTBase, WebsocketService):
++    """Omni Flux speech-to-text service.
+ 
+-    Provides Deepgram Flux turn detection through the Dograh managed model
++    Provides Deepgram Flux turn detection through the Omni managed model
+     services (MPS) proxy. All Flux protocol handling (turn detection, metrics,
+     settings) is inherited from ``DeepgramFluxSTTBase``; this class only
+-    implements the transport: a WebSocket to the Dograh MPS Flux endpoint with
++    implements the transport: a WebSocket to the Omni MPS Flux endpoint with
+     Bearer auth and MPS billing/correlation carried in the query string. The
+     proxy forwards native Flux messages, so the inherited message handling
+     applies unchanged.
+@@ -81,11 +81,11 @@ class DograhFluxSTTService(DeepgramFluxSTTBase, WebsocketService):
+         settings: Settings | None = None,
+         **kwargs,
+     ):
+-        """Initialize the Dograh Flux STT service.
++        """Initialize the Omni Flux STT service.
+ 
+         Args:
+-            api_key: Dograh API key for authentication (sent as a Bearer token).
+-            base_url: WebSocket base URL for the Dograh MPS. Defaults to
++            api_key: Omni API key for authentication (sent as a Bearer token).
++            base_url: WebSocket base URL for the Omni MPS. Defaults to
+                 "wss://services.dograh.com".
+             ws_path: WebSocket path for the Flux STT endpoint. Defaults to
+                 "/api/v1/stt/flux".
+@@ -158,7 +158,7 @@ class DograhFluxSTTService(DeepgramFluxSTTBase, WebsocketService):
+             start_metadata=self._start_metadata,
+         )
+ 
+-    def _build_dograh_query_string(self) -> str:
++    def _build_omni_query_string(self) -> str:
+         """Append MPS billing/correlation params to the inherited Flux query."""
+         query = self._build_query_string()
+         correlation_id = self._get_correlation_id()
+@@ -202,7 +202,7 @@ class DograhFluxSTTService(DeepgramFluxSTTBase, WebsocketService):
+     async def _connect(self):
+         """Build the MPS Flux URL and open the WebSocket connection."""
+         await super()._connect()
+-        self._websocket_url = f"{self._base_url}{self._ws_path}?{self._build_dograh_query_string()}"
++        self._websocket_url = f"{self._base_url}{self._ws_path}?{self._build_omni_query_string()}"
+         await self._connect_websocket()
+ 
+     async def _disconnect(self):
+@@ -217,7 +217,7 @@ class DograhFluxSTTService(DeepgramFluxSTTBase, WebsocketService):
+             self._websocket = None
+ 
+     async def _connect_websocket(self):
+-        """Establish the WebSocket connection to the Dograh MPS Flux endpoint."""
++        """Establish the WebSocket connection to the Omni MPS Flux endpoint."""
+         try:
+             if self._websocket and self._websocket.state is State.OPEN:
+                 return
+@@ -241,7 +241,7 @@ class DograhFluxSTTService(DeepgramFluxSTTBase, WebsocketService):
+ 
+             logger.debug("WebSocket connected, waiting for server confirmation...")
+             await self._connection_established_event.wait()
+-            logger.debug("Connected to Dograh Flux WebSocket")
++            logger.debug("Connected to Omni Flux WebSocket")
+             await self._call_event_handler("on_connected")
+         except Exception as e:
+             await self.push_error(error_msg=f"Unknown error occurred: {e}", exception=e)
+@@ -264,7 +264,7 @@ class DograhFluxSTTService(DeepgramFluxSTTBase, WebsocketService):
+ 
+             if self._websocket:
+                 await self._send_close_stream()
+-                logger.debug("Disconnecting from Dograh Flux WebSocket")
++                logger.debug("Disconnecting from Omni Flux WebSocket")
+                 await self._websocket.close()
+         except Exception as e:
+             await self.push_error(error_msg=f"Error closing websocket: {e}", exception=e)
+@@ -277,7 +277,7 @@ class DograhFluxSTTService(DeepgramFluxSTTBase, WebsocketService):
+     # ------------------------------------------------------------------
+ 
+     async def run_stt(self, audio: bytes) -> AsyncGenerator[Frame | None, None]:
+-        """Send audio data to the Dograh MPS for Flux transcription.
++        """Send audio data to the Omni MPS for Flux transcription.
+ 
+         Args:
+             audio: Raw audio bytes in linear16 format.
+@@ -307,7 +307,7 @@ class DograhFluxSTTService(DeepgramFluxSTTBase, WebsocketService):
+         """Receive messages from the proxy and dispatch them.
+ 
+         Native Flux messages (capitalized ``type`` values) are handled by the
+-        base. The Dograh proxy injects its own control messages with a
++        base. The Omni proxy injects its own control messages with a
+         lowercase ``"error"`` type for billing/quota conditions, handled here.
+         """
+         async for message in self._get_websocket():
+@@ -333,7 +333,7 @@ class DograhFluxSTTService(DeepgramFluxSTTBase, WebsocketService):
+                 raise
+ 
+     async def _handle_proxy_error(self, data: dict):
+-        """Handle a Dograh proxy control error (e.g. quota exceeded)."""
++        """Handle a Omni proxy control error (e.g. quota exceeded)."""
+         error_msg = data.get("error") or data.get("message", "Unknown error")
+         is_quota_error = "quota" in error_msg.lower()
+ 
+diff --git a/src/pipecat/services/dograh/llm.py b/src/pipecat/services/omni/llm.py
+similarity index 85%
+rename from src/pipecat/services/dograh/llm.py
+rename to src/pipecat/services/omni/llm.py
+index e46e2942d..42c20005a 100644
+--- a/src/pipecat/services/dograh/llm.py
++++ b/src/pipecat/services/omni/llm.py
+@@ -4,7 +4,7 @@
+ # SPDX-License-Identifier: BSD 2-Clause License
+ #
+ 
+-"""Dograh LLM Service implementation using OpenAI-compatible interface."""
++"""Omni LLM Service implementation using OpenAI-compatible interface."""
+ 
+ from loguru import logger
+ from openai import AsyncStream
+@@ -13,7 +13,7 @@ from openai.types.chat import ChatCompletionChunk
+ from pipecat.frames.frames import ErrorFrame, Frame, StartFrame
+ from pipecat.processors.aggregators.llm_context import LLMContext
+ from pipecat.processors.frame_processor import FrameDirection
+-from pipecat.services.dograh.mps_billing import (
++from pipecat.services.omni.mps_billing import (
+     MPS_BILLING_VERSION_KEY,
+     MPS_BILLING_VERSION_V2,
+     get_correlation_id,
+@@ -24,15 +24,15 @@ from pipecat.services.openai.llm import OpenAILLMService
+ METADATA_USAGE_CONTEXT_KEY = "usage_context"
+ 
+ 
+-class DograhLLMService(OpenAILLMService):
+-    """A unified LLM service using Dograh's API with OpenAI-compatible interface.
++class OmniLLMService(OpenAILLMService):
++    """A unified LLM service using Omni's API with OpenAI-compatible interface.
+ 
+-    This service extends OpenAILLMService to connect to Dograh's unified API endpoint
++    This service extends OpenAILLMService to connect to Omni's unified API endpoint
+     while maintaining full compatibility with OpenAI's interface. The actual LLM provider
+-    (OpenAI, Groq, Google, etc.) is determined by the Dograh backend configuration.
++    (OpenAI, Groq, Google, etc.) is determined by the Omni backend configuration.
+     """
+ 
+-    # The Dograh unified endpoint routes to multiple providers, not all of which
++    # The Omni unified endpoint routes to multiple providers, not all of which
+     # accept the "developer" message role. Disable it so the adapter converts
+     # "developer" messages to "user" messages before sending.
+     supports_developer_role = False
+@@ -47,10 +47,10 @@ class DograhLLMService(OpenAILLMService):
+         settings: OpenAILLMSettings | None = None,
+         **kwargs,
+     ):
+-        """Initialize Dograh LLM service.
++        """Initialize Omni LLM service.
+ 
+         Args:
+-            api_key: The Dograh API key for authentication.
++            api_key: The Omni API key for authentication.
+             base_url: The base URL for Dograh API. Defaults to "https://services.dograh.com/api/v1/llm".
+             correlation_id: Optional server-generated correlation ID for MPS billing v2.
+             usage_context: Optional tag describing what this LLM instance is used
+@@ -68,7 +68,7 @@ class DograhLLMService(OpenAILLMService):
+         self._start_metadata = None
+ 
+     def create_client(self, api_key=None, base_url=None, **kwargs):
+-        """Create OpenAI-compatible client for Dograh API endpoint.
++        """Create OpenAI-compatible client for Omni API endpoint.
+ 
+         Args:
+             api_key: API key for authentication. If None, uses instance api_key.
+@@ -76,9 +76,9 @@ class DograhLLMService(OpenAILLMService):
+             **kwargs: Additional arguments passed to the client constructor.
+ 
+         Returns:
+-            An OpenAI-compatible client configured for Dograh's API.
++            An OpenAI-compatible client configured for Omni's API.
+         """
+-        logger.debug(f"Creating Dograh LLM client with base URL: {base_url or self._base_url}")
++        logger.debug(f"Creating Omni LLM client with base URL: {base_url or self._base_url}")
+         return super().create_client(api_key, base_url, **kwargs)
+ 
+     async def process_frame(self, frame: Frame, direction: FrameDirection) -> None:
+@@ -127,7 +127,7 @@ class DograhLLMService(OpenAILLMService):
+     async def get_chat_completions(
+         self, context: LLMContext
+     ) -> AsyncStream[ChatCompletionChunk] | None:
+-        """Override to handle Dograh-specific quota errors.
++        """Override to handle Omni-specific quota errors.
+ 
+         Args:
+             context: Context to use for the chat completion.
+@@ -145,7 +145,7 @@ class DograhLLMService(OpenAILLMService):
+             error_str = str(e)
+             if "quota_exceeded" in error_str and "403" in error_str:
+                 # Extract the meaningful error message
+-                error_msg = "Dograh Service quota exceeded"
++                error_msg = "Omni Service quota exceeded"
+ 
+                 # Push a fatal error frame to trigger pipeline shutdown
+                 await self.push_frame(
+diff --git a/src/pipecat/services/dograh/mps_billing.py b/src/pipecat/services/omni/mps_billing.py
+similarity index 89%
+rename from src/pipecat/services/dograh/mps_billing.py
+rename to src/pipecat/services/omni/mps_billing.py
+index ab1025766..ebac8a179 100644
+--- a/src/pipecat/services/dograh/mps_billing.py
++++ b/src/pipecat/services/omni/mps_billing.py
+@@ -1,4 +1,4 @@
+-"""Helpers for attaching MPS billing metadata to Dograh service requests."""
++"""Helpers for attaching MPS billing metadata to Omni service requests."""
+ 
+ from collections.abc import Mapping
+ from typing import Any
+diff --git a/src/pipecat/services/dograh/stt.py b/src/pipecat/services/omni/stt.py
+similarity index 92%
+rename from src/pipecat/services/dograh/stt.py
+rename to src/pipecat/services/omni/stt.py
+index f4858b6d3..41c84b5be 100644
+--- a/src/pipecat/services/dograh/stt.py
++++ b/src/pipecat/services/omni/stt.py
+@@ -4,7 +4,7 @@
+ # SPDX-License-Identifier: BSD 2-Clause License
+ #
+ 
+-"""Dograh STT Service implementation using WebSocket streaming."""
++"""Omni STT Service implementation using WebSocket streaming."""
+ 
+ import asyncio
+ import json
+@@ -28,13 +28,13 @@ from pipecat.frames.frames import (
+     VADUserStoppedSpeakingFrame,
+ )
+ from pipecat.processors.frame_processor import FrameDirection
+-from pipecat.services.dograh.mps_billing import (
++from pipecat.services.omni.mps_billing import (
+     MPS_BILLING_VERSION_KEY,
+     MPS_BILLING_VERSION_V2,
+     get_correlation_id,
+ )
+ from pipecat.services.settings import STTSettings
+-from pipecat.services.stt_latency import DOGRAH_TTFS_P99
++from pipecat.services.stt_latency import OMNI_TTFS_P99
+ from pipecat.services.stt_service import STTService
+ from pipecat.services.websocket_service import WebsocketService
+ from pipecat.transcriptions.language import Language
+@@ -52,20 +52,20 @@ except ModuleNotFoundError as e:
+ 
+ 
+ @dataclass
+-class DograhSTTSettings(STTSettings):
+-    """Settings for DograhSTTService."""
++class OmniSTTSettings(STTSettings):
++    """Settings for OmniSTTService."""
+ 
+     pass
+ 
+ 
+-class DograhSTTService(STTService, WebsocketService):
+-    """Dograh speech-to-text service using WebSocket streaming.
++class OmniSTTService(STTService, WebsocketService):
++    """Omni speech-to-text service using WebSocket streaming.
+ 
+-    This service provides real-time speech recognition using Dograh's unified WebSocket API.
++    This service provides real-time speech recognition using Omni's unified WebSocket API.
+     Supports streaming transcription, interim results, and VAD events.
+     """
+ 
+-    Settings = DograhSTTSettings
++    Settings = OmniSTTSettings
+ 
+     def __init__(
+         self,
+@@ -78,14 +78,14 @@ class DograhSTTService(STTService, WebsocketService):
+         interim_results: bool = True,
+         vad_events: bool = False,
+         keyterms: list[str] | None = None,
+-        settings: DograhSTTSettings | None = None,
+-        ttfs_p99_latency: float | None = DOGRAH_TTFS_P99,
++        settings: OmniSTTSettings | None = None,
++        ttfs_p99_latency: float | None = OMNI_TTFS_P99,
+         **kwargs,
+     ):
+         """Initialize STT service.
+ 
+         Args:
+-            api_key: The Dograh API key for authentication.
++            api_key: The Omni API key for authentication.
+             base_url: WebSocket base URL for Dograh API. Defaults to "wss://services.dograh.com".
+             ws_path: WebSocket path for STT streaming. Defaults to "/api/v1/stt/stream".
+             correlation_id: Optional server-generated correlation ID for MPS billing v2.
+@@ -98,7 +98,7 @@ class DograhSTTService(STTService, WebsocketService):
+                 Override for your deployment. See https://github.com/pipecat-ai/stt-benchmark
+             **kwargs: Additional arguments passed to the parent services.
+         """
+-        default_settings = DograhSTTSettings(model="default", language="multi")
++        default_settings = OmniSTTSettings(model="default", language="multi")
+         if settings is not None:
+             default_settings.apply_update(settings)
+ 
+@@ -141,7 +141,7 @@ class DograhSTTService(STTService, WebsocketService):
+         return self._vad_events
+ 
+     def service_metadata_frame(self) -> STTMetadataFrame:
+-        """Recommend external turn strategies when Dograh emits VAD events."""
++        """Recommend external turn strategies when Omni emits VAD events."""
+         frame = super().service_metadata_frame()
+         if self._vad_events:
+             frame.user_turn_strategies = ExternalUserTurnStrategies()
+@@ -255,7 +255,7 @@ class DograhSTTService(STTService, WebsocketService):
+         await self.push_frame(frame, FrameDirection.UPSTREAM)
+ 
+     async def _receive_messages(self):
+-        """Handle incoming WebSocket messages from Dograh."""
++        """Handle incoming WebSocket messages from Omni."""
+         # If websocket was closed (e.g., due to quota exceeded), just return
+         if not self._websocket:
+             return
+@@ -324,7 +324,7 @@ class DograhSTTService(STTService, WebsocketService):
+             except asyncio.CancelledError:
+                 raise
+             except json.JSONDecodeError as e:
+-                logger.error(f"Failed to decode message from Dograh: {e}")
++                logger.error(f"Failed to decode message from Omni: {e}")
+                 raise
+             except Exception as e:
+                 logger.error(f"Error processing STT message: {e}")
+@@ -354,14 +354,14 @@ class DograhSTTService(STTService, WebsocketService):
+         pass
+ 
+     async def _send_finalize(self):
+-        """Send finalize message to Dograh server to flush the current transcript."""
++        """Send finalize message to Omni server to flush the current transcript."""
+         if self._websocket and self._websocket.state == State.OPEN:
+             finalize_msg = json.dumps({"type": "finalize"})
+             await self._websocket.send(finalize_msg)
+             logger.trace("Sent finalize to STT server")
+ 
+     async def _handle_transcription(self, msg: dict):
+-        """Process transcription message from Dograh."""
++        """Process transcription message from Omni."""
+         transcript = msg.get("text", "")
+         is_final = msg.get("is_final", False)
+         from_finalize = msg.get("from_finalize", False)
+@@ -454,13 +454,13 @@ class DograhSTTService(STTService, WebsocketService):
+         self._session_start_time = None
+ 
+     async def cleanup(self):
+-        """Release Dograh STT resources on every pipeline teardown path."""
++        """Release Omni STT resources on every pipeline teardown path."""
+         await super().cleanup()
+         await self._disconnect()
+         self._session_start_time = None
+ 
+     async def process_frame(self, frame: Frame, direction: FrameDirection):
+-        """Process frames with Dograh-specific handling.
++        """Process frames with Omni-specific handling.
+ 
+         Args:
+             frame: The frame to process.
+@@ -469,14 +469,14 @@ class DograhSTTService(STTService, WebsocketService):
+         await super().process_frame(frame, direction)
+ 
+         if isinstance(frame, VADUserStoppedSpeakingFrame):
+-            # Send finalize to flush the current transcript from Deepgram (via Dograh server)
++            # Send finalize to flush the current transcript from Deepgram (via Omni server)
+             if self._websocket and self._websocket.state == State.OPEN:
+                 self.request_finalize()
+                 await self._send_finalize()
+                 logger.trace(f"Triggered finalize event on: {frame.name=}, {direction=}")
+ 
+     async def run_stt(self, audio: bytes) -> AsyncGenerator[Frame | None, None]:
+-        """Send audio data to Dograh for transcription.
++        """Send audio data to Omni for transcription.
+ 
+         Args:
+             audio: Raw audio bytes to transcribe.
+diff --git a/src/pipecat/services/dograh/tts.py b/src/pipecat/services/omni/tts.py
+similarity index 91%
+rename from src/pipecat/services/dograh/tts.py
+rename to src/pipecat/services/omni/tts.py
+index 97c3cadc0..64cc26f13 100644
+--- a/src/pipecat/services/dograh/tts.py
++++ b/src/pipecat/services/omni/tts.py
+@@ -4,7 +4,7 @@
+ # SPDX-License-Identifier: BSD 2-Clause License
+ #
+ 
+-"""Dograh TTS Service implementation using WebSocket streaming."""
++"""Omni TTS Service implementation using WebSocket streaming."""
+ 
+ import asyncio
+ import base64
+@@ -24,7 +24,7 @@ from pipecat.frames.frames import (
+     TTSStoppedFrame,
+ )
+ from pipecat.processors.frame_processor import FrameDirection
+-from pipecat.services.dograh.mps_billing import (
++from pipecat.services.omni.mps_billing import (
+     MPS_BILLING_VERSION_KEY,
+     MPS_BILLING_VERSION_V2,
+     get_correlation_id,
+@@ -39,7 +39,7 @@ try:
+     from websockets.protocol import State
+ except ModuleNotFoundError as e:
+     logger.error(f"Exception: {e}")
+-    logger.error("In order to use Dograh TTS, you need to `pip install websockets`.")
++    logger.error("In order to use Omni TTS, you need to `pip install websockets`.")
+     raise Exception(f"Missing module: {e}")
+ 
+ 
+@@ -49,7 +49,7 @@ def calculate_word_times(
+     """Calculate word timestamps from alignment information.
+ 
+     Args:
+-        alignment_info: Word alignment data from Dograh API.
++        alignment_info: Word alignment data from Omni API.
+         cumulative_time: Base time offset for this chunk.
+ 
+     Returns:
+@@ -68,8 +68,8 @@ def calculate_word_times(
+ 
+ 
+ @dataclass
+-class DograhTTSSettings(TTSSettings):
+-    """Settings for DograhTTSService.
++class OmniTTSSettings(TTSSettings):
++    """Settings for OmniTTSService.
+ 
+     Parameters:
+         speed: Speech speed control (0.5 to 2.0).
+@@ -82,14 +82,14 @@ class DograhTTSSettings(TTSSettings):
+     volume: float | None | _NotGiven = field(default_factory=lambda: NOT_GIVEN)
+ 
+ 
+-class DograhTTSService(WebsocketTTSService):
+-    """Dograh WebSocket-based TTS service with word timestamps.
++class OmniTTSService(WebsocketTTSService):
++    """Omni WebSocket-based TTS service with word timestamps.
+ 
+-    This service provides real-time text-to-speech using Dograh's unified WebSocket API.
++    This service provides real-time text-to-speech using Omni's unified WebSocket API.
+     Supports word-level timestamps and audio streaming.
+     """
+ 
+-    Settings = DograhTTSSettings
++    Settings = OmniTTSSettings
+ 
+     def __init__(
+         self,
+@@ -99,14 +99,14 @@ class DograhTTSService(WebsocketTTSService):
+         ws_path: str = "/api/v1/tts/stream",
+         correlation_id: str | None = None,
+         sample_rate: int | None = None,
+-        settings: DograhTTSSettings | None = None,
++        settings: OmniTTSSettings | None = None,
+         text_aggregation_mode: TextAggregationMode | None = None,
+         **kwargs,
+     ):
+-        """Initialize Dograh TTS service.
++        """Initialize Omni TTS service.
+ 
+         Args:
+-            api_key: The Dograh API key for authentication.
++            api_key: The Omni API key for authentication.
+             base_url: WebSocket base URL for Dograh API. Defaults to "wss://services.dograh.com".
+             ws_path: WebSocket path for TTS streaming. Defaults to "/api/v1/tts/stream".
+             correlation_id: Optional server-generated correlation ID for MPS billing v2.
+@@ -115,7 +115,7 @@ class DograhTTSService(WebsocketTTSService):
+             text_aggregation_mode: How to aggregate incoming text before synthesis.
+             **kwargs: Additional arguments passed to the parent service.
+         """
+-        default_settings = DograhTTSSettings(
++        default_settings = OmniTTSSettings(
+             model="default",
+             voice="default",
+             language="en",
+@@ -165,7 +165,7 @@ class DograhTTSService(WebsocketTTSService):
+         """Check if this service can generate processing metrics.
+ 
+         Returns:
+-            True, as Dograh service supports metrics generation.
++            True, as Omni service supports metrics generation.
+         """
+         return True
+ 
+@@ -189,7 +189,7 @@ class DograhTTSService(WebsocketTTSService):
+         )
+ 
+     async def _connect_websocket(self):
+-        """Establish the websocket connection to Dograh TTS service."""
++        """Establish the websocket connection to Omni TTS service."""
+         try:
+             if self._websocket and self._websocket.state is State.OPEN:
+                 return
+@@ -200,7 +200,7 @@ class DograhTTSService(WebsocketTTSService):
+                 "Content-Type": "application/json",
+             }
+ 
+-            logger.debug(f"Connecting to Dograh TTS WebSocket at {url}")
++            logger.debug(f"Connecting to Omni TTS WebSocket at {url}")
+             ws = await self._websocket_connect(url, additional_headers=headers)
+             self._websocket = ws
+             self._remote_initialized_context_ids.clear()
+@@ -224,24 +224,24 @@ class DograhTTSService(WebsocketTTSService):
+ 
+             await ws.send(json.dumps(config_msg))
+ 
+-            logger.info(f"Connected to Dograh TTS service")
++            logger.info(f"Connected to Omni TTS service")
+ 
+         except Exception as e:
+             self._websocket = None
+-            logger.error(f"Failed to connect to Dograh TTS service: {e}")
++            logger.error(f"Failed to connect to Omni TTS service: {e}")
+             raise
+ 
+     async def _disconnect_websocket(self):
+-        """Close the websocket connection to Dograh TTS service."""
++        """Close the websocket connection to Omni TTS service."""
+         try:
+             await self.stop_all_metrics()
+ 
+             if self._websocket:
+-                logger.debug("Disconnecting from Dograh TTS service")
++                logger.debug("Disconnecting from Omni TTS service")
+                 await self._websocket.close()
+-                logger.debug("Disconnected from Dograh TTS service")
++                logger.debug("Disconnected from Omni TTS service")
+         except Exception as e:
+-            logger.error(f"Error disconnecting from Dograh TTS service: {e}")
++            logger.error(f"Error disconnecting from Omni TTS service: {e}")
+         finally:
+             self._remote_initialized_context_ids.clear()
+             self._finished_context_ids.clear()
+@@ -250,7 +250,7 @@ class DograhTTSService(WebsocketTTSService):
+             self._websocket = None
+ 
+     async def _connect(self):
+-        """Connect to the Dograh TTS service with full initialization."""
++        """Connect to the Omni TTS service with full initialization."""
+         await super()._connect()
+ 
+         await self._connect_websocket()
+@@ -262,7 +262,7 @@ class DograhTTSService(WebsocketTTSService):
+             self._keepalive_task = self.create_task(self._keepalive_task_handler())
+ 
+     async def _disconnect(self):
+-        """Disconnect from Dograh TTS service and clean up tasks."""
++        """Disconnect from Omni TTS service and clean up tasks."""
+         await super()._disconnect()
+ 
+         if self._receive_task:
+@@ -289,7 +289,7 @@ class DograhTTSService(WebsocketTTSService):
+         raise Exception("Websocket not connected")
+ 
+     async def _receive_messages(self):
+-        """Handle incoming WebSocket messages from Dograh."""
++        """Handle incoming WebSocket messages from Omni."""
+         async for message in self._get_websocket():
+             try:
+                 msg = json.loads(message)
+@@ -380,15 +380,15 @@ class DograhTTSService(WebsocketTTSService):
+                         # Raise CancelledError to cleanly cancel the receive task
+                         raise asyncio.CancelledError("Quota exceeded - cancelling receive task")
+                     else:
+-                        raise Exception(f"Dograh TTS error: {error_msg}")
++                        raise Exception(f"Omni TTS error: {error_msg}")
+ 
+             except asyncio.CancelledError:
+                 raise
+             except json.JSONDecodeError as e:
+-                logger.error(f"Failed to decode message from Dograh: {e}")
++                logger.error(f"Failed to decode message from Omni: {e}")
+                 raise
+             except Exception as e:
+-                logger.error(f"Error processing Dograh TTS message: {e}")
++                logger.error(f"Error processing Omni TTS message: {e}")
+                 raise
+ 
+     async def _keepalive_task_handler(self):
+@@ -426,7 +426,7 @@ class DograhTTSService(WebsocketTTSService):
+ 
+     @traced_tts
+     async def run_tts(self, text: str, context_id: str) -> AsyncGenerator[Frame | None, None]:
+-        """Generate speech from text using Dograh's streaming WebSocket API.
++        """Generate speech from text using Omni's streaming WebSocket API.
+ 
+         Args:
+             text: The text to synthesize into speech.
+@@ -547,7 +547,7 @@ class DograhTTSService(WebsocketTTSService):
+         await self._finalize_context_state()
+ 
+     async def on_audio_context_interrupted(self, context_id: str):
+-        """Cancel the Dograh context when the bot is interrupted."""
++        """Cancel the Omni context when the bot is interrupted."""
+         await self._cancel_context(context_id)
+         await super().on_audio_context_interrupted(context_id)
+ 
+-- 
+2.50.1
+

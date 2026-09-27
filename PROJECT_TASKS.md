@@ -20,9 +20,8 @@ Legend: `[ ]` todo · `[~]` in progress (PR open) · `[x]` done (merged)
   - `ui/public/dograh-logo*.png`, `ui/public/dograh-mark.png`, `docs/images/*dograh*`, all `<img>`/import references
 - [ ] **1.3 — Docs & READMEs prose**
   - `README.md`, `README.ja-JP.md`, `README.zh-CN.md`, `docs/**/*.mdx`, `SECURITY.md`
-- [~] **1.4 — Internal code class/module names (`Dograh*`)**
-  - Renamed ~18 `api/`-owned classes + config models (`OmniEmbeddingService`, `OmniLLMService`/`OmniTTSService`/`OmniSTTService` in `registry.py`, realtime wrappers, adapters, `OmniManagedAIModelConfiguration`, `OmniFailure`) and internal `OMNI_*` constants. Renamed log tag `DOGRAH_FAILURE`→`OMNI_FAILURE`. Moved 4 `test_dograh_*`→`test_omni_*`. `compileall` (py3.13) passes.
-  - Left pipecat-fork runtime classes (`pipecat.services.dograh.*`) as `Dograh*` — now handled in **1.10** (fork rebrand). Deferred: provider enum (1.8), env vars/headers (1.6), SDK types (1.7), DB fields (1.8).
+- [ ] **1.4 — Internal code class/module names (`Dograh*`)**
+  - `api/services/configuration/registry.py` service classes, `DograhEmbeddingService`, `api/tests/test_dograh_*`
 - [ ] **1.5 — Infra: docker-compose, helm, workflows, nginx, scripts** *(risky: deployed release names/labels)*
   - `docker-compose.yaml` services, `deploy/helm/dograh/`, `.github/workflows/docker-image.yml`, `nginx/`, `scripts/`
 - [ ] **1.6 — Env var prefixes + headers** *(BREAKING: existing env files & callers)*
@@ -50,8 +49,9 @@ Legend: `[ ]` todo · `[~]` in progress (PR open) · `[x]` done (merged)
 
 ---
 
-- [ ] **1.10 — Fork & rebrand `dograh-hq/pipecat` submodule** *(added per request)*
-  - Fork/clone the pipecat submodule, rename `pipecat.services.dograh.*` runtime classes (`DograhLLMService`, `DograhTTSService`, `DograhSTTService`, `DograhFluxSTTService`, settings) to `Omni*`, update `.gitmodules` URL + api import sites.
+- [~] **1.10 — Fork & rebrand `dograh-hq/pipecat` submodule** *(added per request)*
+  - Rebranded the pipecat service module in a local clone: `services/dograh`→`services/omni`, `Dograh*`→`Omni*` classes, `OMNI_TTFS_P`, import paths, prose (kept `services.dograh.com` URLs for domain move). Committed locally; delivered as a patch in `pipecat-rebrand/` because forking/pushing `dograh-hq/pipecat` is blocked (HTTP 403 — creds scoped to `strats360/dograh`).
+  - dograh-side: updated `.gitmodules` URL → `strats360/pipecat`, api `service_factory.py` + tests to `pipecat.services.omni`/`Omni*`. **Blocker:** api won't import until the fork is published & submodule re-pinned (see `pipecat-rebrand/README.md`).
 
 ---
 

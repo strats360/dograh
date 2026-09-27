@@ -15,7 +15,7 @@ def test_create_dograh_llm_service_passes_variable_extraction_usage_context():
     )
 
     with patch(
-        "api.services.pipecat.service_factory.DograhLLMService"
+        "api.services.pipecat.service_factory.OmniLLMService"
     ) as dograh_llm_service:
         create_llm_service(
             user_config,
