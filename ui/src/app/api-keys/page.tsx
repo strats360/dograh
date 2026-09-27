@@ -473,7 +473,7 @@ export default function APIKeysPage() {
                                         </Button>
                                     ) : (
                                         <span className="text">
-                                            To generate additional service keys, <a href="https://app.dograh.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Sign up on app.dograh.com</a>
+                                            To generate additional service keys, <a href="https://app.omni.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Sign up on app.omni.com</a>
                                         </span>
                                     )}
                                 </div>

@@ -13,7 +13,7 @@ max-port=49200
 external-ip=__DOGRAH_TURN_EXTERNAL_IP__
 
 # Realm
-realm=dograh.com
+realm=omni.com
 
 # Authentication (TURN REST API with time-limited credentials)
 use-auth-secret

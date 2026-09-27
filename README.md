@@ -3,8 +3,8 @@
 **The open-source, self-hostable alternative to Vapi & Retell** — build production voice agents with a visual workflow builder, test them in minutes, and let AI coding assistants help design and edit them through MCP.
 
 <p align="center">
-  <a href="https://app.dograh.com">
-    <img src="https://img.shields.io/badge/▶_Try_the_Cloud-app.dograh.com-2563eb?style=for-the-badge" alt="Try the Cloud">
+  <a href="https://app.omni.com">
+    <img src="https://img.shields.io/badge/▶_Try_the_Cloud-app.omni.com-2563eb?style=for-the-badge" alt="Try the Cloud">
   </a>
   &nbsp;
   <a href="#-get-started">
@@ -17,7 +17,7 @@
 </p>
 
 <p align="center">
-  <a href="https://docs.dograh.com">📖 Docs</a> &nbsp;·&nbsp;
+  <a href="https://docs.omni.com">📖 Docs</a> &nbsp;·&nbsp;
   <a href="LICENSE">📜 BSD 2-Clause</a> &nbsp;·&nbsp;
   <a href="README.zh-CN.md">🌐 中文</a> &nbsp;·&nbsp;
   <a href="README.ja-JP.md">🌐 日本語</a>
@@ -79,7 +79,7 @@ An honest comparison on the axes that matter most to teams evaluating voice AI p
 > We collect anonymous usage data to improve the product. You can opt out by setting `ENABLE_TELEMETRY=false` before running the startup script.
 
 > **Note**
-> If you wish to run the platform on a remote server instead, checkout our [Documentation](https://docs.dograh.com/deployment/docker#option-2:-remote-server-deployment)
+> If you wish to run the platform on a remote server instead, checkout our [Documentation](https://docs.omni.com/deployment/docker#option-2:-remote-server-deployment)
 
 ```bash
 curl -o docker-compose.yaml https://raw.githubusercontent.com/dograh-hq/dograh/main/docker-compose.yaml && curl -o start_docker.sh https://raw.githubusercontent.com/dograh-hq/dograh/main/scripts/start_docker.sh && chmod +x start_docker.sh && ./start_docker.sh
@@ -120,7 +120,7 @@ the use case instead of only a one-line prompt. Include the agent persona, call
 flow, rules, objection handling, success criteria, and a sample conversation if
 you have one.
 
-See the [MCP guide](https://docs.dograh.com/integrations/mcp) to connect your assistant.
+See the [MCP guide](https://docs.omni.com/integrations/mcp) to connect your assistant.
 
 ## Features
 
@@ -146,19 +146,19 @@ See the [MCP guide](https://docs.dograh.com/integrations/mcp) to connect your as
 
 ### Local Development
 
-Refer [Local Setup](https://docs.dograh.com/contribution/setup)
+Refer [Local Setup](https://docs.omni.com/contribution/setup)
 
 ### Self-Hosted Deployment
 
-For detailed deployment instructions including remote server setup with HTTPS, see our [Docker Deployment Guide](https://docs.dograh.com/deployment/docker#option-2-remote-server-deployment).
+For detailed deployment instructions including remote server setup with HTTPS, see our [Docker Deployment Guide](https://docs.omni.com/deployment/docker#option-2-remote-server-deployment).
 
 ### Cloud Version
 
-Visit [https://www.dograh.com](https://www.dograh.com/) for our managed cloud offering.
+Visit [https://www.omni.com](https://www.omni.com/) for our managed cloud offering.
 
 ## 📚Documentation
 
-You can go to [https://docs.dograh.com](https://docs.dograh.com/) for our documentation.
+You can go to [https://docs.omni.com](https://docs.omni.com/) for our documentation.
 
 ## 📦 SDKs
 
@@ -204,6 +204,6 @@ Founded by YC alumni and exit founders committed to keeping voice AI open and ac
 
   <p align="center">
     <a href="https://github.com/dograh-hq/dograh">⭐ Star us on GitHub</a> |
-    <a href="https://app.dograh.com">☁️ Try Cloud Version</a> |
+    <a href="https://app.omni.com">☁️ Try Cloud Version</a> |
     <a href="https://join.slack.com/t/dograh-community/shared_invite/zt-3zjb5vwvl-j7hRz3_F1SOn5cH~jm5f5g">💬 Join Slack</a>
   </p>

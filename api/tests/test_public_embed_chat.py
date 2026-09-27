@@ -36,7 +36,7 @@ from api.services.workflow.text_chat_session_service import (
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://app.dograh.com"],
+    allow_origins=["https://app.omni.com"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
