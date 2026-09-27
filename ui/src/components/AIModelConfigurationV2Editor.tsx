@@ -486,7 +486,7 @@ export function AIModelConfigurationV2Editor({
                         Dograh provides a managed transcriber, LLM, and voice pipeline. Select a voice and language while Dograh manages the underlying model providers.{" "}
                         We offer custom pricing and a 15-second pulse with a monthly commitment.{" "}
                         <a
-                            href="https://www.dograh.com/contact"
+                            href="https://www.omni.com/contact"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="underline"

@@ -42,7 +42,7 @@ _MPS_UNREACHABLE_ERRORS = (
 
 OSS_QUOTA_EXCEEDED_MESSAGE = (
     "You have exhausted your trial credits. "
-    "Please sign up on app.dograh.com to create a "
+    "Please sign up on app.omni.com to create a "
     "new service key and set up in your model configurations."
 )
 
@@ -54,7 +54,7 @@ HOSTED_QUOTA_EXCEEDED_MESSAGE = (
 
 OSS_HOSTED_KEY_QUOTA_EXCEEDED_MESSAGE = (
     "The organization linked to this Dograh service key has insufficient credits. "
-    "Please add credits at app.dograh.com or change providers in Models configurations."
+    "Please add credits at app.omni.com or change providers in Models configurations."
 )
 
 SERVICE_TOKEN_ORG_MISMATCH_MESSAGE = (

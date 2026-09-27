@@ -192,7 +192,7 @@ async def test_authorize_workflow_run_v2_insufficient_credits_prompts_billing(
     assert result.has_quota is False
     assert result.error_code == "insufficient_credits"
     assert "/billing" in result.error_message
-    assert "founders@dograh.com" not in result.error_message
+    assert "founders@omni.com" not in result.error_message
     authorize.assert_awaited_once()
     check_usage.assert_not_awaited()
 
@@ -227,7 +227,7 @@ async def test_authorize_workflow_run_oss_exhausted_key_blocks_run(
 
     assert result.has_quota is False
     assert result.error_code == "quota_exceeded"
-    assert "app.dograh.com" in result.error_message
+    assert "app.omni.com" in result.error_message
     assert "/billing" not in result.error_message
     check_usage.assert_awaited_once_with(api_key)
 
@@ -561,7 +561,7 @@ async def test_oss_run_authorization_falls_back_for_older_mps(monkeypatch):
     api_key = "mps_sk_12345678"
     request = httpx.Request(
         "POST",
-        "https://services.dograh.com/api/v1/service-keys/run-authorization/self",
+        "https://services.omni.com/api/v1/service-keys/run-authorization/self",
     )
     response = httpx.Response(404, request=request)
     combined_authorize = AsyncMock(
@@ -999,7 +999,7 @@ async def test_authorize_workflow_run_opens_when_hosted_mps_is_unreachable(
 ):
     request = httpx.Request(
         "POST",
-        "https://services.dograh.com/api/v1/billing/accounts/42/run-authorization",
+        "https://services.omni.com/api/v1/billing/accounts/42/run-authorization",
     )
 
     monkeypatch.setattr(quota_service, "DEPLOYMENT_MODE", "saas")
@@ -1031,7 +1031,7 @@ async def test_authorize_workflow_run_fails_closed_on_hosted_mps_http_error(
 ):
     request = httpx.Request(
         "POST",
-        "https://services.dograh.com/api/v1/billing/accounts/42/run-authorization",
+        "https://services.omni.com/api/v1/billing/accounts/42/run-authorization",
     )
     response = httpx.Response(503, request=request)
 
@@ -1065,7 +1065,7 @@ async def test_authorize_workflow_run_fails_closed_on_hosted_mps_http_error(
 
 @pytest.mark.asyncio
 async def test_authorize_workflow_run_fails_closed_on_invalid_mps_url(monkeypatch):
-    request = httpx.Request("POST", "ftp://services.dograh.com/run-authorization")
+    request = httpx.Request("POST", "ftp://services.omni.com/run-authorization")
 
     monkeypatch.setattr(quota_service, "DEPLOYMENT_MODE", "saas")
     _patch_workflow_context(monkeypatch)
@@ -1100,7 +1100,7 @@ async def test_authorize_workflow_run_opens_when_oss_quota_mps_is_unreachable(
 ):
     request = httpx.Request(
         "GET",
-        "https://services.dograh.com/api/v1/service-keys/usage/self",
+        "https://services.omni.com/api/v1/service-keys/usage/self",
     )
 
     monkeypatch.setattr(quota_service, "DEPLOYMENT_MODE", "oss")
@@ -1130,7 +1130,7 @@ async def test_authorize_workflow_run_fails_closed_on_oss_quota_mps_http_error(
 ):
     request = httpx.Request(
         "GET",
-        "https://services.dograh.com/api/v1/service-keys/usage/self",
+        "https://services.omni.com/api/v1/service-keys/usage/self",
     )
     response = httpx.Response(503, request=request)
 
@@ -1168,7 +1168,7 @@ async def test_authorize_workflow_run_denies_when_oss_run_authorization_is_unrea
 ):
     request = httpx.Request(
         "POST",
-        "https://services.dograh.com/api/v1/service-keys/run-authorization/self",
+        "https://services.omni.com/api/v1/service-keys/run-authorization/self",
     )
 
     monkeypatch.setattr(quota_service, "DEPLOYMENT_MODE", "oss")

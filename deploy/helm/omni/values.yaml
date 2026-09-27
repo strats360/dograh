@@ -93,7 +93,7 @@ exposure:
     annotations: {}
     # Hostname for the API/UI. UI is served at / and API under /api/.
     # MinIO browser-visible path uses the same hostname under /voice-audio/.
-    host: ""  # e.g. dograh.example.com
+    host: ""  # e.g. omni.example.com
     tls:
       enabled: false
       secretName: ""  # operator-managed TLS secret in the release namespace
@@ -426,7 +426,7 @@ coturn:
   # upgrade --set coturn.externalIp=<IP>).
   externalIp: ""
 
-  realm: dograh.com
+  realm: omni.com
 
   # Coturn uses TURN REST API authentication (HMAC-SHA1). The secret here
   # MUST match secrets.turnSecret — the chart will warn at install time if

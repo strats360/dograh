@@ -7,7 +7,7 @@
 # REQUIRED OVERRIDES:
 #   --set secrets.ossJwtSecret=$(openssl rand -hex 32)
 #   --set secrets.turnSecret=$(openssl rand -hex 32)
-#   --set exposure.gatewayApi.listenerHostname=dograh.example.com
+#   --set exposure.gatewayApi.listenerHostname=omni.example.com
 #   --set storage.s3.bucket=...
 #
 # After install, retrieve coturn NLB address and re-upgrade:

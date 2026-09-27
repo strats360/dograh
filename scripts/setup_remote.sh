@@ -82,7 +82,7 @@ if [[ "$CERT_MODE" == "auto" ]]; then
         CERT_MODE="self-signed"
         omni_warn "$SERVER_IP is a private IP — using a self-signed certificate."
         omni_warn "For a trusted cert, deploy on a public IP or a domain you own"
-        omni_warn "(https://docs.dograh.com/deployment/custom-domain)."
+        omni_warn "(https://docs.omni.com/deployment/custom-domain)."
     elif ! command -v docker >/dev/null 2>&1; then
         CERT_MODE="self-signed"
         omni_warn "Docker not found — skipping automatic Let's Encrypt setup and using a self-signed cert."
@@ -240,7 +240,7 @@ if [[ "${OMNI_FORCE_OVERWRITE:-}" != "1" && "${OMNI_SKIP_DOWNLOAD:-}" != "1" ]];
         echo -e "${RED}  - replace the validated remote deployment bundle${NC}"
         echo ""
         echo -e "${BLUE}To upgrade an existing install, follow:${NC}"
-        echo -e "  ${BLUE}https://docs.dograh.com/deployment/update${NC}"
+        echo -e "  ${BLUE}https://docs.omni.com/deployment/update${NC}"
         echo ""
         echo -e "${BLUE}To wipe state and reinstall from scratch, re-run with:${NC}"
         echo -e "  ${BLUE}OMNI_FORCE_OVERWRITE=1 <same command>${NC}"

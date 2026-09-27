@@ -7,7 +7,7 @@
 #   --set secrets.ossJwtSecret=$(openssl rand -hex 32)
 #   --set secrets.turnSecret=$(openssl rand -hex 32)
 #   --set exposure.gatewayApi.gatewayClassName=<your-class>
-#   --set exposure.gatewayApi.listenerHostname=dograh.example.com
+#   --set exposure.gatewayApi.listenerHostname=omni.example.com
 
 database:
   mode: external

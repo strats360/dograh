@@ -77,7 +77,7 @@ async def test_outbound_instrumentation_classifies_and_reraises(monkeypatch):
     with pytest.raises(ProviderError) as raised:
         await provider.initiate_call(
             "+14155550123",
-            "https://dograh.test/webhook",
+            "https://omni.test/webhook",
             workflow_run_id=88,
             organization_id=42,
         )

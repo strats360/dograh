@@ -215,7 +215,7 @@ def test_validate_service_key_classifies_mps_connection_failure(monkeypatch):
     emitted = []
     request_error = httpx.ConnectError(
         "All connection attempts failed",
-        request=httpx.Request("GET", "https://services.dograh.com"),
+        request=httpx.Request("GET", "https://services.omni.com"),
     )
 
     class FakeClient:

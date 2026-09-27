@@ -38,7 +38,7 @@ Omni AI supports inbound calling across all supported telephony providers. When 
 Omni exposes a **single inbound webhook URL** for the whole org:
 
 ```
-https://api.dograh.com/api/v1/telephony/inbound/run
+https://api.omni.com/api/v1/telephony/inbound/run
 ```
 
 When a call arrives:
@@ -81,11 +81,11 @@ This is what tells Omni which agent to run when a call comes in for that number.
 Each provider needs its inbound webhook (Twilio Voice URL / Vonage Answer URL / etc.) set to the global Omni endpoint:
 
 ```
-https://api.dograh.com/api/v1/telephony/inbound/run
+https://api.omni.com/api/v1/telephony/inbound/run
 ```
 
 <Note>
-If you're self-hosting Omni, replace `api.dograh.com` with your own domain.
+If you're self-hosting Omni, replace `api.omni.com` with your own domain.
 </Note>
 
 The exact place to set this varies by provider — follow the provider-specific instructions:

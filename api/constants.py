@@ -76,7 +76,7 @@ ENABLE_SIGNUP = os.getenv("ENABLE_SIGNUP", "true").lower() == "true"
 STACK_AUTH_PROJECT_ID = os.getenv("STACK_AUTH_PROJECT_ID")
 STACK_PUBLISHABLE_CLIENT_KEY = os.getenv("STACK_PUBLISHABLE_CLIENT_KEY")
 OMNI_MPS_SECRET_KEY = os.getenv("OMNI_MPS_SECRET_KEY", None)
-MPS_API_URL = os.getenv("MPS_API_URL", "https://services.dograh.com")
+MPS_API_URL = os.getenv("MPS_API_URL", "https://services.omni.com")
 OMNI_DEVOPS_SECRET = os.getenv("OMNI_DEVOPS_SECRET") or None
 
 # Storage Configuration
