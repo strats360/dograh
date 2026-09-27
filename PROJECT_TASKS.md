@@ -14,11 +14,11 @@ Legend: `[ ]` todo · `[~]` in progress (PR open) · `[x]` done (merged)
 > Scope: FULL rename, including breaking/risky items. Risky items are called out so
 > deployment/release owners can coordinate published-package and DB migration rollout.
 
-- [~] **1.1 — UI display text + app title/metadata**
-  - `ui/src/**` visible display strings + `ui/src/app/layout.tsx` title/metadata → renamed to "Omni".
-  - Widget-API identifiers (`DograhWidget`, `data-dograh-context`, `.dograh-chat-*`) deferred to 1.9; provider-config keys (`defaults.dograh`, `DograhFormState`) deferred to 1.8; external URLs deferred to 1.9.
-- [ ] **1.2 — Logo & brand assets + references**
-  - `ui/public/dograh-logo*.png`, `ui/public/dograh-mark.png`, `docs/images/*dograh*`, all `<img>`/import references
+- [ ] **1.1 — UI display text + app title/metadata**
+  - `ui/src/**` display strings (~353), `ui/src/app/layout.tsx` title/metadata
+- [~] **1.2 — Logo & brand assets + references**
+  - Renamed `ui/public/{omni-logo,omni-logo-inverse,omni-mark}.png` and `docs/images/{model-configuration-omni,tuner-omni-workflow-builder}.png` (via `git mv`).
+  - Updated `BrandLogo.tsx` `src`/`alt`, docs `.mdx` image refs, and `middleware.ts` comment.
 - [ ] **1.3 — Docs & READMEs prose**
   - `README.md`, `README.ja-JP.md`, `README.zh-CN.md`, `docs/**/*.mdx`, `SECURITY.md`
 - [ ] **1.4 — Internal code class/module names (`Dograh*`)**
