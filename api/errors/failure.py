@@ -137,7 +137,7 @@ def _resolve_error_owner(
 
 
 @dataclass
-class DograhFailure:
+class OmniFailure:
     source: ErrorSource
     type: ErrorType
     code: str
@@ -267,7 +267,7 @@ def classify_http_response(
     provider_error_code: object | None = None,
     error_owner: ErrorOwner | str | None = None,
     context: dict[str, Any] | None = None,
-) -> DograhFailure:
+) -> OmniFailure:
     """Classify an HTTP response at a known external boundary."""
 
     normalized_provider = _normalize_provider(provider)
@@ -296,7 +296,7 @@ def classify_http_response(
         detail = str(status_code)
 
     code_provider = normalized_provider or source.value.replace("_", "-")
-    return DograhFailure(
+    return OmniFailure(
         source=source,
         type=error_type,
         code=f"{code_provider}-{detail}",
@@ -317,7 +317,7 @@ def classify_message(
     provider: object | None = None,
     error_owner: ErrorOwner | str | None = None,
     context: dict[str, Any] | None = None,
-) -> DograhFailure:
+) -> OmniFailure:
     """Classify string-only errors using protocol signals or the safe default."""
 
     internal_message = redact_failure_message(message)
@@ -343,7 +343,7 @@ def classify_message(
         error_type, detail, retryable = ErrorType.SYSTEM_ERROR, "unknown", None
 
     code_provider = normalized_provider or source.value.replace("_", "-")
-    return DograhFailure(
+    return OmniFailure(
         source=source,
         type=error_type,
         code=f"{code_provider}-{detail}",
@@ -363,7 +363,7 @@ def classify_exception(
     provider: object | None = None,
     error_owner: ErrorOwner | str | None = None,
     context: dict[str, Any] | None = None,
-) -> DograhFailure:
+) -> OmniFailure:
     """Pure exception classifier used by all execution seams."""
 
     failure_context = dict(context or {})
@@ -418,7 +418,7 @@ def classify_exception(
             if isinstance(exc, httpx.TimeoutException | TimeoutError)
             else ("connection" if transient else "unknown")
         )
-        return DograhFailure(
+        return OmniFailure(
             source=source,
             type=ErrorType.SYSTEM_ERROR,
             code=f"dograh-{detail_code}",
@@ -462,7 +462,7 @@ def classify_exception(
     detail_code = "connection" if transient_exception else "unknown"
     if isinstance(exc, httpx.TimeoutException | TimeoutError):
         detail_code = "timeout"
-    return DograhFailure(
+    return OmniFailure(
         source=source,
         type=error_type,
         code=f"{code_provider}-{detail_code}",
@@ -605,7 +605,7 @@ def _safe_log_context(context: dict[str, Any]) -> dict[str, Any]:
 
 
 def log_failure(
-    failure: DograhFailure,
+    failure: OmniFailure,
     *,
     level: str = "ERROR",
     **extra_context: Any,
@@ -634,7 +634,7 @@ def log_failure(
         )
         bound.opt(depth=1).log(
             level.upper(),
-            "DOGRAH_FAILURE [src={} type={} code={}] [owner={}] {}",
+            "OMNI_FAILURE [src={} type={} code={}] [owner={}] {}",
             failure.source.value,
             failure.type.value,
             failure.code,

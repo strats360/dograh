@@ -22,7 +22,7 @@ from api.db.organization_configuration_client import LEASE_COMPLETED
 from api.enums import OrganizationConfigurationKey
 from api.errors.mps import MPSUnavailableError
 from api.schemas.ai_model_configuration import (
-    DograhManagedAIModelConfiguration,
+    OmniManagedAIModelConfiguration,
     OrganizationAIModelConfigurationV2,
 )
 from api.services.configuration.ai_model_configuration import (
@@ -203,7 +203,7 @@ async def provision_dograh_managed_model_configuration(
 
     return OrganizationAIModelConfigurationV2(
         mode="dograh",
-        dograh=DograhManagedAIModelConfiguration(api_key=service_key),
+        dograh=OmniManagedAIModelConfiguration(api_key=service_key),
     )
 
 

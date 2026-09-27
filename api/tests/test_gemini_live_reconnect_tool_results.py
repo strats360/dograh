@@ -17,10 +17,10 @@ from pipecat.processors.aggregators.llm_response_universal import (
 from pipecat.processors.frame_processor import FrameDirection
 from pipecat.services.llm_service import FunctionCallFromLLM
 
-from api.services.pipecat.realtime.gemini_live import DograhGeminiLiveLLMService
+from api.services.pipecat.realtime.gemini_live import OmniGeminiLiveLLMService
 
 
-class _TestDograhGeminiLiveLLMService(DograhGeminiLiveLLMService):
+class _TestOmniGeminiLiveLLMService(OmniGeminiLiveLLMService):
     """Dograh Gemini service with client creation stubbed for unit tests."""
 
     def create_client(self):
@@ -37,8 +37,8 @@ class _FakeSession:
         self.close = AsyncMock()
 
 
-def _make_service() -> _TestDograhGeminiLiveLLMService:
-    service = _TestDograhGeminiLiveLLMService(api_key="test-key")
+def _make_service() -> _TestOmniGeminiLiveLLMService:
+    service = _TestOmniGeminiLiveLLMService(api_key="test-key")
     service.stop_all_metrics = AsyncMock()
     service.start_ttfb_metrics = AsyncMock()
     service.cancel_task = AsyncMock()

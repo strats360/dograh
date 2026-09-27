@@ -21,12 +21,12 @@ from api.enums import OrganizationConfigurationKey, PostHogEvent
 from api.errors.failure import ErrorSource, classify_exception, log_failure
 from api.errors.mps import MPSUnavailableError
 from api.schemas.ai_model_configuration import (
-    DOGRAH_DEFAULT_LANGUAGE,
-    DOGRAH_DEFAULT_VOICE,
-    DOGRAH_SPEED_MAX,
-    DOGRAH_SPEED_MIN,
-    DOGRAH_SPEED_OPTIONS,
-    DOGRAH_SPEED_STEP,
+    OMNI_DEFAULT_LANGUAGE,
+    OMNI_DEFAULT_VOICE,
+    OMNI_SPEED_MAX,
+    OMNI_SPEED_MIN,
+    OMNI_SPEED_OPTIONS,
+    OMNI_SPEED_STEP,
     OrganizationAIModelConfigurationResponse,
     OrganizationAIModelConfigurationV2,
 )
@@ -66,10 +66,10 @@ from api.services.configuration.check_validity import UserConfigurationValidator
 from api.services.configuration.defaults import DEFAULT_SERVICE_PROVIDERS
 from api.services.configuration.masking import is_mask_of, mask_key, mask_user_config
 from api.services.configuration.registry import (
-    DOGRAH_MULTILINGUAL_AUTODETECT_LANGUAGES,
-    DOGRAH_STT_LANGUAGES,
+    OMNI_MULTILINGUAL_AUTODETECT_LANGUAGES,
+    OMNI_STT_LANGUAGES,
     REGISTRY,
-    DograhTTSService,
+    OmniTTSService,
     ServiceProviders,
     ServiceType,
 )
@@ -302,7 +302,7 @@ async def get_telephony_config_warnings(user: UserModel = Depends(get_user)):
 
 
 def _dograh_allows_custom_voice() -> bool:
-    extra = DograhTTSService.model_fields["voice"].json_schema_extra
+    extra = OmniTTSService.model_fields["voice"].json_schema_extra
     if isinstance(extra, dict):
         return bool(extra.get("allow_custom_input", False))
     return False
@@ -347,20 +347,20 @@ async def get_model_configuration_v2_defaults(
     }
     return {
         "dograh": {
-            "voices": [DOGRAH_DEFAULT_VOICE],
+            "voices": [OMNI_DEFAULT_VOICE],
             "allow_custom_input": _dograh_allows_custom_voice(),
-            "speeds": list(DOGRAH_SPEED_OPTIONS),
+            "speeds": list(OMNI_SPEED_OPTIONS),
             "speed_range": {
-                "min": DOGRAH_SPEED_MIN,
-                "max": DOGRAH_SPEED_MAX,
-                "step": DOGRAH_SPEED_STEP,
+                "min": OMNI_SPEED_MIN,
+                "max": OMNI_SPEED_MAX,
+                "step": OMNI_SPEED_STEP,
             },
-            "languages": DOGRAH_STT_LANGUAGES,
-            "multilingual_languages": DOGRAH_MULTILINGUAL_AUTODETECT_LANGUAGES,
+            "languages": OMNI_STT_LANGUAGES,
+            "multilingual_languages": OMNI_MULTILINGUAL_AUTODETECT_LANGUAGES,
             "defaults": {
-                "voice": DOGRAH_DEFAULT_VOICE,
+                "voice": OMNI_DEFAULT_VOICE,
                 "speed": 1.0,
-                "language": DOGRAH_DEFAULT_LANGUAGE,
+                "language": OMNI_DEFAULT_LANGUAGE,
             },
         },
         "byok": {

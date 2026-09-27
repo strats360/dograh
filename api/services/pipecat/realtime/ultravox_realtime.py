@@ -44,7 +44,7 @@ from pipecat.services.ultravox.llm import (
 from pipecat.utils.time import time_now_iso8601
 
 
-class DograhUltravoxOneShotInputParams(OneShotInputParams):
+class OmniUltravoxOneShotInputParams(OneShotInputParams):
     """Dograh-friendly OneShot params with string voice support."""
 
     voice: str | None = Field(default=None)
@@ -53,7 +53,7 @@ class DograhUltravoxOneShotInputParams(OneShotInputParams):
 _ULTRAVOX_MAX_TOOL_TIMEOUT_SECS = 40.0
 
 
-class DograhUltravoxRealtimeLLMService(UltravoxRealtimeLLMService):
+class OmniUltravoxRealtimeLLMService(UltravoxRealtimeLLMService):
     """Ultravox realtime with Dograh engine integration quirks."""
 
     def __init__(self, **kwargs):
@@ -420,7 +420,7 @@ class DograhUltravoxRealtimeLLMService(UltravoxRealtimeLLMService):
         *,
         greeting_text: str | None,
         agent_speaks_first: bool,
-    ) -> DograhUltravoxOneShotInputParams:
+    ) -> OmniUltravoxOneShotInputParams:
         current_params = self._params
         extra = {
             key: value
@@ -438,7 +438,7 @@ class DograhUltravoxRealtimeLLMService(UltravoxRealtimeLLMService):
         if isinstance(output_medium, _NotGiven):
             output_medium = current_params.output_medium
 
-        return DograhUltravoxOneShotInputParams(
+        return OmniUltravoxOneShotInputParams(
             api_key=current_params.api_key,
             system_prompt=self._current_system_instruction(),
             temperature=current_params.temperature,

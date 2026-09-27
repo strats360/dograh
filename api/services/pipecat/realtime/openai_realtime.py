@@ -46,7 +46,7 @@ from pipecat.transcriptions.language import Language
 from pipecat.utils.time import time_now_iso8601
 
 
-class DograhOpenAIRealtimeLLMService(OpenAIRealtimeLLMService):
+class OmniOpenAIRealtimeLLMService(OpenAIRealtimeLLMService):
     """OpenAI Realtime with Dograh engine integration quirks. See module docstring."""
 
     def __init__(self, **kwargs):

@@ -28,7 +28,7 @@ from api.constants import DEFAULT_WEBHOOK_DELIVERY_CONFIG
 from api.db import db_client
 from api.db.models import WebhookDeliveryModel
 from api.errors.failure import (
-    DograhFailure,
+    OmniFailure,
     ErrorSource,
     classify_exception,
     classify_http_response,
@@ -243,7 +243,7 @@ async def _handle_transient_failure(
 
 
 def _log_dead_letter_failure(
-    delivery: WebhookDeliveryModel, failure: DograhFailure
+    delivery: WebhookDeliveryModel, failure: OmniFailure
 ) -> None:
     log_failure(
         failure,

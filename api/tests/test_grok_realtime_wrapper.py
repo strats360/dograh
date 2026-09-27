@@ -10,13 +10,13 @@ from pipecat.services.xai.realtime import events
 from api.schemas.ai_model_configuration import EffectiveAIModelConfiguration
 from api.services.configuration.registry import GrokRealtimeLLMConfiguration
 from api.services.pipecat.realtime.grok_realtime import (
-    DograhGrokRealtimeLLMService,
+    OmniGrokRealtimeLLMService,
 )
 from api.services.pipecat.service_factory import create_realtime_llm_service
 
 
-def _make_service() -> DograhGrokRealtimeLLMService:
-    service = DograhGrokRealtimeLLMService(api_key="test-key")
+def _make_service() -> OmniGrokRealtimeLLMService:
+    service = OmniGrokRealtimeLLMService(api_key="test-key")
     service._create_response = AsyncMock()
     service._process_completed_function_calls = AsyncMock()
     return service
@@ -214,7 +214,7 @@ def test_factory_creates_dograh_grok_realtime_service():
         audio_config=SimpleNamespace(),
     )
 
-    assert isinstance(service, DograhGrokRealtimeLLMService)
+    assert isinstance(service, OmniGrokRealtimeLLMService)
     assert service._settings.session_properties.voice == "sal"
     assert service._settings.session_properties.audio.input.transcription.model == (
         "grok-transcribe"

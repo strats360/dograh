@@ -19,7 +19,7 @@ from api.services.configuration.options import (
 )
 from api.services.configuration.registry import ServiceProviders
 from api.services.pipecat.gemini_json_schema_adapter import (
-    DograhGeminiJSONSchemaAdapter,
+    OmniGeminiJSONSchemaAdapter,
 )
 from api.services.pipecat.minimax_tts import MiniMaxOwnedSessionTTSService
 from api.utils.url_security import validate_user_configured_service_url
@@ -229,12 +229,12 @@ def stt_uses_external_turns(user_config) -> bool:
     return False
 
 
-class DograhGoogleLLMService(GoogleLLMService):
-    adapter_class = DograhGeminiJSONSchemaAdapter
+class OmniGoogleLLMService(GoogleLLMService):
+    adapter_class = OmniGeminiJSONSchemaAdapter
 
 
-class DograhGoogleVertexLLMService(GoogleVertexLLMService):
-    adapter_class = DograhGeminiJSONSchemaAdapter
+class OmniGoogleVertexLLMService(GoogleVertexLLMService):
+    adapter_class = OmniGeminiJSONSchemaAdapter
 
 
 def _validate_runtime_service_url(url: str, field_name: str) -> None:
@@ -1000,12 +1000,12 @@ def create_llm_service_from_provider(
         )
     elif provider == ServiceProviders.GOOGLE.value:
         model = _migrate_deprecated_google_model(model)
-        return DograhGoogleLLMService(
+        return OmniGoogleLLMService(
             api_key=api_key,
             settings=GoogleLLMSettings(model=model, temperature=0.1),
         )
     elif provider == ServiceProviders.GOOGLE_VERTEX.value:
-        return DograhGoogleVertexLLMService(
+        return OmniGoogleVertexLLMService(
             credentials=credentials,
             project_id=project_id,
             location=location or "us-east4",
@@ -1094,7 +1094,7 @@ def create_realtime_llm_service(user_config, audio_config: "AudioConfig"):
 
     if provider == ServiceProviders.OPENAI_REALTIME.value:
         from api.services.pipecat.realtime.openai_realtime import (
-            DograhOpenAIRealtimeLLMService,
+            OmniOpenAIRealtimeLLMService,
         )
         from pipecat.services.openai.realtime.events import (
             AudioConfiguration,
@@ -1111,9 +1111,9 @@ def create_realtime_llm_service(user_config, audio_config: "AudioConfig"):
         if language:
             transcription_kwargs["language"] = language
 
-        return DograhOpenAIRealtimeLLMService(
+        return OmniOpenAIRealtimeLLMService(
             api_key=api_key,
-            settings=DograhOpenAIRealtimeLLMService.Settings(
+            settings=OmniOpenAIRealtimeLLMService.Settings(
                 model=model,
                 session_properties=SessionProperties(
                     audio=AudioConfiguration(
@@ -1131,7 +1131,7 @@ def create_realtime_llm_service(user_config, audio_config: "AudioConfig"):
         )
     elif provider == ServiceProviders.GROK_REALTIME.value:
         from api.services.pipecat.realtime.grok_realtime import (
-            DograhGrokRealtimeLLMService,
+            OmniGrokRealtimeLLMService,
         )
         from pipecat.services.xai.realtime.events import (
             AudioConfiguration,
@@ -1144,9 +1144,9 @@ def create_realtime_llm_service(user_config, audio_config: "AudioConfig"):
         if grok_voice.lower() in {"ara", "rex", "sal", "eve", "leo"}:
             grok_voice = grok_voice.lower()
 
-        return DograhGrokRealtimeLLMService(
+        return OmniGrokRealtimeLLMService(
             api_key=api_key,
-            settings=DograhGrokRealtimeLLMService.Settings(
+            settings=OmniGrokRealtimeLLMService.Settings(
                 model=model,
                 session_properties=SessionProperties(
                     voice=grok_voice,
@@ -1160,25 +1160,25 @@ def create_realtime_llm_service(user_config, audio_config: "AudioConfig"):
         )
     elif provider == ServiceProviders.ULTRAVOX_REALTIME.value:
         from api.services.pipecat.realtime.ultravox_realtime import (
-            DograhUltravoxOneShotInputParams,
-            DograhUltravoxRealtimeLLMService,
+            OmniUltravoxOneShotInputParams,
+            OmniUltravoxRealtimeLLMService,
         )
 
-        return DograhUltravoxRealtimeLLMService(
-            params=DograhUltravoxOneShotInputParams(
+        return OmniUltravoxRealtimeLLMService(
+            params=OmniUltravoxOneShotInputParams(
                 api_key=api_key,
                 model=model,
                 voice=voice,
                 output_medium="voice",
             ),
-            settings=DograhUltravoxRealtimeLLMService.Settings(
+            settings=OmniUltravoxRealtimeLLMService.Settings(
                 model=model,
                 output_medium="voice",
             ),
         )
     elif provider == ServiceProviders.GOOGLE_REALTIME.value:
         from api.services.pipecat.realtime.gemini_live import (
-            DograhGeminiLiveLLMService,
+            OmniGeminiLiveLLMService,
         )
 
         # Gemini Live enables input/output audio transcription by default
@@ -1192,13 +1192,13 @@ def create_realtime_llm_service(user_config, audio_config: "AudioConfig"):
         temperature = getattr(realtime_config, "temperature", None)
         if temperature is not None:
             settings_kwargs["temperature"] = temperature
-        return DograhGeminiLiveLLMService(
+        return OmniGeminiLiveLLMService(
             api_key=api_key,
-            settings=DograhGeminiLiveLLMService.Settings(**settings_kwargs),
+            settings=OmniGeminiLiveLLMService.Settings(**settings_kwargs),
         )
     elif provider == ServiceProviders.GOOGLE_VERTEX_REALTIME.value:
         from api.services.pipecat.realtime.gemini_live_vertex import (
-            DograhGeminiLiveVertexLLMService,
+            OmniGeminiLiveVertexLLMService,
         )
 
         project_id = getattr(realtime_config, "project_id", None)
@@ -1214,15 +1214,15 @@ def create_realtime_llm_service(user_config, audio_config: "AudioConfig"):
         temperature = getattr(realtime_config, "temperature", None)
         if temperature is not None:
             settings_kwargs["temperature"] = temperature
-        return DograhGeminiLiveVertexLLMService(
+        return OmniGeminiLiveVertexLLMService(
             credentials=credentials,
             project_id=project_id,
             location=location,
-            settings=DograhGeminiLiveVertexLLMService.Settings(**settings_kwargs),
+            settings=OmniGeminiLiveVertexLLMService.Settings(**settings_kwargs),
         )
     elif provider == ServiceProviders.AZURE_REALTIME.value:
         from api.services.pipecat.realtime.azure_realtime import (
-            DograhAzureRealtimeLLMService,
+            OmniAzureRealtimeLLMService,
         )
         from pipecat.services.openai.realtime.events import (
             AudioConfiguration,
@@ -1261,10 +1261,10 @@ def create_realtime_llm_service(user_config, audio_config: "AudioConfig"):
                 "",
             )
         )
-        return DograhAzureRealtimeLLMService(
+        return OmniAzureRealtimeLLMService(
             api_key=api_key,
             base_url=wss_url,
-            settings=DograhAzureRealtimeLLMService.Settings(
+            settings=OmniAzureRealtimeLLMService.Settings(
                 model=model,
                 session_properties=SessionProperties(
                     audio=AudioConfiguration(
