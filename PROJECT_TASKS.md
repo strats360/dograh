@@ -24,11 +24,11 @@ Legend: `[ ]` todo · `[~]` in progress (PR open) · `[x]` done (merged)
   - `api/services/configuration/registry.py` service classes, `DograhEmbeddingService`, `api/tests/test_dograh_*`
 - [ ] **1.5 — Infra: docker-compose, helm, workflows, nginx, scripts** *(risky: deployed release names/labels)*
   - `docker-compose.yaml` services, `deploy/helm/dograh/`, `.github/workflows/docker-image.yml`, `nginx/`, `scripts/`
-- [~] **1.6 — Env var prefixes + headers** *(BREAKING: existing env files & callers)*
-  - Renamed server/deploy env vars `DOGRAH_*`→`OMNI_*` (`OMNI_DEVOPS_SECRET`, `OMNI_MPS_SECRET_KEY`, `OMNI_DOCS_PATH`, `OMNI_DEPLOY_*`, `OMNI_INIT_*`, `OMNI_DIR`, `OMNI_ENV_FILE`, `OMNI_FORCE_OVERWRITE`, `OMNI_SKIP_DOWNLOAD`, `OMNI_UPDATE_YES`, `OMNI_VERSION`) in `constants.py`, `.env.example`(+test), scripts, `remote_up.sh`, helm, docs. Renamed headers `X-Dograh-Devops-Secret`→`X-Omni-Devops-Secret` and webhook `X-Dograh-{Delivery-Id,Workflow-Run-Id,Delivery-Attempt}`→`X-Omni-*`. compileall passes.
-  - Left: SDK client env vars `DOGRAH_API_{TOKEN,ENDPOINT,KEY,URL}` (1.7), `services.dograh.com` domain (1.9), CI secret `SLACK_DOGRAH_*`, internal 1.4 constants, 1.5 `__DOGRAH_*__` placeholders. Generated `types.gen.ts`/`openapi.json` header regenerates in 1.8 client-regen.
-- [ ] **1.7 — Published package names** *(BREAKING: PyPI/npm consumers)*
-  - PyPI `dograh-sdk`/`dograh-api`, npm `@dograh/sdk`, `dograh_sdk` module (~39 imports), `dograh-ts-validator`
+- [ ] **1.6 — Env var prefixes + headers** *(BREAKING: existing env files & callers)*
+  - `DOGRAH_*` env vars (`api/constants.py`, `.env.example`), `X-Dograh-Devops-Secret` header
+- [~] **1.7 — Published package names** *(BREAKING: PyPI/npm consumers)*
+  - Renamed PyPI `dograh-sdk`→`omni-sdk` (module `dograh_sdk`→`omni_sdk` via git mv, console script `omni-sdk-codegen`), `dograh-api`→`omni-api`, npm `@dograh/sdk`→`@omni/sdk`, `dograh-ts-validator`→`omni-ts-validator`, `dograh-examples-typescript`→`omni-examples-typescript`. Classes `DograhClient`→`OmniClient`, `DograhSdkError`, `DograhClientOptions`, `DograhFetch*`→`Omni*`. SDK env vars `DOGRAH_API_{TOKEN,ENDPOINT,KEY,URL}`→`OMNI_API_*`. Moved `test_dograh_sdk*`→`test_omni_sdk*`. Updated `generate_sdk.sh`/`release_sdks.sh`, examples, README install links. compileall + JSON/TOML validate.
+  - Left: external URLs/emails (1.9), provider value `"dograh"` (1.8), DB fields (1.8), generated client (regen in 1.8), docker image names (1.5/1.9).
 - [ ] **1.8 — DB identifiers + provider enum value + migration** *(BREAKING: requires data migration)*
   - `dograh_tokens`/`used_dograh_tokens`/`quota_dograh_tokens` columns, `ServiceProviders.DOGRAH="dograh"` value, new alembic migration, regenerate openapi/types
 - [ ] **1.9 — Auth cookies + domains + repo/external URLs** *(BREAKING: invalidates sessions)*

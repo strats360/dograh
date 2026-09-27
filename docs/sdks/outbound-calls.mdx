@@ -7,7 +7,7 @@ Use the SDK to place a test outbound call from a specific agent to a phone numbe
 
 ## Prerequisites
 
-- A Omni [API key](/configurations/api-keys) exported as `DOGRAH_API_KEY`
+- A Omni [API key](/configurations/api-keys) exported as `OMNI_API_KEY`
 - A published agent (you need the agent ID)
 - A configured telephony provider — see [Telephony](/integrations/telephony/overview) for Twilio, Vonage, and other setups
 
@@ -15,10 +15,10 @@ Use the SDK to place a test outbound call from a specific agent to a phone numbe
 
 <CodeGroup>
 ```python Python
-from dograh_sdk import DograhClient
-from dograh_sdk._generated_models import InitiateCallRequest
+from omni_sdk import OmniClient
+from omni_sdk._generated_models import InitiateCallRequest
 
-with DograhClient(api_key="YOUR_API_KEY") as client:
+with OmniClient(api_key="YOUR_API_KEY") as client:
     client.test_phone_call(
         body=InitiateCallRequest(
             workflow_id=123,
@@ -27,9 +27,9 @@ with DograhClient(api_key="YOUR_API_KEY") as client:
     )
 ```
 ```typescript TypeScript
-import { DograhClient } from "@dograh/sdk";
+import { OmniClient } from "@omni/sdk";
 
-const client = new DograhClient({ apiKey: "YOUR_API_KEY" });
+const client = new OmniClient({ apiKey: "YOUR_API_KEY" });
 
 await client.testPhoneCall({
     body: {

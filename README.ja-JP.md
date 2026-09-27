@@ -163,8 +163,8 @@ Codex、Claude Code、Cursor、または任意の MCP クライアントを接�
 
 ## 📦 SDKs
 
-- **Python SDK** -- [pypi.org/project/dograh-sdk](https://pypi.org/project/dograh-sdk/)
-- **Node SDK** -- [npmjs.com/package/@dograh/sdk](https://www.npmjs.com/package/@dograh/sdk)
+- **Python SDK** -- [pypi.org/project/omni-sdk](https://pypi.org/project/omni-sdk/)
+- **Node SDK** -- [npmjs.com/package/@omni/sdk](https://www.npmjs.com/package/@omni/sdk)
 
 ## 🤝 コミュニティとサポート
 

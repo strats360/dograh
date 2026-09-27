@@ -1,2 +1,2 @@
-dograh-sdk
+omni-sdk
 python-dotenv

@@ -8,9 +8,9 @@
  *
  * @example
  * ```ts
- * import { DograhClient, Workflow } from "@dograh/sdk";
+ * import { OmniClient, Workflow } from "@omni/sdk";
  *
- * const client = new DograhClient({ baseUrl: "http://localhost:8000", apiKey: "..." });
+ * const client = new OmniClient({ baseUrl: "http://localhost:8000", apiKey: "..." });
  * const wf = new Workflow({ client, name: "loan_qualification" });
  *
  * const start = await wf.add({
@@ -25,16 +25,16 @@
  * ```
  */
 
-export { DograhClient } from "./client.js";
+export { OmniClient } from "./client.js";
 export type {
-    DograhClientOptions,
-    DograhFetch,
-    DograhFetchInit,
-    DograhFetchResponse,
+    OmniClientOptions,
+    OmniFetch,
+    OmniFetchInit,
+    OmniFetchResponse,
 } from "./client.js";
 export {
     ApiError,
-    DograhSdkError,
+    OmniSdkError,
     SpecMismatchError,
     ValidationError,
 } from "./errors.js";
@@ -59,6 +59,6 @@ export type {
 } from "./types.js";
 
 // Typed SDK — generated per-node interfaces + factories. Importable as
-// `import { startCall, type StartCall } from "@dograh/sdk/typed"` for
+// `import { startCall, type StartCall } from "@omni/sdk/typed"` for
 // tree-shaking, or via the `TypedNode` union here.
 export type { TypedNode } from "./typed/index.js";

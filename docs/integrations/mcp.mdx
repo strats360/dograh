@@ -60,13 +60,13 @@ If you prefer to keep the API key out of `config.toml`, store it in an environme
 ```toml
 [mcp_servers.dograh]
 url = "https://app.dograh.com/api/v1/mcp/"
-env_http_headers = { "X-API-Key" = "DOGRAH_API_KEY" }
+env_http_headers = { "X-API-Key" = "OMNI_API_KEY" }
 ```
 
 Then set the API key before starting Codex:
 
 ```bash
-export DOGRAH_API_KEY="YOUR_API_KEY"
+export OMNI_API_KEY="YOUR_API_KEY"
 codex
 ```
 
