@@ -1,6 +1,6 @@
-# Dograh - Project Overview
+# Omni - Project Overview
 
-Dograh is a voice AI platform for building and deploying conversational AI agents with telephony and WebRTC support.
+Omni is a voice AI platform for building and deploying conversational AI agents with telephony and WebRTC support.
 
 ## Project Structure
 
