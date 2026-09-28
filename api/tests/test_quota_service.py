@@ -19,7 +19,7 @@ def _dograh_config(
 ):
     return SimpleNamespace(
         managed_service_version=managed_service_version,
-        llm=SimpleNamespace(provider=ServiceProviders.DOGRAH, api_key=api_key),
+        llm=SimpleNamespace(provider=ServiceProviders.OMNI, api_key=api_key),
         stt=None,
         tts=None,
         embeddings=None,

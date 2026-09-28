@@ -30,7 +30,7 @@ def _log_mps_dependency_failure(
         classify_exception(
             error,
             source=ErrorSource.PLATFORM,
-            provider="dograh",
+            provider="omni",
             error_owner="operator",
         ),
         organization_id=organization_id,

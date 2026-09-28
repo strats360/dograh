@@ -77,7 +77,7 @@ class ServiceProviders(str, Enum):
     GOOGLE = "google"
     AZURE = "azure"
     AZURE_SPEECH = "azure_speech"
-    DOGRAH = "dograh"
+    OMNI = "omni"
     SARVAM = "sarvam"
     SPEECHMATICS = "speechmatics"
     CAMB = "camb"
@@ -112,7 +112,7 @@ class BaseServiceConfiguration(BaseModel):
         ServiceProviders.GOOGLE,
         ServiceProviders.AZURE,
         ServiceProviders.AZURE_SPEECH,
-        ServiceProviders.DOGRAH,
+        ServiceProviders.OMNI,
         ServiceProviders.AWS_BEDROCK,
         ServiceProviders.SPEACHES,
         ServiceProviders.HUGGINGFACE,
@@ -300,7 +300,7 @@ GOOGLE_PROVIDER_MODEL_CONFIG = provider_model_config("Google")
 GROQ_PROVIDER_MODEL_CONFIG = provider_model_config("Groq")
 OPENROUTER_PROVIDER_MODEL_CONFIG = provider_model_config("Open Router")
 AZURE_OPENAI_PROVIDER_MODEL_CONFIG = provider_model_config("Azure OpenAI")
-DOGRAH_PROVIDER_MODEL_CONFIG = provider_model_config("Dograh")
+OMNI_PROVIDER_MODEL_CONFIG = provider_model_config("Omni")
 AWS_BEDROCK_PROVIDER_MODEL_CONFIG = provider_model_config("AWS Bedrock")
 GOOGLE_VERTEX_PROVIDER_MODEL_CONFIG = provider_model_config("Google Vertex")
 OPENAI_REALTIME_PROVIDER_MODEL_CONFIG = provider_model_config("OpenAI Realtime")
@@ -387,7 +387,7 @@ OPENROUTER_MODELS = [
     "meta-llama/llama-3.3-70b-instruct",
     "deepseek/deepseek-chat-v3-0324",
 ]
-DOGRAH_LLM_MODELS = ["default", "accurate", "fast", "lite", "zen"]
+OMNI_LLM_MODELS = ["default", "accurate", "fast", "lite", "zen"]
 AWS_BEDROCK_MODELS = [
     "us.amazon.nova-pro-v1:0",
     "us.amazon.nova-lite-v1:0",
@@ -516,13 +516,13 @@ class AzureLLMService(BaseLLMConfiguration):
 
 
 @register_llm
-class DograhLLMService(BaseLLMConfiguration):
-    model_config = DOGRAH_PROVIDER_MODEL_CONFIG
-    provider: Literal[ServiceProviders.DOGRAH] = ServiceProviders.DOGRAH
+class OmniLLMService(BaseLLMConfiguration):
+    model_config = OMNI_PROVIDER_MODEL_CONFIG
+    provider: Literal[ServiceProviders.OMNI] = ServiceProviders.OMNI
     model: str = Field(
         default="default",
         description="Dograh-hosted model tier.",
-        json_schema_extra={"examples": DOGRAH_LLM_MODELS, "allow_custom_input": True},
+        json_schema_extra={"examples": OMNI_LLM_MODELS, "allow_custom_input": True},
     )
 
 
@@ -913,7 +913,7 @@ LLMConfig = Annotated[
         OpenRouterLLMConfiguration,
         GoogleLLMService,
         AzureLLMService,
-        DograhLLMService,
+        OmniLLMService,
         AWSBedrockLLMConfiguration,
         SpeachesLLMConfiguration,
         HuggingFaceLLMConfiguration,
@@ -1071,17 +1071,17 @@ class OpenAITTSService(BaseTTSConfiguration):
     )
 
 
-DOGRAH_TTS_MODELS = ["default"]
+OMNI_TTS_MODELS = ["default"]
 
 
 @register_tts
-class DograhTTSService(BaseTTSConfiguration):
-    model_config = DOGRAH_PROVIDER_MODEL_CONFIG
-    provider: Literal[ServiceProviders.DOGRAH] = ServiceProviders.DOGRAH
+class OmniTTSService(BaseTTSConfiguration):
+    model_config = OMNI_PROVIDER_MODEL_CONFIG
+    provider: Literal[ServiceProviders.OMNI] = ServiceProviders.OMNI
     model: str = Field(
         default="default",
         description="Dograh TTS tier.",
-        json_schema_extra={"examples": DOGRAH_TTS_MODELS},
+        json_schema_extra={"examples": OMNI_TTS_MODELS},
     )
     voice: str = Field(
         default="default",
@@ -1467,7 +1467,7 @@ TTSConfig = Annotated[
         ElevenlabsTTSConfiguration,
         CartesiaTTSConfiguration,
         InworldTTSConfiguration,
-        DograhTTSService,
+        OmniTTSService,
         SarvamTTSConfiguration,
         CambTTSConfiguration,
         RimeTTSConfiguration,
@@ -1592,27 +1592,27 @@ class GoogleSTTConfiguration(BaseSTTConfiguration):
 
 
 # Dograh STT Service
-DOGRAH_STT_MODELS = ["default"]
-DOGRAH_STT_LANGUAGES = DEEPGRAM_LANGUAGES
+OMNI_STT_MODELS = ["default"]
+OMNI_STT_LANGUAGES = DEEPGRAM_LANGUAGES
 # Languages auto-detected when the Dograh STT language is "multi". Dograh STT runs
 # Deepgram Flux multilingual under the hood, which only auto-detects this subset —
-# not the full DOGRAH_STT_LANGUAGES list offered for explicit single-language selection.
-DOGRAH_MULTILINGUAL_AUTODETECT_LANGUAGES = DEEPGRAM_FLUX_MULTILINGUAL_LANGUAGES
+# not the full OMNI_STT_LANGUAGES list offered for explicit single-language selection.
+OMNI_MULTILINGUAL_AUTODETECT_LANGUAGES = DEEPGRAM_FLUX_MULTILINGUAL_LANGUAGES
 
 
 @register_stt
-class DograhSTTService(BaseSTTConfiguration):
-    model_config = DOGRAH_PROVIDER_MODEL_CONFIG
-    provider: Literal[ServiceProviders.DOGRAH] = ServiceProviders.DOGRAH
+class OmniSTTService(BaseSTTConfiguration):
+    model_config = OMNI_PROVIDER_MODEL_CONFIG
+    provider: Literal[ServiceProviders.OMNI] = ServiceProviders.OMNI
     model: str = Field(
         default="default",
         description="Dograh STT tier.",
-        json_schema_extra={"examples": DOGRAH_STT_MODELS},
+        json_schema_extra={"examples": OMNI_STT_MODELS},
     )
     language: str = Field(
         default="multi",
         description="Language code; use 'multi' for auto-detect.",
-        json_schema_extra={"examples": DOGRAH_STT_LANGUAGES},
+        json_schema_extra={"examples": OMNI_STT_LANGUAGES},
     )
 
 
@@ -1884,7 +1884,7 @@ STTConfig = Annotated[
         CartesiaSTTConfiguration,
         OpenAISTTConfiguration,
         GoogleSTTConfiguration,
-        DograhSTTService,
+        OmniSTTService,
         SpeechmaticsSTTConfiguration,
         SarvamSTTConfiguration,
         SpeachesSTTConfiguration,
@@ -1957,17 +1957,17 @@ class AzureOpenAIEmbeddingsConfiguration(BaseEmbeddingsConfiguration):
     )
 
 
-DOGRAH_EMBEDDING_MODELS = ["dograh_embedding_v1"]
+OMNI_EMBEDDING_MODELS = ["dograh_embedding_v1"]
 
 
 @register_embeddings
-class DograhEmbeddingsConfiguration(BaseEmbeddingsConfiguration):
-    model_config = DOGRAH_PROVIDER_MODEL_CONFIG
-    provider: Literal[ServiceProviders.DOGRAH] = ServiceProviders.DOGRAH
+class OmniEmbeddingsConfiguration(BaseEmbeddingsConfiguration):
+    model_config = OMNI_PROVIDER_MODEL_CONFIG
+    provider: Literal[ServiceProviders.OMNI] = ServiceProviders.OMNI
     model: str = Field(
         default="dograh_embedding_v1",
         description="Dograh-managed embedding model.",
-        json_schema_extra={"examples": DOGRAH_EMBEDDING_MODELS},
+        json_schema_extra={"examples": OMNI_EMBEDDING_MODELS},
     )
 
 
@@ -1976,7 +1976,7 @@ EmbeddingsConfig = Annotated[
         OpenAIEmbeddingsConfiguration,
         OpenRouterEmbeddingsConfiguration,
         AzureOpenAIEmbeddingsConfiguration,
-        DograhEmbeddingsConfiguration,
+        OmniEmbeddingsConfiguration,
     ],
     Field(discriminator="provider"),
 ]

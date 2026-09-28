@@ -493,7 +493,7 @@ async def execute_text_chat_pending_turn(
             usage_context="variable_extraction",
         )
         if workflow_graph.uses_variable_extraction()
-        and user_config.llm.provider == ServiceProviders.DOGRAH.value
+        and user_config.llm.provider == ServiceProviders.OMNI.value
         else llm
     )
 

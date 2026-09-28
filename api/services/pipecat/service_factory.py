@@ -222,7 +222,7 @@ def _elevenlabs_realtime_stt_host(base_url: str) -> str:
 def stt_uses_external_turns(user_config) -> bool:
     if user_config.stt.provider == ServiceProviders.DEEPGRAM.value:
         return user_config.stt.model in DEEPGRAM_FLUX_MODELS
-    if user_config.stt.provider == ServiceProviders.DOGRAH.value:
+    if user_config.stt.provider == ServiceProviders.OMNI.value:
         return dograh_stt_uses_flux_language(getattr(user_config.stt, "language", None))
     if user_config.stt.provider == ServiceProviders.CARTESIA.value:
         return user_config.stt.model == "ink-2"
@@ -346,7 +346,7 @@ def create_stt_service(
             ),
             sample_rate=audio_config.transport_in_sample_rate,
         )
-    elif user_config.stt.provider == ServiceProviders.DOGRAH.value:
+    elif user_config.stt.provider == ServiceProviders.OMNI.value:
         base_url = MPS_API_URL.replace("http://", "ws://").replace("https://", "wss://")
         language = getattr(user_config.stt, "language", None) or "multi"
 
@@ -685,7 +685,7 @@ def create_tts_service(
             skip_aggregator_types=["recording_router", "recording"],
             silence_time_s=1.0,
         )
-    elif user_config.tts.provider == ServiceProviders.DOGRAH.value:
+    elif user_config.tts.provider == ServiceProviders.OMNI.value:
         # Convert HTTP URL to WebSocket URL for TTS
         base_url = MPS_API_URL.replace("http://", "ws://").replace("https://", "wss://")
         return DograhTTSService(
@@ -1019,7 +1019,7 @@ def create_llm_service_from_provider(
             endpoint=endpoint,
             settings=AzureLLMSettings(model=model, temperature=0.1),
         )
-    elif provider == ServiceProviders.DOGRAH.value:
+    elif provider == ServiceProviders.OMNI.value:
         return DograhLLMService(
             base_url=f"{MPS_API_URL}/api/v1/llm",
             api_key=api_key,

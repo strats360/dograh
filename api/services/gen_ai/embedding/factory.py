@@ -87,7 +87,7 @@ async def build_embedding_service(
             api_version=api_version or DEFAULT_AZURE_API_VERSION,
         )
 
-    if provider == ServiceProviders.DOGRAH.value:
+    if provider == ServiceProviders.OMNI.value:
         cid = correlation_id
         if cid is None and resolve_correlation:
             cid = await resolve_embedding_correlation_id(service_key=api_key)

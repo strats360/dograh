@@ -7,7 +7,7 @@ import pytest
 from api.errors.mps import MPSUnavailableError
 from api.routes import user as user_routes
 from api.schemas.ai_model_configuration import (
-    DograhManagedAIModelConfiguration,
+    OmniManagedAIModelConfiguration,
     EffectiveAIModelConfiguration,
     OrganizationAIModelConfigurationV2,
     compile_ai_model_configuration_v2,
@@ -117,8 +117,8 @@ async def test_managed_service_key_is_checked_once_per_validation_request(monkey
     )
     configuration = compile_ai_model_configuration_v2(
         OrganizationAIModelConfigurationV2(
-            mode="dograh",
-            dograh=DograhManagedAIModelConfiguration(api_key="mps-shared-key"),
+            mode="omni",
+            omni=OmniManagedAIModelConfiguration(api_key="mps-shared-key"),
         )
     )
     validator = UserConfigurationValidator()
@@ -151,8 +151,8 @@ async def test_mps_outage_is_not_reported_as_invalid_customer_key(monkeypatch):
     )
     configuration = compile_ai_model_configuration_v2(
         OrganizationAIModelConfigurationV2(
-            mode="dograh",
-            dograh=DograhManagedAIModelConfiguration(api_key="mps-shared-key"),
+            mode="omni",
+            omni=OmniManagedAIModelConfiguration(api_key="mps-shared-key"),
         )
     )
 

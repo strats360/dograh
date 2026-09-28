@@ -273,7 +273,7 @@ def classify_http_response(
     normalized_provider = _normalize_provider(provider)
     internal_message = redact_failure_message(message)
 
-    if normalized_provider == "dograh":
+    if normalized_provider == "omni":
         if status_code == 402:
             error_type, detail, retryable = (
                 ErrorType.QUOTA_ERROR,
@@ -322,7 +322,7 @@ def classify_message(
 
     internal_message = redact_failure_message(message)
     normalized_provider = _normalize_provider(provider)
-    if normalized_provider == "dograh":
+    if normalized_provider == "omni":
         error_type, detail, retryable = (
             ErrorType.SYSTEM_ERROR,
             "unknown",
@@ -402,7 +402,7 @@ def classify_exception(
         )
 
     normalized_provider = _normalize_provider(provider)
-    if normalized_provider == "dograh":
+    if normalized_provider == "omni":
         exception_identity = f"{type(exc).__module__}.{type(exc).__name__}".lower()
         transient = isinstance(
             exc,
@@ -421,10 +421,10 @@ def classify_exception(
         return DograhFailure(
             source=source,
             type=ErrorType.SYSTEM_ERROR,
-            code=f"dograh-{detail_code}",
+            code=f"omni-{detail_code}",
             internal_message=internal_message,
             external_message=_external_message(source, ErrorType.SYSTEM_ERROR),
-            provider="dograh",
+            provider="omni",
             provider_error_code=provider_error_code,
             error_owner=ErrorOwner.OPERATOR,
             retryable=True if transient else None,

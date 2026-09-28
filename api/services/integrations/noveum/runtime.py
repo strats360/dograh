@@ -18,7 +18,7 @@ from .collector import (
 
 
 def _format_model_label(provider: Any, model: Any) -> str:
-    # provider/model may be enum members (e.g. ServiceProviders.DOGRAH) —
+    # provider/model may be enum members (e.g. ServiceProviders.OMNI) —
     # label with the wire value, not the enum repr.
     provider = getattr(provider, "value", provider)
     model = getattr(model, "value", model)
