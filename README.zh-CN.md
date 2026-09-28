@@ -7,8 +7,8 @@
 **开源、可自托管的 Vapi 与 Retell 替代方案** —— 使用可视化工作流构建器搭建生产级语音智能体,几分钟内完成测试,并让 AI 编码助手通过 MCP 帮你设计和编辑。
 
 <p align="center">
-  <a href="https://app.dograh.com">
-    <img src="https://img.shields.io/badge/▶_体验云端版本-app.dograh.com-2563eb?style=for-the-badge" alt="体验云端版本">
+  <a href="https://app.omni.com">
+    <img src="https://img.shields.io/badge/▶_体验云端版本-app.omni.com-2563eb?style=for-the-badge" alt="体验云端版本">
   </a>
   &nbsp;
   <a href="#-快速开始">
@@ -21,7 +21,7 @@
 </p>
 
 <p align="center">
-  <a href="https://docs.dograh.com">📖 文档</a> &nbsp;·&nbsp;
+  <a href="https://docs.omni.com">📖 文档</a> &nbsp;·&nbsp;
   <a href="LICENSE">📜 BSD 2-Clause</a> &nbsp;·&nbsp;
   <a href="README.md">🌐 English</a> &nbsp;·&nbsp;
   <a href="README.ja-JP.md">🌐 日本語</a>
@@ -79,7 +79,7 @@
 > 我们会收集匿名使用数据以改进产品。如需关闭,请在下面的命令中将 `ENABLE_TELEMETRY` 设为 `false`。
 
 > **提示**
-> 如果希望在远程服务器上运行该平台,请参考[文档](https://docs.dograh.com/deployment/docker#option-2:-remote-server-deployment)。
+> 如果希望在远程服务器上运行该平台,请参考[文档](https://docs.omni.com/deployment/docker#option-2:-remote-server-deployment)。
 
 ```bash
 curl -o docker-compose.yaml https://raw.githubusercontent.com/dograh-hq/dograh/main/docker-compose.yaml && REGISTRY=ghcr.io/dograh-hq ENABLE_TELEMETRY=true docker compose up --pull always
@@ -117,7 +117,7 @@ Dograh 内置 MCP 服务器,因此编码智能体可以直接在你的 Dograh �
 
 让编码智能体构建语音智能体时,请分享一份面向该用例的简短脚本,而不是只给一行提示。脚本最好包含智能体 persona、通话流程、规则、异议处理、成功标准,以及可选的示例对话。
 
-请参见 [MCP 指南](https://docs.dograh.com/integrations/mcp) 来连接你的助手。
+请参见 [MCP 指南](https://docs.omni.com/integrations/mcp) 来连接你的助手。
 
 ## 功能特性
 
@@ -143,19 +143,19 @@ Dograh 内置 MCP 服务器,因此编码智能体可以直接在你的 Dograh �
 
 ### 本地开发
 
-参见[本地部署](https://docs.dograh.com/contribution/setup)。
+参见[本地部署](https://docs.omni.com/contribution/setup)。
 
 ### 自托管部署
 
-如需了解远程服务器部署及 HTTPS 配置的详细步骤,请参见我们的 [Docker 部署指南](https://docs.dograh.com/deployment/docker#option-2-remote-server-deployment)。
+如需了解远程服务器部署及 HTTPS 配置的详细步骤,请参见我们的 [Docker 部署指南](https://docs.omni.com/deployment/docker#option-2-remote-server-deployment)。
 
 ### 云端版本
 
-托管云版本请访问 [https://www.dograh.com](https://www.dograh.com/)。
+托管云版本请访问 [https://www.omni.com](https://www.omni.com/)。
 
 ## 📚 文档
 
-完整文档请访问 [https://docs.dograh.com](https://docs.dograh.com/)。
+完整文档请访问 [https://docs.omni.com](https://docs.omni.com/)。
 
 ## 🤝 社区与支持
 
@@ -196,6 +196,6 @@ Dograh AI 基于 [BSD 2-Clause 协议](LICENSE)开源 —— 与构建 Dograh AI
 
   <p align="center">
     <a href="https://github.com/dograh-hq/dograh">⭐ 给我们一个 Star</a> |
-    <a href="https://app.dograh.com">☁️ 试用云端版本</a> |
+    <a href="https://app.omni.com">☁️ 试用云端版本</a> |
     <a href="https://join.slack.com/t/dograh-community/shared_invite/zt-3zjb5vwvl-j7hRz3_F1SOn5cH~jm5f5g">💬 加入 Slack</a>
   </p>

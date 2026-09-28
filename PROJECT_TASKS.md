@@ -30,8 +30,9 @@ Legend: `[ ]` todo · `[~]` in progress (PR open) · `[x]` done (merged)
   - PyPI `dograh-sdk`/`dograh-api`, npm `@dograh/sdk`, `dograh_sdk` module (~39 imports), `dograh-ts-validator`
 - [ ] **1.8 — DB identifiers + provider enum value + migration** *(BREAKING: requires data migration)*
   - `dograh_tokens`/`used_dograh_tokens`/`quota_dograh_tokens` columns, `ServiceProviders.DOGRAH="dograh"` value, new alembic migration, regenerate openapi/types
-- [ ] **1.9 — Auth cookies + domains + repo/external URLs** *(BREAKING: invalidates sessions)*
-  - `dograh_auth_token`/`dograh_auth_user` cookies, `dograh.com`/`docs.dograh.com`, `github.com/dograh-hq/*`, embed widget `dograh-widget.js`
+- [~] **1.9 — Auth cookies + domains + repo/external URLs** *(BREAKING: invalidates sessions)*
+  - Renamed auth cookies `dograh_auth_*`→`omni_auth_*` (invalidates sessions); embed widget `git mv dograh-widget.js`→`omni-widget.js`, `window.DograhWidget`→`OmniWidget`, `data-dograh-context`→`data-omni-context`, `.dograh-chat-*`→`.omni-chat-*`, `dograh-inline-container`→`omni-inline-container` (+ api embed routes, EmbedDialog, docs — customer-breaking); domains `*.dograh.com`→`*.omni.com` + `contact@omni.com` (DNS must exist); placeholder hosts (`omni.test`/`omni.local`/`omni.example.com`); logger repo-path regex. 98 files. compileall + node --check pass.
+  - Left (external/live, out of our control): GitHub `dograh-hq/*` repo URLs, Slack `dograh-community` invite, Axiom `dograh-of6c` tenant, `dograhai` registry, generated client (regen in 1.8), repo clone-dir name.
 
 ---
 

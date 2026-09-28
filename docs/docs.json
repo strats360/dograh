@@ -284,7 +284,7 @@
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg",
-    "href": "https://docs.dograh.com"
+    "href": "https://docs.omni.com"
   },
   "navbar": {
     "links": [
@@ -296,7 +296,7 @@
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://app.dograh.com"
+      "href": "https://app.omni.com"
     }
   },
   "banner": {

@@ -33,7 +33,7 @@ Dograh AI is a full-stack platform for building voice agents with a drag-and-dro
 
 ## 🚀 Development Setup
 
-Please refer to our [Development Setup documentation](https://docs.dograh.com/contribution/setup).
+Please refer to our [Development Setup documentation](https://docs.omni.com/contribution/setup).
 
 ### Getting Help
 
