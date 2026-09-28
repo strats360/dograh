@@ -179,7 +179,7 @@ describe("SipConnectivityCard", () => {
           domain_id: "example.cloudonix.net",
           application_name: "dograh-app",
           // A list so more trunks can be added later; this form owns the
-          // first one and round-trips its Dograh id.
+          // first one and round-trips its Omni id.
           outbound_trunks: [
             {
               id: "trunk-1",
