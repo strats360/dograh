@@ -2,7 +2,7 @@
 
 Regenerate with `./scripts/generate_sdk.sh`.
 
-`DograhClient` mixes in this class to get HTTP methods for every route
+`OmniClient` mixes in this class to get HTTP methods for every route
 decorated with `sdk_expose(...)` on the backend. Request/response types
 come from `_generated_models` (datamodel-codegen output).
 """
@@ -11,7 +11,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from dograh_sdk._generated_models import (
+from omni_sdk._generated_models import (
     CreateToolRequest,
     CreateWorkflowRequest,
     CredentialResponse,
@@ -28,7 +28,7 @@ from dograh_sdk._generated_models import (
 
 
 class _GeneratedClient:
-    # `DograhClient.__init__` installs `self._request` (see client.py).
+    # `OmniClient.__init__` installs `self._request` (see client.py).
 
     def create_tool(self, *, body: CreateToolRequest) -> ToolResponse:
         """Create a reusable tool for the authenticated organization."""

@@ -28,13 +28,13 @@ from .errors import ApiError, SpecMismatchError
 from .workflow import Workflow
 
 
-class DograhClient(_GeneratedClient):
+class OmniClient(_GeneratedClient):
     """Sync HTTP client. Suitable for scripts, pytest, and the LLM SDK
     exec sandbox.
 
     Auth precedence:
         1. `api_key` kwarg
-        2. `DOGRAH_API_KEY` env var
+        2. `OMNI_API_KEY` env var
         3. unauthenticated (most endpoints will 401)
     """
 
@@ -46,10 +46,10 @@ class DograhClient(_GeneratedClient):
         timeout: float = 30.0,
     ):
         resolved_url = base_url or os.environ.get(
-            "DOGRAH_API_URL", "http://localhost:8000"
+            "OMNI_API_URL", "http://localhost:8000"
         )
         self.base_url = resolved_url.rstrip("/")
-        self.api_key = api_key or os.environ.get("DOGRAH_API_KEY")
+        self.api_key = api_key or os.environ.get("OMNI_API_KEY")
 
         headers = {"Accept": "application/json"}
         if self.api_key:
@@ -69,7 +69,7 @@ class DograhClient(_GeneratedClient):
     def close(self) -> None:
         self._http.close()
 
-    def __enter__(self) -> DograhClient:
+    def __enter__(self) -> OmniClient:
         return self
 
     def __exit__(self, *args: Any) -> None:

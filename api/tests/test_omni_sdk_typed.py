@@ -1,4 +1,4 @@
-"""Tests for the typed SDK (`dograh_sdk.typed`).
+"""Tests for the typed SDK (`omni_sdk.typed`).
 
 Covers:
 - Generated classes import cleanly and declare the correct spec name
@@ -10,9 +10,9 @@ Covers:
 from __future__ import annotations
 
 import pytest
-from dograh_sdk import Workflow
-from dograh_sdk._generated_models import NodeSpec
-from dograh_sdk.typed import (
+from omni_sdk import Workflow
+from omni_sdk._generated_models import NodeSpec
+from omni_sdk.typed import (
     AgentNode,
     EndCall,
     GlobalNode,

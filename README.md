@@ -162,8 +162,8 @@ You can go to [https://docs.dograh.com](https://docs.dograh.com/) for our docume
 
 ## 📦 SDKs
 
-- **Python SDK** — [pypi.org/project/dograh-sdk](https://pypi.org/project/dograh-sdk/)
-- **Node SDK** — [npmjs.com/package/@dograh/sdk](https://www.npmjs.com/package/@dograh/sdk)
+- **Python SDK** — [pypi.org/project/omni-sdk](https://pypi.org/project/omni-sdk/)
+- **Node SDK** — [npmjs.com/package/@omni/sdk](https://www.npmjs.com/package/@omni/sdk)
 
 ## 🤝Community & Support
 

@@ -20,7 +20,7 @@ mistake the system has seen at least once.
 """
 
 DOGRAH_MCP_INSTRUCTIONS = """\
-You build and edit Dograh voice-AI workflows **interactively** with the user using TypeScript that uses the `@dograh/sdk` package. Workflows are stored as JSON; this server projects them to TypeScript for editing and parses them back on save.
+You build and edit Dograh voice-AI workflows **interactively** with the user using TypeScript that uses the `@omni/sdk` package. Workflows are stored as JSON; this server projects them to TypeScript for editing and parses them back on save.
 
 ## Planning and workflow creation
 
