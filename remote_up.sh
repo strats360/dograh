@@ -17,8 +17,8 @@ fi
 # the deploy dir back to the user who invoked sudo; a no-op for unprivileged
 # runs and real root, where SUDO_UID is unset.
 restore_ownership() {
-    if [[ -n "${SUDO_UID:-}" && -n "${SUDO_GID:-}" && -n "${DOGRAH_DEPLOY_PROJECT_DIR:-}" && -d "$DOGRAH_DEPLOY_PROJECT_DIR" ]]; then
-        chown -R "$SUDO_UID:$SUDO_GID" "$DOGRAH_DEPLOY_PROJECT_DIR" || true
+    if [[ -n "${SUDO_UID:-}" && -n "${SUDO_GID:-}" && -n "${OMNI_DEPLOY_PROJECT_DIR:-}" && -d "$OMNI_DEPLOY_PROJECT_DIR" ]]; then
+        chown -R "$SUDO_UID:$SUDO_GID" "$OMNI_DEPLOY_PROJECT_DIR" || true
     fi
 }
 
@@ -33,7 +33,7 @@ trap cleanup EXIT
 # shellcheck disable=SC1090
 . "$LIB_PATH"
 
-DOGRAH_DEPLOY_PROJECT_DIR="$SCRIPT_DIR"
+OMNI_DEPLOY_PROJECT_DIR="$SCRIPT_DIR"
 
 VALIDATE_ONLY=0
 MODE="pull"

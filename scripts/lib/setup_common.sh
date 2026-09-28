@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-DOGRAH_DEPLOY_LIB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-DOGRAH_DEPLOY_REPO_ROOT="$(cd "$DOGRAH_DEPLOY_LIB_DIR/../.." 2>/dev/null && pwd || true)"
+OMNI_DEPLOY_LIB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+OMNI_DEPLOY_REPO_ROOT="$(cd "$OMNI_DEPLOY_LIB_DIR/../.." 2>/dev/null && pwd || true)"
 
 : "${RED:=\033[0;31m}"
 : "${GREEN:=\033[0;32m}"
@@ -27,8 +27,8 @@ dograh_fail() {
 }
 
 dograh_project_dir() {
-    if [[ -n "${DOGRAH_DEPLOY_PROJECT_DIR:-}" ]]; then
-        printf '%s\n' "$DOGRAH_DEPLOY_PROJECT_DIR"
+    if [[ -n "${OMNI_DEPLOY_PROJECT_DIR:-}" ]]; then
+        printf '%s\n' "$OMNI_DEPLOY_PROJECT_DIR"
     else
         pwd
     fi
@@ -43,7 +43,7 @@ dograh_template_path() {
 
     for candidate in \
         "$project_dir/deploy/templates/$template_name" \
-        "$DOGRAH_DEPLOY_REPO_ROOT/deploy/templates/$template_name"
+        "$OMNI_DEPLOY_REPO_ROOT/deploy/templates/$template_name"
     do
         if [[ -f "$candidate" ]]; then
             printf '%s\n' "$candidate"
@@ -62,7 +62,7 @@ dograh_init_script_path() {
 
     for candidate in \
         "$project_dir/scripts/run_dograh_init.sh" \
-        "$DOGRAH_DEPLOY_REPO_ROOT/scripts/run_dograh_init.sh"
+        "$OMNI_DEPLOY_REPO_ROOT/scripts/run_dograh_init.sh"
     do
         if [[ -f "$candidate" ]]; then
             printf '%s\n' "$candidate"
@@ -382,9 +382,9 @@ dograh_preflight_remote_init_render() {
 
     (
         export ENVIRONMENT SERVER_IP PUBLIC_HOST PUBLIC_BASE_URL BACKEND_API_ENDPOINT MINIO_PUBLIC_ENDPOINT TURN_HOST TURN_SECRET FASTAPI_WORKERS
-        export DOGRAH_INIT_WORKSPACE_DIR="$project_dir"
-        export DOGRAH_INIT_OUTPUT_ROOT="$tmp_root"
-        export DOGRAH_INIT_CERTS_DIR="$cert_dir"
+        export OMNI_INIT_WORKSPACE_DIR="$project_dir"
+        export OMNI_INIT_OUTPUT_ROOT="$tmp_root"
+        export OMNI_INIT_CERTS_DIR="$cert_dir"
         bash "$init_script" >/dev/null
     )
 
