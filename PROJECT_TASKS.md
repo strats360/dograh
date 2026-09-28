@@ -16,8 +16,9 @@ Legend: `[ ]` todo · `[~]` in progress (PR open) · `[x]` done (merged)
 
 - [ ] **1.1 — UI display text + app title/metadata**
   - `ui/src/**` display strings (~353), `ui/src/app/layout.tsx` title/metadata
-- [ ] **1.2 — Logo & brand assets + references**
-  - `ui/public/dograh-logo*.png`, `ui/public/dograh-mark.png`, `docs/images/*dograh*`, all `<img>`/import references
+- [~] **1.2 — Logo & brand assets + references**
+  - Renamed `ui/public/{omni-logo,omni-logo-inverse,omni-mark}.png` and `docs/images/{model-configuration-omni,tuner-omni-workflow-builder}.png` (via `git mv`).
+  - Updated `BrandLogo.tsx` `src`/`alt`, docs `.mdx` image refs, and `middleware.ts` comment.
 - [ ] **1.3 — Docs & READMEs prose**
   - `README.md`, `README.ja-JP.md`, `README.zh-CN.md`, `docs/**/*.mdx`, `SECURITY.md`
 - [ ] **1.4 — Internal code class/module names (`Dograh*`)**
