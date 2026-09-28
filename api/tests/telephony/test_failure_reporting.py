@@ -2,7 +2,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from api.errors.failure import DograhFailure, ErrorSource, ErrorType
+from api.errors.failure import OmniFailure, ErrorSource, ErrorType
 from api.errors.telephony_errors import (
     TelephonyError,
     failure_from_telephony_error,
@@ -13,7 +13,7 @@ from api.services.telephony.failure_reporting import instrument_telephony_provid
 
 def test_ari_failure_reporting_preserves_repeated_occurrences(monkeypatch):
     captured = []
-    failure = DograhFailure(
+    failure = OmniFailure(
         source=ErrorSource.TELEPHONY,
         type=ErrorType.CONFIG_ERROR,
         code="ari-401",

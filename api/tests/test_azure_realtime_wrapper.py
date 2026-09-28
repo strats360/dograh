@@ -8,12 +8,12 @@ from pipecat.processors.frame_processor import FrameDirection
 from pipecat.services.openai.realtime import events
 
 from api.services.pipecat.realtime.azure_realtime import (
-    DograhAzureRealtimeLLMService,
+    OmniAzureRealtimeLLMService,
 )
 
 
-def _make_service() -> DograhAzureRealtimeLLMService:
-    service = DograhAzureRealtimeLLMService(
+def _make_service() -> OmniAzureRealtimeLLMService:
+    service = OmniAzureRealtimeLLMService(
         api_key="test-key",
         base_url="wss://example.test/openai/realtime",
     )

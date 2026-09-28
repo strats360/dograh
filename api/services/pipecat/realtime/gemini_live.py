@@ -25,7 +25,7 @@ from google.genai.types import Content, Part
 from loguru import logger
 
 from api.services.pipecat.gemini_json_schema_adapter import (
-    DograhGeminiLiveJSONSchemaAdapter,
+    OmniGeminiLiveJSONSchemaAdapter,
 )
 from api.services.pipecat.realtime.static_greeting import format_static_greeting_prompt
 from pipecat.frames.frames import (
@@ -42,7 +42,7 @@ from pipecat.services.llm_service import FunctionCallFromLLM
 from pipecat.utils.tracing.service_decorators import traced_gemini_live
 
 
-class DograhGeminiLiveLLMService(GeminiLiveLLMService):
+class OmniGeminiLiveLLMService(GeminiLiveLLMService):
     """Gemini Live with Dograh engine integration quirks. See module docstring."""
 
     # Gemini input transcription is delivered independently from tool calls.
@@ -54,9 +54,9 @@ class DograhGeminiLiveLLMService(GeminiLiveLLMService):
     # MCP/imported tools that use JSON Schema keywords (``const``, ``not``,
     # nested ``anyOf``) rejected by the strict ``Schema`` model are accepted,
     # while keeping upstream's Live-specific tool-call-to-text conversion for
-    # seeded contexts. Mirrors the non-realtime ``DograhGoogleLLMService`` fix;
-    # ``DograhGeminiLiveVertexLLMService`` inherits this via MRO.
-    adapter_class = DograhGeminiLiveJSONSchemaAdapter
+    # seeded contexts. Mirrors the non-realtime ``OmniGoogleLLMService`` fix;
+    # ``OmniGeminiLiveVertexLLMService`` inherits this via MRO.
+    adapter_class = OmniGeminiLiveJSONSchemaAdapter
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

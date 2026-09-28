@@ -8,12 +8,12 @@ from pipecat.processors.frame_processor import FrameDirection
 from pipecat.services.openai.realtime import events
 
 from api.services.pipecat.realtime.openai_realtime import (
-    DograhOpenAIRealtimeLLMService,
+    OmniOpenAIRealtimeLLMService,
 )
 
 
-def _make_service() -> DograhOpenAIRealtimeLLMService:
-    service = DograhOpenAIRealtimeLLMService(api_key="test-key")
+def _make_service() -> OmniOpenAIRealtimeLLMService:
+    service = OmniOpenAIRealtimeLLMService(api_key="test-key")
     service._create_response = AsyncMock()
     service._process_completed_function_calls = AsyncMock()
     return service
