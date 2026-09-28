@@ -72,10 +72,10 @@ class TestServiceFactoryCamb:
 
         # Mock missing modules (custom pipecat fork, not in public pipecat-ai)
         dograh_modules = [
-            "pipecat.services.dograh",
-            "pipecat.services.dograh.llm",
-            "pipecat.services.dograh.stt",
-            "pipecat.services.dograh.tts",
+            "pipecat.services.omni",
+            "pipecat.services.omni.llm",
+            "pipecat.services.omni.stt",
+            "pipecat.services.omni.tts",
             "pipecat.utils.text.xml_function_tag_filter",
         ]
         mocks = {}

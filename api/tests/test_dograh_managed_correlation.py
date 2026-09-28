@@ -3,9 +3,9 @@ import json
 import pytest
 from openai._types import NOT_GIVEN as OPENAI_NOT_GIVEN
 from pipecat.frames.frames import TTSStartedFrame
-from pipecat.services.dograh.llm import DograhLLMService
-from pipecat.services.dograh.stt import DograhSTTService
-from pipecat.services.dograh.tts import DograhTTSService
+from pipecat.services.omni.llm import OmniLLMService
+from pipecat.services.omni.stt import OmniSTTService
+from pipecat.services.omni.tts import OmniTTSService
 from pipecat.services.openai.base_llm import OpenAILLMSettings
 from websockets.protocol import State
 
@@ -37,7 +37,7 @@ class _IterableFakeWebSocket(_FakeWebSocket):
 
 
 def test_dograh_llm_uses_explicit_mps_correlation_id():
-    service = DograhLLMService(
+    service = OmniLLMService(
         api_key="mps-secret",
         correlation_id="mps-corr-123",
         settings=OpenAILLMSettings(model="default"),
@@ -64,12 +64,12 @@ async def test_dograh_stt_config_uses_explicit_mps_correlation_id(monkeypatch):
         return fake_ws
 
     monkeypatch.setattr(
-        DograhSTTService,
+        OmniSTTService,
         "_websocket_connect",
         fake_connect,
     )
 
-    service = DograhSTTService(
+    service = OmniSTTService(
         api_key="mps-secret",
         correlation_id="mps-corr-123",
         sample_rate=16000,
@@ -91,12 +91,12 @@ async def test_dograh_tts_messages_use_explicit_mps_correlation_id(monkeypatch):
         return fake_ws
 
     monkeypatch.setattr(
-        DograhTTSService,
+        OmniTTSService,
         "_websocket_connect",
         fake_connect,
     )
 
-    service = DograhTTSService(
+    service = OmniTTSService(
         api_key="mps-secret",
         correlation_id="mps-corr-123",
         sample_rate=24000,
@@ -128,7 +128,7 @@ async def test_dograh_tts_messages_use_explicit_mps_correlation_id(monkeypatch):
 
 @pytest.mark.asyncio
 async def test_dograh_tts_final_for_missing_context_is_ignored():
-    service = DograhTTSService(api_key="mps-secret")
+    service = OmniTTSService(api_key="mps-secret")
     service._websocket = _IterableFakeWebSocket(
         [{"type": "final", "context_id": "ctx-already-removed"}]
     )

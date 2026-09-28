@@ -49,6 +49,12 @@ Legend: `[ ]` todo · `[~]` in progress (PR open) · `[x]` done (merged)
 
 ---
 
+- [~] **1.10 — Fork & rebrand `dograh-hq/pipecat` submodule** *(added per request)*
+  - Rebranded the pipecat service module in a local clone: `services/dograh`→`services/omni`, `Dograh*`→`Omni*` classes, `OMNI_TTFS_P`, import paths, prose (kept `services.dograh.com` URLs for domain move). Committed locally; delivered as a patch in `pipecat-rebrand/` because forking/pushing `dograh-hq/pipecat` is blocked (HTTP 403 — creds scoped to `strats360/dograh`).
+  - dograh-side: updated `.gitmodules` URL → `strats360/pipecat`, api `service_factory.py` + tests to `pipecat.services.omni`/`Omni*`. **Blocker:** api won't import until the fork is published & submodule re-pinned (see `pipecat-rebrand/README.md`).
+
+---
+
 ## Environment note
 
 GitHub Projects (V2) and Issues are unavailable in this workspace (GraphQL pass-through is

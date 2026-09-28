@@ -54,7 +54,7 @@ def test_managed_service_constructor_failure_is_attributed_to_dograh(monkeypatch
     )
     with (
         patch(
-            "api.services.pipecat.service_factory.DograhLLMService",
+            "api.services.pipecat.service_factory.OmniLLMService",
             side_effect=ValueError("bad managed response"),
         ),
         pytest.raises(ValueError),
