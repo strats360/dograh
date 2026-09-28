@@ -24,7 +24,7 @@ HEALTH_MAX_ATTEMPTS=${HEALTH_MAX_ATTEMPTS:-30}
 HEALTH_INTERVAL=${HEALTH_INTERVAL:-2}
 
 cd "$BASE_DIR"
-echo "Starting Dograh Services (DEV MODE) at $(date) in BASE_DIR: ${BASE_DIR}"
+echo "Starting Omni Services (DEV MODE) at $(date) in BASE_DIR: ${BASE_DIR}"
 echo "Auto-reload enabled for api/ directory changes"
 echo "Environment file: $ENV_FILE"
 

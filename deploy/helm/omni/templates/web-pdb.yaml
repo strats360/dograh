@@ -1,0 +1,16 @@
+{{- if .Values.web.pdb.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "omni.web.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "omni.labels" . | nindent 4 }}
+    app.kubernetes.io/component: web
+spec:
+  minAvailable: {{ .Values.web.pdb.minAvailable }}
+  selector:
+    matchLabels:
+      {{- include "omni.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: web
+{{- end }}
